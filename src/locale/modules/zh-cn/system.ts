@@ -1,9 +1,10 @@
 export default {
   system: {
-    title: '百茶百道物料购销协同平台',
+    title: '百茶百道订货系统',
     login: '登录',
     userName: '用户名',
     password: '密码',
+    verifyCode:'验证码',
     contentScreen: '内容全屏',
     fullScreen: '全屏',
     fullScreenBack: '退出全屏',

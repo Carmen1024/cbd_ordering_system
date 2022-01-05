@@ -5,7 +5,7 @@
  */
 import type { Route } from './index.type'
 import { reactive } from 'vue'
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory,createWebHistory, RouteRecordRaw } from 'vue-router'
 import store from '@/store'
 import i18n from '@/locale'
 import NProgress from '@/utils/system/nprogress'
@@ -20,16 +20,9 @@ import { createNameComponent } from './createNode'
 
 // 引入modules
 import Dashboard from './modules/dashboard'
-import Document from './modules/document'
-import Pages from './modules/pages'
-import Menu from './modules/menu'
-import Component from './modules/component'
-import Directive from './modules/directive'
-import SystemManage from './modules/systemManage'
-import Chart from './modules/chart'
-import Print from './modules/print'
-import Community from './modules/community'
 import System from './modules/system'
+import Inventory from './modules/inventory';
+import Basic from './modules/basic';
 
 /** 
  * @name 初始化必须要的路由
@@ -45,22 +38,15 @@ const { t } = i18n.global
 const routes: any = modules
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(), //createWebHistory createWebHashHistory
   routes
 })
 
 // 登录后动态加入的路由
 let asyncRoutes: Route[] = [
   ...Dashboard,
-  // ...Document,
-  // ...Component,
-  ...Pages,
-  ...Menu,
-  // ...Directive,
-  // ...Chart,
-  ...SystemManage,
-  // ...Print,
-  // ...Community,
+  ...Basic,
+  ...Inventory,
 ]
 // 动态路由的权限新增，供登录后调用
 export async function addRoutes() {

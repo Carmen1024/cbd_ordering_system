@@ -4,15 +4,15 @@
   --system-primary-text-color: #fff; // 主题色作为背景色时使用
 
   // logo颜色相关
-  --system-logo-color: #f1f1f1;
-  --system-logo-background: #263445;
+  --system-logo-color: #005bac;
+  --system-logo-background: #fff;
 
   // 菜单颜色相关
-  --system-menu-text-color: #bfcbd9;
-  --system-menu-background: #181f31;
-  --system-menu-children-background: #1f2d3d;
-  --system-menu-submenu-active-color: #fff; 
-  --system-menu-hover-background: #203448;
+  --system-menu-text-color: #272727;
+  --system-menu-background: #fff;
+  --system-menu-children-background: #fff;
+  --system-menu-submenu-active-color: var(--system-primary-color);
+  --system-menu-hover-background: #f1f1f1;
 
   // header区域
   --system-header-background: #fff;

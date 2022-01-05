@@ -1,7 +1,7 @@
 <template>
   <div class="logo-container">
-    <!-- <img src="@/assets/logo.png" alt=""> -->
-    <h1 v-if="!isCollapse">{{ $t(systemTitle) }}</h1>
+    <img src="@/assets/logo.png" alt="">
+    <!-- <h1 v-if="!isCollapse">{{ $t(systemTitle) }}</h1> -->
   </div>
 </template>
 
@@ -23,7 +23,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
   .logo-container {
-    height: 60px;
+    padding: 10px 0;
+    height: 90px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,6 +34,9 @@ export default defineComponent({
       font-size: 18px;
       white-space: nowrap;
       color: var(--system-logo-color);
+    }
+    img{
+
     }
   }
 </style>

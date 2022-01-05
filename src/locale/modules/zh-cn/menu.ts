@@ -1,7 +1,7 @@
 export default {
   menu: {
     dashboard: {
-      name: 'dashboard',
+      name: '百茶百道订货系统',
       index: '首页'
     },
     system: {
@@ -9,48 +9,6 @@ export default {
       redirect: '重定向页面',
       '404': '404',
       '401': '401'
-    },
-    component: {
-      name: '组件',
-      button: '按钮',
-      wordEditor: '文本编辑器',
-      mdEditor: 'md编辑器',
-      codeEditor: '代码编辑器',
-      jsonEditor: 'JSON编辑器',
-      dragPane: '可拖拽面板',
-      map: '地图组件',
-      cutPhoto: '弹窗图片裁剪',
-      rightMenu: '右键菜单',
-      exportExcel:'导出文件'
-    },
-    page: {
-      name: '页面',
-      crudTable: '业务表格',
-      categoryTable: '分类联动表格',
-      treeTable: '树联动表格',
-      card: '卡片列表',
-      work: '工作进度',
-      baidu: '外部链接',
-    },   
-    menu: {
-      name: '多级嵌套菜单',
-      menu_1: '二级菜单1',
-      menu_1_1: '三级菜单1-1',
-      menu_1_1_1: '四级菜单1-1-1',
-      menu_1_1_2: '四级菜单1-1-2',
-      menu_1_2: '三级菜单1-2',
-      menu_2: '二级菜单2',
-      menu_3: '二级菜单3'
-    },
-    directive: {
-      name: '自定义指令',
-      dragable: '拖拽指令：v-dragable',
-      copy: '复制指令：v-copy',
-      waterMarker: '水印指令：v-waterMarker',
-      longpress: '长按指令：v-longpress',
-      debounce: '按钮防抖指令：v-debounce',
-      scroll: '下拉加载指令：v-infinite-scroll',
-      clickOutside: '点击外部区域：v-click-outside',
     },
     echarts: {
       name: 'echarts图表',
@@ -60,29 +18,63 @@ export default {
       radar: '雷达图',
       map: '地图',
     },
-    systemManage: {
-      name: '系统管理',
-      menu: '菜单',
-      role: '角色',
-      user: '用户'
+    // 以下
+    material:{
+      name:"物料管理",
+      list:"物料列表",
+      detail:"物料详情",
+      sort:"物料分类"
     },
-    print: {
-      name: '打印功能',
-      jsPrint: 'JS打印事件'
+    basic:{
+      name:"系统管理",
+      customer:{
+        name:"客户管理",
+        list:"客户列表"
+      },
+      shop:{
+        name:"门店管理",
+        list:"门店列表",//包含当前门店：员工 订购 优惠券 设备 信息变更记录
+        staff:"员工列表",
+        coupon:"优惠券列表",
+        device:"设备列表",
+        role:"角色列表"
+      },
+      systemDictionary:"系统字典",
+      userAndPermission:{
+        name:"用户与权限",
+        user:"用户列表",
+        permission:"权限列表"
+      },
+      operationLog:"操作日志",
+      interfaceTask:"接口任务",
+      receipt:"单据配置",
     },
-    community: {
-      name: '社区的力量',
-      qq: 'QQ交流群',
-      site: 'vue3最新资源库'
+    inventory:{
+      name:"库存管理",
+      settings:{
+        name:"库存设置",
+        orderWindow:"订货窗口",
+        priceLevel:"价格等级",
+        storeHouse:"仓库管理",
+        transferRelationship:"调拨关系",
+        scrapReason:"报废原因",
+        freightTemplate:"运费模板",
+        orderRules:"订货规则",
+      },
+      material:{
+        name:"物料管理",
+        sort:"物料分类",
+        list:"物料列表",
+        bom:"商品BOM管理",
+        orderFile:"订货档案"
+      },
+      transactions:{
+        name:"库存交易"
+      },
+      salesTurnover:{
+        name:"门店销售流水"
+      },
     },
-    document: {
-      name: '文档',
-      intro: '使用说明',
-      function: '功能说明',
-      menu: '路由菜单配置',
-      keepAlive: 'keepAlive使用说明',
-      crud: '数据表格的增删改查',
-      theme: '自定义主题'
-    }
+
   },
 }

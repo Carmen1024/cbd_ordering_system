@@ -1,14 +1,14 @@
 <template>
   <div>
     <barChart />
-    <el-row :gutter="20">
+    <!-- <el-row :gutter="20">
       <el-col :lg="12" :md="24">
         <pieChart />
       </el-col>
       <el-col :lg="12" :md="24">
         <circleChart />
       </el-col>
-    </el-row>
+    </el-row> -->
   </div>
 </template>
 

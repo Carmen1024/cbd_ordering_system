@@ -13,7 +13,7 @@
         <!-- <div class="function-list-item hidden-sm-and-down"><Full-screen /></div> -->
         <!-- <div class="function-list-item"><Word /></div> -->
         <div class="function-list-item"><SizeChange /></div>
-        <div class="function-list-item hidden-sm-and-down"><Theme /></div>
+        <!-- <div class="function-list-item hidden-sm-and-down"><Theme /></div> -->
         <!-- <div class="function-list-item hidden-sm-and-down"><Github /></div> -->
       </div>
       <!-- 用户信息 -->

@@ -81,13 +81,13 @@ export const style: Style = {
       submenuActiveColor: 'var(--system-primary-color)'
     },
     logo: {
-      color: '#000',
+      color: '#005bac',
       background: '#fff'
     },
     header: {
       background: '#fff',
       textColor: '#303133',
-      itemHoverColor: 'rgba(0,0,0,.025)',
+      itemHoverColor: 'rgba(0,0,0,.06)',
       breadcrumbTextColor: '#606266',
       borderColor: '#d8dce5',
       tabBackground: '#fff'
