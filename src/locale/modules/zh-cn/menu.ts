@@ -64,7 +64,6 @@ export default {
           countPrice:"计件规则"
         },
         orderRules:"订货规则",
-        countPriceRules:"计件规则",
       },
       material:{
         name:"物料管理",

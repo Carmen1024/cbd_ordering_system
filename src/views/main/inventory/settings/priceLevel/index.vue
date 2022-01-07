@@ -25,12 +25,12 @@
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-      <!-- 编号 订货规则 规则描述 适用对象 执行方式 状态 更新时间 操作人 -->
+      <!-- 序号 编号 价格等级名称 价格等级 生效门店 操作时间 操作人 操作 -->
         <el-table-column prop="name" label="规则名称" align="center" />
-        <el-table-column prop="number" label="规则描述" align="center" />
-        <el-table-column prop="chooseName" label="适用对象" align="center" />
-        <el-table-column prop="dateName" label="执行方式" align="center" />
-        <el-table-column prop="dateName" label="状态" align="center" />
+        <el-table-column prop="number" label="编号" align="center" />
+        <el-table-column prop="chooseName" label="价格等级名称" align="center" />
+        <el-table-column prop="dateName" label="价格等级" align="center" />
+        <el-table-column prop="dateName" label="生效门店" align="center" />
         <el-table-column prop="dateName" label="操作时间" align="center" />
         <el-table-column prop="dateName" label="操作人" align="center" />
         <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">

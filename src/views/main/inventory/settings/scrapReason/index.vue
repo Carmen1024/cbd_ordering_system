@@ -25,11 +25,11 @@
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-      <!-- 编号 订货规则 规则描述 适用对象 执行方式 状态 更新时间 操作人 -->
-        <el-table-column prop="name" label="规则名称" align="center" />
-        <el-table-column prop="number" label="规则描述" align="center" />
-        <el-table-column prop="chooseName" label="适用对象" align="center" />
-        <el-table-column prop="dateName" label="执行方式" align="center" />
+      <!-- 编号 报废原因 原因说明描述 使用场景 状态 更新时间 操作人 操作 -->
+        <el-table-column prop="name" label="编号" align="center" />
+        <el-table-column prop="number" label="报废原因" align="center" />
+        <el-table-column prop="chooseName" label="原因说明描述" align="center" />
+        <el-table-column prop="dateName" label="使用场景" align="center" />
         <el-table-column prop="dateName" label="状态" align="center" />
         <el-table-column prop="dateName" label="操作时间" align="center" />
         <el-table-column prop="dateName" label="操作人" align="center" />
