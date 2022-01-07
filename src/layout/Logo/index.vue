@@ -1,6 +1,7 @@
 <template>
   <div class="logo-container">
-    <img src="@/assets/logo.png" alt="">
+    <img v-if="!isCollapse" src="@/assets/logo.png" alt="">
+    <img v-else src="@/assets/logo_hide.png" alt="">
     <!-- <h1 v-if="!isCollapse">{{ $t(systemTitle) }}</h1> -->
   </div>
 </template>
@@ -35,8 +36,13 @@ export default defineComponent({
       white-space: nowrap;
       color: var(--system-logo-color);
     }
-    img{
-
-    }
   }
+  // .show-side{
+  //   .logo{
+  //     visibility: hidden;
+  //   }
+  //   .logo_hide{
+  //     visibility: visible;
+  //   }
+  // }
 </style>

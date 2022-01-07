@@ -3,11 +3,6 @@
     <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
         <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
-        <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel(chooseData)">
-          <template #reference>
-            <el-button type="danger" :icon="Delete" :disabled="chooseData.length === 0">{{ $t('message.common.delBat') }}</el-button>
-          </template>
-        </el-popconfirm>
       </div>
       <div class="layout-container-form-search">
         <el-input v-model="query.input" :placeholder="$t('message.common.searchTip')" @change="getTableData(true)"></el-input>
@@ -25,30 +20,13 @@
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-      <!-- 
-        物料编码
-        物料名称
-        物料分类
-        订购单位
-        包装规格
-        进项税率
-        盘点周期
-        状态
-        操作 
-      -->
-        <el-table-column prop="name" label="物料编码" align="center" />
-        <el-table-column prop="number" label="物料名称" align="center" />
-        <el-table-column prop="chooseName" label="物料分类" align="center" />
-        <el-table-column prop="radioName" label="订购单位" align="center" />
-        <el-table-column prop="radioName" label="包装规格" align="center" />
-        <el-table-column prop="radioName" label="进项税率" align="center" />
-        <el-table-column prop="radioName" label="盘点周期" align="center" />
-        <el-table-column prop="chooseName" label="状态" align="center" >
-          <el-switch v-model="tableData.chooseName" inline-prompt active-text="是" inactive-text="否"/>
-        </el-table-column>
+        <el-table-column prop="name" label="名称" align="center" />
+        <el-table-column prop="number" label="数字" align="center" />
+        <el-table-column prop="chooseName" label="选择器" align="center" />
+        <el-table-column prop="radioName" label="单选框" align="center" />
         <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
           <template #default="scope">
-            <el-button @click="toDetail(scope.row)">{{ $t('message.common.detail') }}</el-button>
+            <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
             <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([scope.row])">
               <template #reference>
                 <el-button type="danger">{{ $t('message.common.del') }}</el-button>
@@ -92,7 +70,7 @@ export default defineComponent({
     // 分页参数, 供table使用
     const page: Page = reactive({
       index: 1,
-      size: 20,
+      size: 10,
       total: 0
     })
     const loading = ref(true)
@@ -179,30 +157,16 @@ export default defineComponent({
       handleAdd,
       handleEdit,
       handleDel,
-      getTableData,
-    }
-  },
-  methods:{
-    toDetail(row:object){
-      // 这三种形式是等价的
-      // router.push('/users/posva#bio')
-      // router.push({ path: '/users/posva', hash: '#bio' })
-      // router.push({ name: 'users', params: { username: 'posva' }, hash: '#bio' })
-      // // 只改变 hash
-      // router.push({ hash: '#bio' })
-      // // 只改变 query
-      // router.push({ query: { page: '2' } })
-      // // 只改变 param
-      // router.push({ params: { username: 'jolyne' } })
-      this.$router.replace({
-        path: '/inventory/material/detail',
-        params: { username: 'posva' }
-      })
+      getTableData
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
-  
+  .layout-container{
+    height: auto;
+    padding:0;
+    margin:0;
+  }
 </style>

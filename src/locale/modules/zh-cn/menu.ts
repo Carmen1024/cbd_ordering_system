@@ -58,13 +58,19 @@ export default {
         storeHouse:"仓库管理",
         transferRelationship:"调拨关系",
         scrapReason:"报废原因",
-        freightTemplate:"运费模板",
+        freightTemplate:{
+          name:"运费管理",
+          list:"运费模板",
+          countPrice:"计件规则"
+        },
         orderRules:"订货规则",
+        countPriceRules:"计件规则",
       },
       material:{
         name:"物料管理",
         sort:"物料分类",
         list:"物料列表",
+        detail:"物料详情",
         bom:"商品BOM管理",
         orderFile:"订货档案"
       },

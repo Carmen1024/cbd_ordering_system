@@ -1,8 +1,43 @@
 <template>
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
-      <el-form-item label="分类名称：" prop="label">
-        <el-input v-model="form.label" placeholder="请输入分类名称"></el-input>
+      <el-form-item label="规则：" prop="name">
+        <el-input v-model="form.name" placeholder="请输入名称"></el-input>
+      </el-form-item>
+      <el-form-item label="规则名称：" prop="number">
+        <el-input v-model="form.number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>
+      </el-form-item>
+			<el-form-item label="规则说明：" prop="select">
+			  <el-input
+          v-model="textarea"
+          :rows="2"
+          type="textarea"
+          placeholder="请输入"
+        />
+			</el-form-item>
+      <el-form-item label="生效区域：" prop="date">
+        <el-input v-model="form.name" placeholder="请输入生效区域"></el-input>
+      </el-form-item>
+      <el-form-item label="窗口期：" prop="date">
+        <el-checkbox-group v-model="form.date">
+          <el-checkbox v-for="item in dateData" :key="item.value" :label="item.label" />
+        </el-checkbox-group>
+      </el-form-item>
+      <el-form-item label="备注：" prop="date">
+			  <el-input
+          v-model="textarea"
+          :rows="2"
+          type="textarea"
+          placeholder="请输入"
+        />
+      </el-form-item>
+      <el-form-item label="启动状态：" prop="date">
+        <el-switch
+          v-model="value1"
+          active-text="有效"
+          inactive-text="无效"
+        >
+        </el-switch>
       </el-form-item>
     </el-form>
   </Layer>
@@ -14,7 +49,7 @@ import type { Ref } from 'vue'
 import type { ElFormItemContext } from 'element-plus/lib/el-form/src/token'
 import { defineComponent, ref } from 'vue'
 import { add, update } from '@/api/table'
-import { selectData, radioData } from './enum'
+import { selectData, dateData } from './enum'
 import Layer from '@/components/layer/index.vue'
 export default defineComponent({
   components: {
@@ -36,15 +71,21 @@ export default defineComponent({
     const ruleForm: Ref<ElFormItemContext|null> = ref(null)
     const layerDom: Ref<LayerType|null> = ref(null)
     let form = ref({
-      label: ''
+      name: '',
+      date:[]
     })
     const rules = {
-      label: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+      name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+      number: [{ required: true, message: '请输入数字', trigger: 'blur' }],
+      choose: [{ required: true, message: '请选择', trigger: 'blur' }],
+      date: [{ required: true, message: '请选择', trigger: 'blur' }]
     }
     init()
     function init() { // 用于判断新增还是编辑功能
       if (props.layer.row) {
-        form.value = JSON.parse(JSON.stringify(props.layer.row)) // 数量量少的直接使用这个转
+        let row = JSON.parse(JSON.stringify(props.layer.row));
+        row.date=[];
+        form.value = row // 数量量少的直接使用这个转
       } else {
 
       }
@@ -55,7 +96,7 @@ export default defineComponent({
       layerDom,
       ruleForm,
       selectData,
-      radioData
+      dateData
     }
   },
   methods: {
@@ -83,7 +124,7 @@ export default defineComponent({
           type: 'success',
           message: '新增成功'
         })
-        this.$emit('getNodeData', this.form,true)
+        this.$emit('getTableData', true)
         this.layerDom && this.layerDom.close()
       })
     },
@@ -95,7 +136,7 @@ export default defineComponent({
           type: 'success',
           message: '编辑成功'
         })
-        this.$emit('getNodeData', this.form,false)
+        this.$emit('getTableData', false)
         this.layerDom && this.layerDom.close()
       })
     }

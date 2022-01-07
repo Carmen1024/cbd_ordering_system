@@ -9,56 +9,27 @@
           </template>
         </el-popconfirm>
       </div>
-      <div class="layout-container-form-search">
-        <el-input v-model="query.input" :placeholder="$t('message.common.searchTip')" @change="getTableData(true)"></el-input>
-        <el-button type="primary" :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
-      </div>
     </div>
-    <div class="layout-container-table">
-      <Table
-        ref="table"
-        v-model:page="page"
-        v-loading="loading"
-        :showIndex="true"
-        :showSelection="true"
-        :data="tableData"
-        @getTableData="getTableData"
-        @selection-change="handleSelectionChange"
-      >
-      <!-- 
-        物料编码
-        物料名称
-        物料分类
-        订购单位
-        包装规格
-        进项税率
-        盘点周期
-        状态
-        操作 
-      -->
-        <el-table-column prop="name" label="物料编码" align="center" />
-        <el-table-column prop="number" label="物料名称" align="center" />
-        <el-table-column prop="chooseName" label="物料分类" align="center" />
-        <el-table-column prop="radioName" label="订购单位" align="center" />
-        <el-table-column prop="radioName" label="包装规格" align="center" />
-        <el-table-column prop="radioName" label="进项税率" align="center" />
-        <el-table-column prop="radioName" label="盘点周期" align="center" />
-        <el-table-column prop="chooseName" label="状态" align="center" >
-          <el-switch v-model="tableData.chooseName" inline-prompt active-text="是" inactive-text="否"/>
-        </el-table-column>
-        <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
-          <template #default="scope">
-            <el-button @click="toDetail(scope.row)">{{ $t('message.common.detail') }}</el-button>
-            <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([scope.row])">
+    <div class="layout-container-card">
+      <div class="card-row" v-for="(row,index) in cardData" :key="index">
+        <div class="card-row-main">
+          <div class="card-row-main-title">{{index+1}}.运费规则{{index+1}}</div>
+          <div>这是一段很长的描述信息，这是一段很长的描述信息，这是一段很长的描述信息。</div>
+          <div>收费规则：{{index+1}}</div>
+          <div>发货地区：{{index+1}}</div>
+          <div>更新时间：{{index+1}}</div>
+        </div>
+        <div class="card-row-handle">
+          <el-button @click="handleEdit(row)">{{ $t('message.common.update') }}</el-button>
+            <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([row])">
               <template #reference>
                 <el-button type="danger">{{ $t('message.common.del') }}</el-button>
               </template>
             </el-popconfirm>
-          </template>
-        </el-table-column>
-      </Table>
-      <Layer :layer="layer" @getTableData="getTableData" v-if="layer.show" />
+        </div>
+      </div>
     </div>
+    <Layer :layer="layer" @getCardData="getCardData" v-if="layer.show" />
   </div>
 </template>
 
@@ -70,7 +41,7 @@ import { getData, del } from '@/api/table'
 import Layer from './layer.vue'
 import { ElMessage } from 'element-plus'
 import type { LayerInterface } from '@/components/layer/index.vue'
-import { selectData, radioData } from './enum'
+import { selectData, dateData } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
 export default defineComponent({
   name: 'crudTable',
@@ -96,14 +67,14 @@ export default defineComponent({
       total: 0
     })
     const loading = ref(true)
-    const tableData = ref([])
+    const cardData = ref([])
     const chooseData = ref([])
     const handleSelectionChange = (val: []) => {
       chooseData.value = val
     }
     // 获取表格数据
     // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
-    const getTableData = (init: boolean) => {
+    const getCardData = (init: boolean) => {
       loading.value = true
       if (init) {
         page.index = 1
@@ -120,15 +91,15 @@ export default defineComponent({
           data.forEach(d => {
             const select = selectData.find(select => select.value === d.choose)
             select ? d.chooseName = select.label : d.chooseName = d.choose
-            const radio = radioData.find(select => select.value === d.radio)
-            radio ? d.radioName = radio.label : d.radio
+            const date = dateData.find(select => select.value === d.date)
+            date ? d.dateName = date.label : d.date
           })
         }
-        tableData.value = res.data.list
+        cardData.value = res.data.list
         page.total = Number(res.data.pager.total)
       })
       .catch(error => {
-        tableData.value = []
+        cardData.value = []
         page.index = 1
         page.total = 0
       })
@@ -149,7 +120,7 @@ export default defineComponent({
           type: 'success',
           message: '删除成功'
         })
-        getTableData(tableData.value.length === 1 ? true : false)
+        getCardData(cardData.value.length === 1 ? true : false)
       })
     }
     // 新增弹窗功能
@@ -164,13 +135,13 @@ export default defineComponent({
       layer.row = row
       layer.show = true
     }
-    getTableData(true)
+    getCardData(true)
     return {
       Plus,
       Search,
       Delete,
       query,
-      tableData,
+      cardData,
       chooseData,
       loading,
       page,
@@ -179,30 +150,32 @@ export default defineComponent({
       handleAdd,
       handleEdit,
       handleDel,
-      getTableData,
-    }
-  },
-  methods:{
-    toDetail(row:object){
-      // 这三种形式是等价的
-      // router.push('/users/posva#bio')
-      // router.push({ path: '/users/posva', hash: '#bio' })
-      // router.push({ name: 'users', params: { username: 'posva' }, hash: '#bio' })
-      // // 只改变 hash
-      // router.push({ hash: '#bio' })
-      // // 只改变 query
-      // router.push({ query: { page: '2' } })
-      // // 只改变 param
-      // router.push({ params: { username: 'jolyne' } })
-      this.$router.replace({
-        path: '/inventory/material/detail',
-        params: { username: 'posva' }
-      })
+      getCardData
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
-  
+  .layout-container-card{
+    padding:15px;
+    .card-row{
+      display: flex;
+      width: 100%;
+      max-width: 1000px;
+      padding:10px 0;
+      border-bottom: solid 1px #ddd;
+      &-main{
+        width: 800px;
+        line-height: 30px;
+        &-title{
+          font-weight: bold;
+        }
+      }
+      &-handle{
+        width: 200px;
+      }
+    }
+
+  }
 </style>

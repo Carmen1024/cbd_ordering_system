@@ -184,7 +184,7 @@ export default defineComponent({
         }
         .password-icon {
           cursor: pointer;
-          color: #409eff;
+          color: #005bac;
         }
       }
       .fixed-top-right {

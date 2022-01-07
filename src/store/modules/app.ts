@@ -21,7 +21,7 @@ export interface appState {
   elementSize: string,
   lang: string,
   theme: {
-    primaryColor: '#409eff',
+    primaryColor: '#005bac',
   },
   menuList: Array<unknown>,
   [key:string]:unknown
@@ -39,7 +39,7 @@ const state = () => ({
   theme: {
     state: {
       style: 'light',  //default
-      primaryColor: '#409eff',
+      primaryColor: '#005bac',
       menuType: 'side'
     }
   },

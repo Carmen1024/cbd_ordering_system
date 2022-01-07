@@ -1,8 +1,21 @@
 <template>
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
-      <el-form-item label="分类名称：" prop="label">
-        <el-input v-model="form.label" placeholder="请输入分类名称"></el-input>
+      <el-form-item label="名称：" prop="name">
+        <el-input v-model="form.name" placeholder="请输入名称"></el-input>
+      </el-form-item>
+      <el-form-item label="数字：" prop="number">
+        <el-input v-model="form.number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>
+      </el-form-item>
+			<el-form-item label="选择器：" prop="select">
+			  <el-select v-model="form.choose" placeholder="请选择" clearable>
+					<el-option v-for="item in selectData" :key="item.value" :label="item.label" :value="item.value"></el-option>
+				</el-select>
+			</el-form-item>
+      <el-form-item label="单选框：" prop="radio">
+        <el-radio-group v-model="form.radio">
+          <el-radio v-for="item in radioData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+        </el-radio-group>
       </el-form-item>
     </el-form>
   </Layer>
@@ -36,10 +49,13 @@ export default defineComponent({
     const ruleForm: Ref<ElFormItemContext|null> = ref(null)
     const layerDom: Ref<LayerType|null> = ref(null)
     let form = ref({
-      label: ''
+      name: ''
     })
     const rules = {
-      label: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+      name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+      number: [{ required: true, message: '请输入数字', trigger: 'blur' }],
+      choose: [{ required: true, message: '请选择', trigger: 'blur' }],
+      radio: [{ required: true, message: '请选择', trigger: 'blur' }]
     }
     init()
     function init() { // 用于判断新增还是编辑功能
@@ -83,7 +99,7 @@ export default defineComponent({
           type: 'success',
           message: '新增成功'
         })
-        this.$emit('getNodeData', this.form,true)
+        this.$emit('getTableData', true)
         this.layerDom && this.layerDom.close()
       })
     },
@@ -95,7 +111,7 @@ export default defineComponent({
           type: 'success',
           message: '编辑成功'
         })
-        this.$emit('getNodeData', this.form,false)
+        this.$emit('getTableData', false)
         this.layerDom && this.layerDom.close()
       })
     }

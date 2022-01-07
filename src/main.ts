@@ -19,4 +19,5 @@ app.use(store)
 app.use(router)
 app.use(i18n)
 // app.config.performance = true
+// app.config.silent = false
 app.mount('#app')

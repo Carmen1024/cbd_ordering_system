@@ -1,173 +1,231 @@
 <template>
   <div class="layout-container">
-    <div class="layout-container-form flex space-between">
+    <!-- <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
         <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
-        <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel(chooseData)">
-          <template #reference>
-            <el-button type="danger" :icon="Delete" :disabled="chooseData.length === 0">{{ $t('message.common.delBat') }}</el-button>
-          </template>
-        </el-popconfirm>
       </div>
-      <div class="layout-container-form-search">
-        <el-input v-model="query.input" :placeholder="$t('message.common.searchTip')" @change="getTableData(true)"></el-input>
-        <el-button type="primary" :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
+    </div> -->
+    <div class="layout-container-tree">
+      <div class="block">
+        <el-tree
+          :data="dataSource"
+          node-key="id"
+          default-expand-all
+          :expand-on-click-node="false"
+        >
+          <template #default="{ node, data }">
+            <span class="custom-tree-node">
+              <span>{{ node.label }}</span>
+              <span class="tree-handle">
+                <a @click="setNode(node,data,true)"> 增加子分类 </a>
+                <a @click="setNode(node,data,false)"> 编辑 </a>
+                <a @click="remove(node, data)"> 删除分类 </a>
+              </span>
+            </span>
+          </template>
+        </el-tree>
       </div>
     </div>
-    <div class="layout-container-table">
-      <Table
-        ref="table"
-        v-model:page="page"
-        v-loading="loading"
-        :showIndex="true"
-        :showSelection="true"
-        :data="tableData"
-        @getTableData="getTableData"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column prop="name" label="名称" align="center" />
-        <el-table-column prop="number" label="数字" align="center" />
-        <el-table-column prop="chooseName" label="选择器" align="center" />
-        <el-table-column prop="radioName" label="单选框" align="center" />
-        <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
-          <template #default="scope">
-            <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
-            <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([scope.row])">
-              <template #reference>
-                <el-button type="danger">{{ $t('message.common.del') }}</el-button>
-              </template>
-            </el-popconfirm>
-          </template>
-        </el-table-column>
-      </Table>
-      <Layer :layer="layer" @getTableData="getTableData" v-if="layer.show" />
-    </div>
+    <Layer :layer="layer" @getNodeData="getNodeData" v-if="layer.show" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
-import Table from '@/components/table/index.vue'
-import { Page } from '@/components/table/type'
-import { getData, del } from '@/api/table'
+import { defineComponent,ref,reactive } from 'vue'
+import type Node from 'element-plus/es/components/tree/src/model/node'
 import Layer from './layer.vue'
-import { ElMessage } from 'element-plus'
 import type { LayerInterface } from '@/components/layer/index.vue'
-import { selectData, radioData } from './enum'
-import { Plus, Search, Delete } from '@element-plus/icons'
+
 export default defineComponent({
-  name: 'crudTable',
+  name: 'materialSort',
   components: {
-    Table,
     Layer
   },
   setup() {
-    // 存储搜索用的数据
-    const query = reactive({
-      input: ''
-    })
+    interface Tree {
+      id: number
+      label: string
+      children?: Tree[]
+    }
+    let id = 1000
     // 弹窗控制器
     const layer: LayerInterface = reactive({
       show: false,
       title: '新增',
       showButton: true
     })
-    // 分页参数, 供table使用
-    const page: Page = reactive({
-      index: 1,
-      size: 20,
-      total: 0
-    })
-    const loading = ref(true)
-    const tableData = ref([])
-    const chooseData = ref([])
-    const handleSelectionChange = (val: []) => {
-      chooseData.value = val
-    }
-    // 获取表格数据
-    // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
-    const getTableData = (init: boolean) => {
-      loading.value = true
-      if (init) {
-        page.index = 1
-      }
-      let params = {
-        page: page.index,
-        pageSize: page.size,
-        ...query
-      }
-      getData(params)
-      .then(res => {
-        let data = res.data.list
-        if (Array.isArray(data)) {
-          data.forEach(d => {
-            const select = selectData.find(select => select.value === d.choose)
-            select ? d.chooseName = select.label : d.chooseName = d.choose
-            const radio = radioData.find(select => select.value === d.radio)
-            radio ? d.radioName = radio.label : d.radio
-          })
-        }
-        tableData.value = res.data.list
-        page.total = Number(res.data.pager.total)
-      })
-      .catch(error => {
-        tableData.value = []
-        page.index = 1
-        page.total = 0
-      })
-      .finally(() => {
-        loading.value = false
-      })
-    }
-    // 删除功能
-    const handleDel = (data: object[]) => {
-      let params = {
-        ids: data.map((e:any)=> {
-          return e.id
-        }).join(',')
-      }
-      del(params)
-      .then(res => {
-        ElMessage({
-          type: 'success',
-          message: '删除成功'
-        })
-        getTableData(tableData.value.length === 1 ? true : false)
-      })
-    }
-    // 新增弹窗功能
-    const handleAdd = () => {
-      layer.title = '新增数据'
+    //正在操作的节点
+    let handleNode:Node;
+    let handleData:Tree
+    //节点操作
+    const setNode = (node: Node,data: Tree,type:boolean) => {
+      // console.log(data);
+      handleNode = node;
+      handleData = data;
+      layer.title = type?'新增节点':'编辑节点'
       layer.show = true
-      delete layer.row
+      layer.row = data;
     }
-    // 编辑弹窗功能
-    const handleEdit = (row: object) => {
-      layer.title = '编辑数据'
-      layer.row = row
-      layer.show = true
+    //新增子节点
+    const append = (form: any) => {
+      const newChild = { id: id++, children: [],...form }
+      if (!handleData.children) {
+        handleData.children = []
+      }
+      handleData.children.push(newChild)
+      dataSource.value = [...dataSource.value]
     }
-    getTableData(true)
+    //编辑节点
+    const edit = (form: any) => {
+      console.log(form);
+      const row = { id: id++, children: [],...form }
+      const parent = handleNode.parent
+      const children: Tree[] = parent.data.children || parent.data
+      const index = children.findIndex((d) => d.id === handleData.id)
+      children.splice(index, 1,row)
+      dataSource.value = [...dataSource.value]
+    }
+    //删除节点
+    const remove = (node: Node, data: Tree) => {
+      const parent = node.parent
+      const children: Tree[] = parent.data.children || parent.data
+      const index = children.findIndex((d) => d.id === data.id)
+      children.splice(index, 1)
+      dataSource.value = [...dataSource.value]
+    }
+    //编辑或提交
+    const getNodeData = (form:any,type:boolean) => {
+      type ? append(form) : edit(form);
+    }
+
+    const renderContent = (
+      h,
+      {
+        node,
+        data,
+        store,
+      }: {
+        node: Node
+        data: Tree
+        store: Node['store']
+      }
+    ) => {
+      return h(
+        'span',
+        {
+          class: 'custom-tree-node',
+        },
+        h('span', null, node.label),
+        h(
+          'span',
+          null,
+          h(
+            'a',
+            {
+              onClick: () => append(data),
+            },
+            'Append '
+          ),
+          h(
+            'a',
+            {
+              onClick: () => remove(node, data),
+            },
+            'Delete'
+          )
+        )
+      )
+    }
+
+    const dataSource = ref<Tree[]>([
+      {
+      id: 0,
+      label: '全部分类',
+      children:[
+        {
+          id: 1,
+          label: '分类 1',
+          children: [
+            {
+              id: 4,
+              label: '分类 1-1',
+              children: [
+                {
+                  id: 9,
+                  label: '分类 1-1-1',
+                },
+                {
+                  id: 10,
+                  label: '分类 1-1-2',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 2,
+          label: '分类 2',
+          children: [
+            {
+              id: 5,
+              label: '分类 2-1',
+            },
+            {
+              id: 6,
+              label: '分类 2-2',
+            },
+          ],
+        },
+        {
+          id: 3,
+          label: '分类 3',
+          children: [
+            {
+              id: 7,
+              label: '分类 3-1',
+            },
+            {
+              id: 8,
+              label: '分类 3-2',
+            },
+          ],
+        },
+      ]}
+    ])
     return {
-      Plus,
-      Search,
-      Delete,
-      query,
-      tableData,
-      chooseData,
-      loading,
-      page,
+      dataSource,
       layer,
-      handleSelectionChange,
-      handleAdd,
-      handleEdit,
-      handleDel,
-      getTableData
+      setNode,
+      append,
+      edit,
+      remove,
+      getNodeData
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
-  
+
+.layout-container-tree{
+  margin-top:10px;
+  width: 50%;
+  .custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
+
+    .tree-handle{
+      color:var(--system-primary-color);
+      a{
+        margin-left: 10px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
 </style>
