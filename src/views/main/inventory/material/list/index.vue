@@ -25,17 +25,6 @@
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-      <!-- 
-        物料编码
-        物料名称
-        物料分类
-        订购单位
-        包装规格
-        进项税率
-        盘点周期
-        状态
-        操作 
-      -->
         <el-table-column prop="name" label="物料编码" align="center" />
         <el-table-column prop="number" label="物料名称" align="center" />
         <el-table-column prop="chooseName" label="物料分类" align="center" />
@@ -48,7 +37,7 @@
         </el-table-column>
         <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
           <template #default="scope">
-            <el-button @click="toDetail(scope.row)">{{ $t('message.common.detail') }}</el-button>
+            <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
             <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([scope.row])">
               <template #reference>
                 <el-button type="danger">{{ $t('message.common.del') }}</el-button>
@@ -57,8 +46,8 @@
           </template>
         </el-table-column>
       </Table>
-      <Layer :layer="layer" @getTableData="getTableData" v-if="layer.show" />
     </div>
+    <Drawer :drawer="drawer" v-if="drawer.show" /> 
   </div>
 </template>
 
@@ -67,16 +56,16 @@ import { defineComponent, ref, reactive } from 'vue'
 import Table from '@/components/table/index.vue'
 import { Page } from '@/components/table/type'
 import { getData, del } from '@/api/table'
-import Layer from './layer.vue'
 import { ElMessage } from 'element-plus'
-import type { LayerInterface } from '@/components/layer/index.vue'
 import { selectData, radioData } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
+import Drawer from './drawer.vue';
+import type { DrawerInterface } from '@/components/drawer/index.vue';
 export default defineComponent({
   name: 'crudTable',
   components: {
     Table,
-    Layer
+    Drawer
   },
   setup() {
     // 存储搜索用的数据
@@ -84,10 +73,11 @@ export default defineComponent({
       input: ''
     })
     // 弹窗控制器
-    const layer: LayerInterface = reactive({
-      show: false,
-      title: '新增',
-      showButton: true
+    const drawer: DrawerInterface = reactive({
+      show:false,
+      title:"编辑规则",
+      showButton:true,
+      width:'50%'
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
@@ -154,15 +144,16 @@ export default defineComponent({
     }
     // 新增弹窗功能
     const handleAdd = () => {
-      layer.title = '新增数据'
-      layer.show = true
-      delete layer.row
+      drawer.title = '新增数据'
+      drawer.show = true
+      delete drawer.row
     }
     // 编辑弹窗功能
     const handleEdit = (row: object) => {
-      layer.title = '编辑数据'
-      layer.row = row
-      layer.show = true
+      drawer.title='编辑数据-抽屉'
+      drawer.show = true
+      drawer.row = row;
+      console.log(drawer.value)
     }
     getTableData(true)
     return {
@@ -174,12 +165,12 @@ export default defineComponent({
       chooseData,
       loading,
       page,
-      layer,
       handleSelectionChange,
       handleAdd,
       handleEdit,
       handleDel,
       getTableData,
+      drawer
     }
   },
   methods:{
@@ -194,9 +185,9 @@ export default defineComponent({
       // router.push({ query: { page: '2' } })
       // // 只改变 param
       // router.push({ params: { username: 'jolyne' } })
-      this.$router.replace({
+      this.$router.push({
         path: '/inventory/material/detail',
-        params: { username: 'posva' }
+        query: { username: 'posva' }
       })
     }
   }

@@ -1,8 +1,10 @@
+import { Smoking } from "@element-plus/icons"
+
 var xAxis_data = ["01月", "02月", "03月", "04月", "05月", "06月", "07月", "08月", "09月", "10月", "11月", "12月"]
 var data_A = [820, 932, 901, 934, 1290, 1330, 1320, 720, 832, 501, 334, 990]
 var data_B = [720, 832, 501, 334, 990, 830, 720, 620, 732, 801, 1134, 908]
 var data_C = [620, 732, 801, 1134, 908, 930, 920, 820, 932, 901, 934, 1290]
-var names = ['2018年实际管理费用', '2019年预算费用', '2020年实际使用预算']
+var names = ['2021年订单总额', '2020年预算费用', '2019年实际使用预算']
 var color = ['#4D8EFF', '#84BFFF', '#FE9D9A']
 
 const option = {
@@ -69,7 +71,8 @@ const option = {
   yAxis: {
     type: 'value',
     axisLine: {//线
-      show: false
+      show: false,
+      
     },
     axisTick: {//刻度
       show: false
@@ -96,34 +99,11 @@ const option = {
   },
   series: [
     {
-      type: 'bar',
-      name: names[1],
-      data: data_A,
-      symbolSize: 9, //设置拐点大小
-      itemStyle: {
-        color: color[0]
-      },
-      lineStyle: {
-        width: 2,
-        type: 'solid'  //'dotted'虚线 'solid'实线
-      }
-    }, {
-      type: 'bar',
-      name: names[2],
-      data: data_B,
-      symbolSize: 9, //设置拐点大小
-      itemStyle: {
-        color: color[1]
-      },
-      lineStyle: {
-        width: 2,
-        type: 'solid'  //'dotted'虚线 'solid'实线
-      }
-    }, {
       type: 'line',
       name: names[0],
       data: data_C,
       symbolSize: 9, //设置拐点大小
+      smooth:true,
       areaStyle: {
         color: {
           type: 'linear',
@@ -145,6 +125,33 @@ const option = {
         type: 'solid'  //'dotted'虚线 'solid'实线
       }
     },
+    {
+      type: 'bar',
+      name: names[1],
+      data: data_A,
+      symbolSize: 9, //设置拐点大小
+      itemStyle: {
+        color: color[0]
+      },
+      lineStyle: {
+        width: 2,
+        type: 'solid'  //'dotted'虚线 'solid'实线
+      }
+    }, 
+    {
+      type: 'bar',
+      name: names[2],
+      data: data_B,
+      symbolSize: 9, //设置拐点大小
+      itemStyle: {
+        color: color[1]
+      },
+      lineStyle: {
+        width: 2,
+        type: 'solid'  //'dotted'虚线 'solid'实线
+      }
+    }, 
+
   ]
 }
 

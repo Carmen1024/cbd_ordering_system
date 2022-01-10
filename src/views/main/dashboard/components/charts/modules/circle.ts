@@ -1,7 +1,7 @@
 const option = {
   series: [
     {
-      name: '访问来源',
+      name: '物料',
       type: 'pie',
       radius: ['40%', '70%'],
       avoidLabelOverlap: false,
@@ -29,11 +29,12 @@ const option = {
         show: false
       },
       data: [
-        { value: 1048, name: '搜索引擎' },
-        { value: 735, name: '直接访问' },
-        { value: 580, name: '邮件营销' },
-        { value: 484, name: '联盟广告' },
-        { value: 300, name: '视频广告' }
+        { value: 17, name: '水果类' },
+        { value: 10, name: '其他' },
+        { value: 5, name: '粉料类' },
+        { value: 39, name: '半成品类' },
+        { value: 24, name: '茶叶类' },
+        { value: 1, name: '自制类' },
       ]
     }
   ]

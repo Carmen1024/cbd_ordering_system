@@ -19,7 +19,11 @@
               <span class="tree-handle">
                 <a @click="setNode(node,data,true)"> 增加子分类 </a>
                 <a @click="setNode(node,data,false)"> 编辑 </a>
-                <a @click="remove(node, data)"> 删除分类 </a>
+                <el-popconfirm title="是否删除该分类" @confirm="remove(node, data)">
+                  <template #reference>
+                    <a>删除分类</a>
+                  </template>
+                </el-popconfirm>
               </span>
             </span>
           </template>
@@ -50,6 +54,7 @@ export default defineComponent({
     let id = 1000
     // 弹窗控制器
     const layer: LayerInterface = reactive({
+      width:'30%',
       show: false,
       title: '新增',
       showButton: true
@@ -62,9 +67,15 @@ export default defineComponent({
       // console.log(data);
       handleNode = node;
       handleData = data;
-      layer.title = type?'新增节点':'编辑节点'
+      // layer.title = type?'新增节点':'编辑节点'
       layer.show = true
-      layer.row = data;
+      if(type){
+        delete layer.row;
+        layer.title = '新增节点'
+      }else{
+        layer.row = data;
+         layer.title = '编辑节点'
+      }
     }
     //新增子节点
     const append = (form: any) => {
@@ -74,6 +85,8 @@ export default defineComponent({
       }
       handleData.children.push(newChild)
       dataSource.value = [...dataSource.value]
+      console.log(dataSource.value);
+      
     }
     //编辑节点
     const edit = (form: any) => {
@@ -84,6 +97,7 @@ export default defineComponent({
       const index = children.findIndex((d) => d.id === handleData.id)
       children.splice(index, 1,row)
       dataSource.value = [...dataSource.value]
+      console.log(dataSource.value);
     }
     //删除节点
     const remove = (node: Node, data: Tree) => {
@@ -98,99 +112,61 @@ export default defineComponent({
       type ? append(form) : edit(form);
     }
 
-    const renderContent = (
-      h,
-      {
-        node,
-        data,
-        store,
-      }: {
-        node: Node
-        data: Tree
-        store: Node['store']
-      }
-    ) => {
-      return h(
-        'span',
-        {
-          class: 'custom-tree-node',
-        },
-        h('span', null, node.label),
-        h(
-          'span',
-          null,
-          h(
-            'a',
-            {
-              onClick: () => append(data),
-            },
-            'Append '
-          ),
-          h(
-            'a',
-            {
-              onClick: () => remove(node, data),
-            },
-            'Delete'
-          )
-        )
-      )
-    }
-
     const dataSource = ref<Tree[]>([
       {
-      id: 0,
-      label: '全部分类',
-      children:[
-        {
-          id: 1,
-          label: '分类 1',
-          children: [
-            {
-              id: 4,
-              label: '分类 1-1',
-              children: [
-                {
-                  id: 9,
-                  label: '分类 1-1-1',
-                },
-                {
-                  id: 10,
-                  label: '分类 1-1-2',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 2,
-          label: '分类 2',
-          children: [
-            {
-              id: 5,
-              label: '分类 2-1',
-            },
-            {
-              id: 6,
-              label: '分类 2-2',
-            },
-          ],
-        },
-        {
-          id: 3,
-          label: '分类 3',
-          children: [
-            {
-              id: 7,
-              label: '分类 3-1',
-            },
-            {
-              id: 8,
-              label: '分类 3-2',
-            },
-          ],
-        },
-      ]}
+        id: 0,
+        label: '全部物料分类',
+        children:[
+          {
+            id: 1,
+            label: '分类 1',
+            children: [
+              {
+                id: 4,
+                label: '分类 1-1',
+                children: [
+                  {
+                    id: 9,
+                    label: '分类 1-1-1',
+                  },
+                  {
+                    id: 10,
+                    label: '分类 1-1-2',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 2,
+            label: '分类 2',
+            children: [
+              {
+                id: 5,
+                label: '分类 2-1',
+              },
+              {
+                id: 6,
+                label: '分类 2-2',
+              },
+            ],
+          },
+          {
+            id: 3,
+            label: '分类 3',
+            children: [
+              {
+                id: 7,
+                label: '分类 3-1',
+              },
+              {
+                id: 8,
+                label: '分类 3-2',
+              },
+            ],
+          },
+        ]
+        }
     ])
     return {
       dataSource,

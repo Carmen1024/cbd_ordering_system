@@ -55,7 +55,7 @@ const route: Route[] = [
               {
                 path: 'list',
                 component: createNameComponent(() => import('@/views/main/inventory/settings/freightTemplate/list/index.vue')),
-                meta: { title: 'message.menu.inventory.settings.freightTemplate.list', icon: 'iconfont icon-freightTemplate', cache: false }
+                meta: { title: 'message.menu.inventory.settings.freightTemplate.list', icon: 'iconfont icon-freightTemplateList', cache: false }
               },
               {
                 path: 'countPrice',
@@ -76,23 +76,28 @@ const route: Route[] = [
           {
             path: 'sort',
             component: createNameComponent(() => import('@/views/main/inventory/material/sort/index.vue')),
-            meta: { title: 'message.menu.inventory.material.sort', icon: 'iconfont icon-home', cache: true }
+            meta: { title: 'message.menu.inventory.material.sort', icon: 'iconfont icon-materialSort', cache: true }
           },
           {
             path: 'list',
             component: createNameComponent(() => import('@/views/main/inventory/material/list/index.vue')),
-            meta: { title: 'message.menu.inventory.material.list', icon: 'iconfont icon-home', cache: false }
+            meta: { title: 'message.menu.inventory.material.list', icon: 'iconfont icon-materialList', cache: false }
           },
+          // {
+          //   path: 'detail',
+          //   hideMenu: true,
+          //   component: createNameComponent(() => import('@/views/main/inventory/material/detail/index.vue')),
+          //   meta: { title: 'message.menu.inventory.material.detail', hideTabs: true }
+          // },
+          // {
+          //   path: 'bom',
+          //   component: createNameComponent(() => import('@/views/main/inventory/material/bom/index.vue')),
+          //   meta: { title: 'message.menu.inventory.material.bom', icon: 'iconfont icon-bom', cache: true }
+          // },
           {
-            path: 'detail',
-            hideMenu: true,
-            component: createNameComponent(() => import('@/views/main/inventory/material/detail/index.vue')),
-            meta: { title: 'message.menu.inventory.material.detail', icon: 'iconfont icon-home' }
-          },
-          {
-            path: 'bom',
-            component: createNameComponent(() => import('@/views/main/inventory/material/bom/index.vue')),
-            meta: { title: 'message.menu.inventory.material.bom', icon: 'iconfont icon-home', cache: true }
+            path: 'orderFile',
+            component: createNameComponent(() => import('@/views/main/inventory/material/orderFile/index.vue')),
+            meta: { title: 'message.menu.inventory.material.orderFile', icon: 'iconfont icon-orderFile', cache: true }
           },
         ]
       },

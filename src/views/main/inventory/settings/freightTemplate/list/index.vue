@@ -63,7 +63,7 @@ export default defineComponent({
     // 分页参数, 供table使用
     const page: Page = reactive({
       index: 1,
-      size: 20,
+      size: 10,
       total: 0
     })
     const loading = ref(true)

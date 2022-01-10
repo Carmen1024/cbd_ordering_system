@@ -1,8 +1,7 @@
 <!--  -->
 <template >
-    <!-- {{this.$route.query}} -->
-    <div class="layout-container">
-        <p>基本信息</p>
+    <div class="detail-container">
+        <p>基本信息-{{username}}</p>
         <div class="layout-basic">
             <BasicInformation />
         </div>
@@ -25,6 +24,7 @@ import StoreInformation from './components/storeInformation.vue'
 import Relation from './components/relation/index.vue';
 import ValidityPeriod from './components/validityPeriod.vue';
 import AdditionalInformation from './components/additionalInformation.vue';
+import { useRoute } from 'vue-router'
 export default defineComponent({
   name: 'materialDetail',
   components:{
@@ -36,30 +36,43 @@ export default defineComponent({
   },
   setup(){
     const activeName = ref('first')    
+    let username = ref('')
     const handleClick = (tab: string, event: Event) => {
     console.log(tab, event)
     }
-    // console.log(this.$router.query);
+    const route = useRoute();
+      // 打印
+    username = ref(<string>route.query.username)
+    console.log(username);
+
     return{
       activeName,
+      username,
       handleClick
     }
   },
 })
 </script>
 <style lang='scss' scoped>
-    .layout-container{
-        .layout-basic{
-            padding:15px;
-        }
-        .layout-full{
-            padding:15px;
-        }
-        p{
-            margin:0 10px;
-            line-height: 40px;
-            border-bottom: solid 1px #ddd;
-            text-align: left;
-        }
+    .detail-container{
+      // display: flex;
+      // flex-direction: column;
+      .tip{
+        padding:10px;
+        color:var(--system-primary-color);
+      }
+      .layout-basic{
+          padding:15px;
+      }
+      .layout-full{
+          padding:15px;
+      }
+      p{
+        // width: 100%;
+        margin:0 10px;
+        line-height: 40px;
+        border-bottom: solid 1px #ddd;
+        text-align: left;
+      }
     }
 </style>

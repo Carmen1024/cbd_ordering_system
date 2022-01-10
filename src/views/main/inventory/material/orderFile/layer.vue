@@ -1,21 +1,27 @@
 <template>
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
-    <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
-      <el-form-item label="名称：" prop="name">
-        <el-input v-model="form.name" placeholder="请输入名称"></el-input>
+    <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px">
+      <el-form-item label="档案编号：" prop="name" style="width:33%;">
+        <el-input v-model="form.name" placeholder="请输入名称" disabled></el-input>
       </el-form-item>
-      <el-form-item label="数字：" prop="number">
+      <el-form-item label="档案名称：" prop="number" style="width:33%;">
         <el-input v-model="form.number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>
       </el-form-item>
-			<el-form-item label="选择器：" prop="select">
-			  <el-select v-model="form.choose" placeholder="请选择" clearable>
-					<el-option v-for="item in selectData" :key="item.value" :label="item.label" :value="item.value"></el-option>
-				</el-select>
+			<el-form-item label="状态：" prop="select" style="width:33%;">
+        <el-switch
+          v-model="value1"
+          active-text="有效"
+          inactive-text="无效"
+        >
+        </el-switch>
 			</el-form-item>
-      <el-form-item label="单选框：" prop="radio">
-        <el-radio-group v-model="form.radio">
-          <el-radio v-for="item in radioData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
-        </el-radio-group>
+      <el-form-item label="生效地区：" prop="radio">
+        <el-checkbox-group v-model="form.radio">
+          <el-checkbox v-for="item in radioData" :key="item.value" :label="item.label" />
+        </el-checkbox-group>
+      </el-form-item>
+      <el-form-item label="物料明细：">
+        
       </el-form-item>
     </el-form>
   </Layer>
@@ -120,5 +126,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-  
+  .el-form{
+    display: flex;
+    flex-wrap:wrap;
+    .el-form-item{
+      width: 100%;
+    }
+  }
 </style>
