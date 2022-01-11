@@ -1,10 +1,10 @@
 <template>
   <div class="layout-container">
-    <!-- <div class="layout-container-form flex space-between">
+    <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
-        <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
+        <el-button type="primary" :icon="Plus" @click="handleAdd">新增分类</el-button>
       </div>
-    </div> -->
+    </div>
     <div class="layout-container-tree">
       <div class="block">
         <el-tree
@@ -12,6 +12,7 @@
           node-key="id"
           default-expand-all
           :expand-on-click-node="false"
+          :props="{ class: customNodeClass }"
         >
           <template #default="{ node, data }">
             <span class="custom-tree-node">
@@ -19,7 +20,7 @@
               <span class="tree-handle">
                 <a @click="setNode(node,data,true)"> 增加子分类 </a>
                 <a @click="setNode(node,data,false)"> 编辑 </a>
-                <el-popconfirm title="是否删除该分类" @confirm="remove(node, data)">
+                <el-popconfirm title="是否删除该分类及其子分类" @confirm="remove(node, data)">
                   <template #reference>
                     <a>删除分类</a>
                   </template>
@@ -39,6 +40,7 @@ import { defineComponent,ref,reactive } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import Layer from './layer.vue'
 import type { LayerInterface } from '@/components/layer/index.vue'
+import { Plus } from '@element-plus/icons'
 
 export default defineComponent({
   name: 'materialSort',
@@ -48,6 +50,7 @@ export default defineComponent({
   setup() {
     interface Tree {
       id: number
+      isIndex?:boolean
       label: string
       children?: Tree[]
     }
@@ -60,22 +63,37 @@ export default defineComponent({
       showButton: true
     })
     //正在操作的节点
-    let handleNode:Node;
+    let handleNode:Node
     let handleData:Tree
+    let handleIndex = false //正在操作根节点
+    // 增加一级分类
+    const handleAdd = ()=>{
+      layer.title = '新增一级分类'
+      layer.show = true
+      delete layer.row
+      handleIndex = true
+    }
+
     //节点操作
     const setNode = (node: Node,data: Tree,type:boolean) => {
-      // console.log(data);
-      handleNode = node;
-      handleData = data;
+      console.log(node,data);
+      handleIndex = false
+      handleNode = node
+      handleData = data
       // layer.title = type?'新增节点':'编辑节点'
       layer.show = true
       if(type){
         delete layer.row;
-        layer.title = '新增节点'
+        layer.title = '新增分类'
       }else{
         layer.row = data;
-         layer.title = '编辑节点'
+        layer.title = '编辑分类'
       }
+    }
+    // 新增一级节点
+    const appendIndex = (form: any) => {
+      const newChild = { id: id++, children: [],...form }
+      dataSource.value.push(newChild)
     }
     //新增子节点
     const append = (form: any) => {
@@ -109,96 +127,101 @@ export default defineComponent({
     }
     //编辑或提交
     const getNodeData = (form:any,type:boolean) => {
-      type ? append(form) : edit(form);
+      type ? (handleIndex ? appendIndex(form) : append(form)) : edit(form);
     }
-
+    const customNodeClass = (data: Tree, node: Node) => {
+      if (data.isIndex) {
+        return 'isIndex'
+      }
+      return null
+    }
     const dataSource = ref<Tree[]>([
       {
-        id: 0,
-        label: '全部物料分类',
-        children:[
+        id: 1,
+        label: '分类 1',
+        children: [
           {
-            id: 1,
-            label: '分类 1',
+            id: 4,
+            label: '分类 1-1',
             children: [
               {
-                id: 4,
-                label: '分类 1-1',
-                children: [
-                  {
-                    id: 9,
-                    label: '分类 1-1-1',
-                  },
-                  {
-                    id: 10,
-                    label: '分类 1-1-2',
-                  },
-                ],
+                id: 9,
+                label: '分类 1-1-1',
+              },
+              {
+                id: 10,
+                label: '分类 1-1-2',
               },
             ],
           },
+        ],
+      },
+      {
+        id: 2,
+        label: '分类 2',
+        children: [
           {
-            id: 2,
-            label: '分类 2',
-            children: [
-              {
-                id: 5,
-                label: '分类 2-1',
-              },
-              {
-                id: 6,
-                label: '分类 2-2',
-              },
-            ],
+            id: 5,
+            label: '分类 2-1',
           },
           {
-            id: 3,
-            label: '分类 3',
-            children: [
-              {
-                id: 7,
-                label: '分类 3-1',
-              },
-              {
-                id: 8,
-                label: '分类 3-2',
-              },
-            ],
+            id: 6,
+            label: '分类 2-2',
           },
-        ]
-        }
+        ],
+      },
+      {
+        id: 3,
+        label: '分类 3',
+        children: [
+          {
+            id: 7,
+            label: '分类 3-1',
+          },
+          {
+            id: 8,
+            label: '分类 3-2',
+          },
+        ],
+      },
     ])
     return {
       dataSource,
       layer,
       setNode,
       append,
+      appendIndex,
       edit,
       remove,
-      getNodeData
+      getNodeData,
+      customNodeClass,
+      Plus,
+      handleAdd
     }
   }
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 .layout-container-tree{
   margin-top:10px;
   width: 50%;
-  .custom-tree-node {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 14px;
-    padding-right: 8px;
+  .el-tree-node__content{
+    .custom-tree-node {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      padding-right: 8px;
 
-    .tree-handle{
-      color:var(--system-primary-color);
-      a{
-        margin-left: 10px;
-        font-size: 12px;
+      .tree-handle{
+        color:var(--system-primary-color);
+        a{
+          margin-left: 10px;
+          font-size: 12px;
+        }
       }
     }
   }

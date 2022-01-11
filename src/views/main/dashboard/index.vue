@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <Charts />
+    <!-- <Charts /> -->
   </div>
 </template>
 

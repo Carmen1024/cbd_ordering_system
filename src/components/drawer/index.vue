@@ -71,6 +71,7 @@ export default defineComponent({
 <style lang='scss'>
   .el-drawer__header{
     margin-bottom: 0;
+    // border-bottom: solid 1px #ddd;
   }
   .el-drawer__body{
     overflow: hidden;
@@ -81,8 +82,10 @@ export default defineComponent({
       height: calc(100% - 50px);
     }
     .demo-drawer__footer{
+      border-top: solid 1px #ddd;
       margin-top: 10px;
-      height: 40px;
+      padding-top: 10px;
+      height: 50px;
     }
   }
 
