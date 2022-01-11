@@ -1,29 +1,19 @@
 <template>
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
-      <el-form-item label="规则：" prop="name">
-        <el-input v-model="form.name" placeholder="请输入名称"></el-input>
+      <el-form-item label="编号：" prop="name">
+        <el-input v-model="form.name" placeholder="请输入名称" disabled></el-input>
       </el-form-item>
-      <el-form-item label="规则名称：" prop="number">
+      <el-form-item label="价格带名称：" prop="number">
         <el-input v-model="form.number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>
       </el-form-item>
-			<el-form-item label="规则说明：" prop="select">
-			  <el-input
-          v-model="textarea"
-          :rows="2"
-          type="textarea"
-          placeholder="请输入"
-        />
+			<el-form-item label="价格等级：" prop="select">
+			  <el-input v-model="form.number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>
 			</el-form-item>
       <el-form-item label="生效区域：" prop="date">
         <el-input v-model="form.name" placeholder="请输入生效区域"></el-input>
       </el-form-item>
-      <el-form-item label="窗口期：" prop="date">
-        <el-checkbox-group v-model="form.date">
-          <el-checkbox v-for="item in dateData" :key="item.value" :label="item.label" />
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="备注：" prop="date">
+      <el-form-item label="价格带说明：" prop="date">
 			  <el-input
           v-model="textarea"
           :rows="2"

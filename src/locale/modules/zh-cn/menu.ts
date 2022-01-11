@@ -1,7 +1,7 @@
 export default {
   menu: {
     dashboard: {
-      name: '百茶百道订货系统',
+      name: '茶百道运营平台',
       index: '首页'
     },
     system: {
@@ -70,7 +70,12 @@ export default {
         sort:"物料分类",
         list:"物料列表",
         detail:"物料详情",
-        bom:"商品BOM管理",
+        bom:{
+          name:"商品BOM管理",
+          list:"BOM列表",
+          version:"BOM版本",
+          relatedProduct:"关联商品",
+        },
         orderFile:"订货档案"
       },
       transactions:{

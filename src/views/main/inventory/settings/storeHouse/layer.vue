@@ -1,13 +1,13 @@
 <template>
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
-      <el-form-item label="规则：" prop="name">
-        <el-input v-model="form.name" placeholder="请输入名称"></el-input>
+      <el-form-item label="仓库编号：" prop="name">
+        <el-input v-model="form.name" placeholder="请输入名称" disabled></el-input>
       </el-form-item>
-      <el-form-item label="规则名称：" prop="number">
+      <el-form-item label="仓库名称：" prop="number">
         <el-input v-model="form.number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>
       </el-form-item>
-			<el-form-item label="规则说明：" prop="select">
+			<el-form-item label="仓库信息：" prop="select">
 			  <el-input
           v-model="textarea"
           :rows="2"
@@ -15,29 +15,49 @@
           placeholder="请输入"
         />
 			</el-form-item>
-      <el-form-item label="生效区域：" prop="date">
-        <el-input v-model="form.name" placeholder="请输入生效区域"></el-input>
-      </el-form-item>
-      <el-form-item label="窗口期：" prop="date">
-        <el-checkbox-group v-model="form.date">
-          <el-checkbox v-for="item in dateData" :key="item.value" :label="item.label" />
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="备注：" prop="date">
-			  <el-input
+      <el-form-item label="配送区域：" prop="date">
+        <el-input
           v-model="textarea"
           :rows="2"
           type="textarea"
           placeholder="请输入"
         />
       </el-form-item>
-      <el-form-item label="启动状态：" prop="date">
+      <el-form-item label="订货时间：" prop="date">
+        <el-time-select
+          v-model="startTime"
+          class="mr-4"
+          placeholder="开始时间"
+          start="00:00"
+          step="00:15"
+          end="23:45"
+        >
+        </el-time-select>
+        <el-time-select
+          v-model="endTime"
+          :min-time="startTime"
+          placeholder="结束时间"
+          start="00:15"
+          step="00:15"
+          end="24:00"
+        >
+        </el-time-select>
+      </el-form-item>
+      <el-form-item label="停止订货：" prop="date">
         <el-switch
           v-model="value1"
-          active-text="有效"
-          inactive-text="无效"
+          active-text="关闭"
+          inactive-text="开启"
         >
         </el-switch>
+        <el-date-picker
+          v-model="value1"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+        >
+        </el-date-picker>
       </el-form-item>
     </el-form>
   </Layer>
@@ -51,6 +71,7 @@ import { defineComponent, ref } from 'vue'
 import { add, update } from '@/api/table'
 import { selectData, dateData } from './enum'
 import Layer from '@/components/layer/index.vue'
+import Form from '@/components/Form/index.vue';
 export default defineComponent({
   components: {
     Layer

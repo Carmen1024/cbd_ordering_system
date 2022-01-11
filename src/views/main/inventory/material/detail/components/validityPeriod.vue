@@ -7,10 +7,36 @@
       </el-select>
     </el-form-item>
     <el-form-item label="物料状态">
-      <el-select v-model="form.region" placeholder="please select your zone">
-        <el-option label="Zone one" value="shanghai"></el-option>
-        <el-option label="Zone two" value="beijing"></el-option>
+      <el-select v-model="value" clearable placeholder="Select">
+        <el-option
+          v-for="item in materialStateData"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
       </el-select>
+    </el-form-item>
+    <el-form-item label="质量效期">
+      <timeItem />
+    </el-form-item>
+    <el-form-item label="赏味效期">
+      <timeItem />
+    </el-form-item>
+    <el-form-item label="质量效期预警1">
+      <timeItem />
+    </el-form-item>
+    <el-form-item label="赏味效期预警1">
+      <timeItem />
+    </el-form-item>   
+    <el-form-item label="质量效期预警2">
+      <timeItem />
+    </el-form-item>
+    <el-form-item label="赏味效期预警2">
+      <timeItem />
+    </el-form-item>
+    <el-form-item label="物料标签">
+      <el-input v-model="input" />
     </el-form-item>
     <!-- <el-form-item>
       <el-button type="primary" @click="onSubmit">Create</el-button>
@@ -22,10 +48,13 @@
 <script lang="ts">
 import { defineComponent,reactive } from 'vue'
 import Form from '@/components/Form/index.vue';
+import { materialStateData } from './../enum';
+import timeItem from '@/components/time/index.vue';
 export default defineComponent({
 // do not use same name with ref
 components:{
-  Form
+  Form,
+  timeItem
 },
 setup(){
     const form = reactive({
@@ -44,7 +73,8 @@ setup(){
     }
     return{
         form,
-        onSubmit
+        onSubmit,
+        materialStateData
     }
 }
 

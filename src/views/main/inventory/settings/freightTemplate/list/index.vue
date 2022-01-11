@@ -29,7 +29,8 @@
         </div>
       </div>
     </div>
-    <Layer :layer="layer" @getCardData="getCardData" v-if="layer.show" />
+    <!-- <Layer :layer="layer" @getCardData="getCardData" v-if="layer.show" /> -->
+    <Drawer :drawer="drawer" v-if="drawer.show" />
   </div>
 </template>
 
@@ -38,16 +39,16 @@ import { defineComponent, ref, reactive } from 'vue'
 import Table from '@/components/table/index.vue'
 import { Page } from '@/components/table/type'
 import { getData, del } from '@/api/table'
-import Layer from './layer.vue'
+import Drawer from './drawer.vue'
 import { ElMessage } from 'element-plus'
-import type { LayerInterface } from '@/components/layer/index.vue'
+import type { DrawerInterface } from '@/components/drawer/index.vue'
 import { selectData, dateData } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
 export default defineComponent({
   name: 'crudTable',
   components: {
     Table,
-    Layer
+    Drawer
   },
   setup() {
     // 存储搜索用的数据
@@ -55,10 +56,11 @@ export default defineComponent({
       input: ''
     })
     // 弹窗控制器
-    const layer: LayerInterface = reactive({
+    const drawer: DrawerInterface = reactive({
       show: false,
       title: '新增',
-      showButton: true
+      showButton: true,
+      width:'50%'
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
@@ -125,15 +127,15 @@ export default defineComponent({
     }
     // 新增弹窗功能
     const handleAdd = () => {
-      layer.title = '新增数据'
-      layer.show = true
-      delete layer.row
+      drawer.title = '新增数据'
+      drawer.show = true
+      delete drawer.row
     }
     // 编辑弹窗功能
     const handleEdit = (row: object) => {
-      layer.title = '编辑数据'
-      layer.row = row
-      layer.show = true
+      drawer.title = '编辑数据'
+      drawer.row = row
+      drawer.show = true
     }
     getCardData(true)
     return {
@@ -145,7 +147,7 @@ export default defineComponent({
       chooseData,
       loading,
       page,
-      layer,
+      drawer,
       handleSelectionChange,
       handleAdd,
       handleEdit,

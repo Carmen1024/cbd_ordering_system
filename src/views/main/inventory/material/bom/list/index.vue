@@ -25,12 +25,14 @@
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-      <!-- 序号 档案编号 档案名称 生效区域 状态 备注 操作 -->
-        <el-table-column prop="name" label="档案编号" align="center" />
-        <el-table-column prop="number" label="档案名称" align="center" />
-        <el-table-column prop="chooseName" label="生效区域" align="center" />
-        <el-table-column prop="dateName" label="状态" align="center" />
-        <el-table-column prop="dateName" label="备注" align="center" />
+      <!-- 序号 BOM编号 BOM名称 状态 维护时间 商品编号 商品名称 操作人 操作 -->
+        <el-table-column prop="name" label="BOM编号" align="center" />
+        <el-table-column prop="number" label="BOM名称" align="center" />
+        <el-table-column prop="chooseName" label="状态" align="center" />
+        <el-table-column prop="radioName" label="维护时间" align="center" />
+        <el-table-column prop="radioName" label="商品编号" align="center" />
+        <el-table-column prop="radioName" label="商品名称" align="center" />
+        <el-table-column prop="radioName" label="操作人" align="center" />
         <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
           <template #default="scope">
             <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
@@ -42,7 +44,7 @@
           </template>
         </el-table-column>
       </Table>
-      <Drawer :drawer="drawer" v-if="drawer.show" /> 
+      <Layer :layer="layer" @getTableData="getTableData" v-if="layer.show" />
     </div>
   </div>
 </template>
@@ -52,16 +54,16 @@ import { defineComponent, ref, reactive } from 'vue'
 import Table from '@/components/table/index.vue'
 import { Page } from '@/components/table/type'
 import { getData, del } from '@/api/table'
+import Layer from './layer.vue'
 import { ElMessage } from 'element-plus'
-import { selectData, dateData } from './enum'
+import type { LayerInterface } from '@/components/layer/index.vue'
+import { selectData, radioData } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
-import Drawer from './drawer.vue';
-import type { DrawerInterface } from '@/components/drawer/index.vue';
 export default defineComponent({
-  name: 'orderRules',
+  name: 'crudTable',
   components: {
     Table,
-    Drawer
+    Layer
   },
   setup() {
     // 存储搜索用的数据
@@ -69,11 +71,10 @@ export default defineComponent({
       input: ''
     })
     // 弹窗控制器
-    const drawer: DrawerInterface = reactive({
-      show:false,
-      title:"编辑规则",
-      showButton:true,
-      width:'50%'
+    const layer: LayerInterface = reactive({
+      show: false,
+      title: '新增',
+      showButton: true
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
@@ -106,8 +107,8 @@ export default defineComponent({
           data.forEach(d => {
             const select = selectData.find(select => select.value === d.choose)
             select ? d.chooseName = select.label : d.chooseName = d.choose
-            const date = dateData.find(select => select.value === d.date)
-            date ? d.dateName = date.label : d.date
+            const radio = radioData.find(select => select.value === d.radio)
+            radio ? d.radioName = radio.label : d.radio
           })
         }
         tableData.value = res.data.list
@@ -140,16 +141,15 @@ export default defineComponent({
     }
     // 新增弹窗功能
     const handleAdd = () => {
-      drawer.title = '新增数据'
-      drawer.show = true
-      delete drawer.row
+      layer.title = '新增数据'
+      layer.show = true
+      delete layer.row
     }
     // 编辑弹窗功能
     const handleEdit = (row: object) => {
-      drawer.title='编辑数据-抽屉'
-      drawer.show = true
-      drawer.row = row;
-      console.log(drawer.value)
+      layer.title = '编辑数据'
+      layer.row = row
+      layer.show = true
     }
     getTableData(true)
     return {
@@ -161,12 +161,12 @@ export default defineComponent({
       chooseData,
       loading,
       page,
+      layer,
       handleSelectionChange,
       handleAdd,
       handleEdit,
       handleDel,
-      getTableData,
-      drawer
+      getTableData
     }
   }
 })

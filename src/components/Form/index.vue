@@ -26,8 +26,24 @@ setup(){
         display: flex;
         flex-wrap: wrap;
         .el-form-item{
-            width: 50%;
-            text-align: left;
+          width: 50%;
+          text-align: left;
+          // .el-form-item__content{
+          //   display: flex;
+          //   .el-input + .el-radio{
+          //     margin-left: 10px;
+          //   }
+          //   .el-select + .el-select{
+          //     margin-left: 10px;
+          //   }
+          //   .el-input + .el-select{
+          //     margin-left: 10px;
+          //     width: 100%;
+          //   }
+          //   .el-input + .el-input{
+          //     margin-left: 10px;
+          //   }
+          // }
         }
       }
     }

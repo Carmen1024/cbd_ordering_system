@@ -4,13 +4,18 @@
       <el-input v-model="form.name"></el-input>
     </el-form-item>
     <el-form-item label="物料名称">
-      <el-select v-model="form.region" placeholder="please select your zone">
-        <el-option label="Zone one" value="shanghai"></el-option>
-        <el-option label="Zone two" value="beijing"></el-option>
-      </el-select>
+      <el-input v-model="form.name"></el-input>
     </el-form-item>
     <el-form-item label="物料类型">
-      <el-input v-model="form.name"></el-input>
+      <el-select v-model="form.name" clearable placeholder="Select">
+        <el-option
+          v-for="item in materialTypeData"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
     </el-form-item>
     <el-form-item label="原物料分类">
       <el-input v-model="form.name"></el-input>
@@ -19,10 +24,19 @@
       <el-input v-model="form.name"></el-input>
     </el-form-item>
     <el-form-item label="物料状态">
-      <el-input v-model="form.name"></el-input>
+      <el-select v-model="form.name" clearable placeholder="Select">
+        <el-option
+          v-for="item in materialStatusData"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
     </el-form-item>
     <el-form-item label="销售价">
       <el-input v-model="form.name"></el-input>
+      <el-radio v-model="radio1" label="1" size="small">开放价格</el-radio>
     </el-form-item>
     <el-form-item label="成本价">
       <el-input v-model="form.name"></el-input>
@@ -43,6 +57,7 @@
 <script lang="ts">
 import { defineComponent,reactive } from 'vue'
 import Form from '@/components/Form/index.vue';
+import { unitData, materialTypeData, materialStatusData } from './../enum'
 export default defineComponent({
 // do not use same name with ref
 components:{
@@ -58,6 +73,7 @@ setup(){
         type: [],
         resource: '',
         desc: '',
+        radio:1
     })
 
     const onSubmit = () => {
@@ -65,7 +81,9 @@ setup(){
     }
     return{
         form,
-        onSubmit
+        onSubmit,
+        materialTypeData,
+        materialStatusData
     }
 }
 

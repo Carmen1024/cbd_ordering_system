@@ -6,6 +6,118 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "351750",
+      "name": "分类",
+      "font_class": "materialList",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "637762",
+      "name": "分类",
+      "font_class": "fenlei1",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "1172635",
+      "name": "分类",
+      "font_class": "fenlei2",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "11553399",
+      "name": "ico-bom",
+      "font_class": "bom",
+      "unicode": "e68d",
+      "unicode_decimal": 59021
+    },
+    {
+      "icon_id": "6877612",
+      "name": "版本",
+      "font_class": "banben",
+      "unicode": "e71f",
+      "unicode_decimal": 59167
+    },
+    {
+      "icon_id": "10360974",
+      "name": "附件文件夹",
+      "font_class": "fujianwenjianjia",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "10427363",
+      "name": "切换版本",
+      "font_class": "bomVersion",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "10476316",
+      "name": "管理数据集",
+      "font_class": "guanlishujuji",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "10555135",
+      "name": "个人主页",
+      "font_class": "gerenzhuye",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "10555166",
+      "name": "角色3",
+      "font_class": "jiaose1",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "11053364",
+      "name": "数据处理",
+      "font_class": "shujuchuli",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "11084092",
+      "name": "code",
+      "font_class": "code",
+      "unicode": "e66e",
+      "unicode_decimal": 58990
+    },
+    {
+      "icon_id": "11267960",
+      "name": "文件树",
+      "font_class": "bomList",
+      "unicode": "e6a6",
+      "unicode_decimal": 59046
+    },
+    {
+      "icon_id": "12561500",
+      "name": "关联",
+      "font_class": "bomRelatedProduct",
+      "unicode": "e6ff",
+      "unicode_decimal": 59135
+    },
+    {
+      "icon_id": "22960435",
+      "name": "组织管理",
+      "font_class": "zuzhiguanli2",
+      "unicode": "e81e",
+      "unicode_decimal": 59422
+    },
+    {
+      "icon_id": "22960802",
+      "name": "Pull Request",
+      "font_class": "a-PullRequest",
+      "unicode": "e823",
+      "unicode_decimal": 59427
+    },
+    {
       "icon_id": "1130654",
       "name": "提示",
       "font_class": "tishi",
@@ -67,20 +179,6 @@
       "font_class": "jiaose",
       "unicode": "e68e",
       "unicode_decimal": 59022
-    },
-    {
-      "icon_id": "1418206",
-      "name": "分类",
-      "font_class": "materialList",
-      "unicode": "e604",
-      "unicode_decimal": 58884
-    },
-    {
-      "icon_id": "2121746",
-      "name": "分类",
-      "font_class": "www",
-      "unicode": "e611",
-      "unicode_decimal": 58897
     },
     {
       "icon_id": "4182581",
@@ -249,13 +347,6 @@
       "font_class": "storeHouse",
       "unicode": "e623",
       "unicode_decimal": 58915
-    },
-    {
-      "icon_id": "6241650",
-      "name": "BOM管理",
-      "font_class": "BOM",
-      "unicode": "e624",
-      "unicode_decimal": 58916
     },
     {
       "icon_id": "6241651",

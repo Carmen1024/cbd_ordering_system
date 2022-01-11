@@ -4,10 +4,6 @@
       <div class="layout-container-form-handle">
         <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
       </div>
-      <div class="layout-container-form-search">
-        <el-input v-model="query.input" :placeholder="$t('message.common.searchTip')" @change="getTableData(true)"></el-input>
-        <el-button type="primary" :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
-      </div>
     </div>
     <div class="layout-container-table">
       <Table
@@ -17,6 +13,7 @@
         :showIndex="true"
         :showSelection="true"
         :data="tableData"
+        :showPage="showPage"
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
@@ -73,6 +70,7 @@ export default defineComponent({
       size: 10,
       total: 0
     })
+    const showPage = false;
     const loading = ref(true)
     const tableData = ref([])
     const chooseData = ref([])
@@ -157,7 +155,8 @@ export default defineComponent({
       handleAdd,
       handleEdit,
       handleDel,
-      getTableData
+      getTableData,
+      showPage
     }
   }
 })
