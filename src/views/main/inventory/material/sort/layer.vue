@@ -1,6 +1,9 @@
 <template>
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
+      <el-form-item label="分类编号：" prop="id">
+        <el-input v-model="form.id" placeholder="请输入编号" disabled></el-input>
+      </el-form-item>
       <el-form-item label="分类名称：" prop="label">
         <el-input v-model="form.label" placeholder="请输入分类名称"></el-input>
       </el-form-item>
@@ -36,6 +39,7 @@ export default defineComponent({
     const ruleForm: Ref<ElFormItemContext|null> = ref(null)
     const layerDom: Ref<LayerType|null> = ref(null)
     let form = ref({
+      id:'',
       label: ''
     })
     const rules = {

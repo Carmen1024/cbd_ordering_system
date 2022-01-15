@@ -70,29 +70,29 @@ const route: Route[] = [
             component: createNameComponent(() => import('@/views/main/inventory/material/list/index.vue')),
             meta: { title: 'message.menu.inventory.material.list', icon: 'iconfont icon-materialList', cache: false }
           },
-          {
-            path: 'bom',
-            component: createNameComponent(() => (import('@/components/menu/index.vue'))),
-            meta: { title: 'message.menu.inventory.material.bom.name', icon: 'iconfont icon-bom', cache: true },
-            redirect: '/inventory/material/bom/list',
-            children:[
-              {
-                path: 'list',
-                component: createNameComponent(() => import('@/views/main/inventory/material/bom/list/index.vue')),
-                meta: { title: 'message.menu.inventory.material.bom.list', icon: 'iconfont icon-bomList', cache: false }
-              },
-              {
-                path: 'version',
-                component: createNameComponent(() => import('@/views/main/inventory/material/bom/version/index.vue')),
-                meta: { title: 'message.menu.inventory.material.bom.version', icon: 'iconfont icon-bomVersion', cache: false }
-              },
-              {
-                path: 'relatedProduct',
-                component: createNameComponent(() => import('@/views/main/inventory/material/bom/relatedProduct/index.vue')),
-                meta: { title: 'message.menu.inventory.material.bom.relatedProduct', icon: 'iconfont icon-bomRelatedProduct', cache: false }
-              },
-            ]
-          },
+          // {
+          //   path: 'bom',
+          //   component: createNameComponent(() => (import('@/components/menu/index.vue'))),
+          //   meta: { title: 'message.menu.inventory.material.bom.name', icon: 'iconfont icon-bom', cache: true },
+          //   redirect: '/inventory/material/bom/list',
+          //   children:[
+          //     {
+          //       path: 'list',
+          //       component: createNameComponent(() => import('@/views/main/inventory/material/bom/list/index.vue')),
+          //       meta: { title: 'message.menu.inventory.material.bom.list', icon: 'iconfont icon-bomList', cache: false }
+          //     },
+          //     {
+          //       path: 'version',
+          //       component: createNameComponent(() => import('@/views/main/inventory/material/bom/version/index.vue')),
+          //       meta: { title: 'message.menu.inventory.material.bom.version', icon: 'iconfont icon-bomVersion', cache: false }
+          //     },
+          //     {
+          //       path: 'relatedProduct',
+          //       component: createNameComponent(() => import('@/views/main/inventory/material/bom/relatedProduct/index.vue')),
+          //       meta: { title: 'message.menu.inventory.material.bom.relatedProduct', icon: 'iconfont icon-bomRelatedProduct', cache: false }
+          //     },
+          //   ]
+          // },
           {
             path: 'orderFile',
             component: createNameComponent(() => import('@/views/main/inventory/material/orderFile/index.vue')),

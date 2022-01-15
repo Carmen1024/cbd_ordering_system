@@ -26,7 +26,7 @@ export default {
       sort:"物料分类"
     },
     basic:{
-      name:"系统管理",
+      name:"基础管理",
       customer:{
         name:"客户管理",
         list:"客户列表"
@@ -85,6 +85,36 @@ export default {
         name:"门店销售流水"
       },
     },
-
+    charge:{
+      name:'费用收取',
+      service:{
+        name:'服务费收取'
+      },
+      expense:{
+        name:"费用管理",
+        expenseType:"费用类型",
+        refundReason:"退款原因"
+      },
+      chargeManagement:{
+        name:"收费管理",
+        chargeBill:"收款单",
+        refundBill:"退款单"
+      }
+    },
+    finance:{
+      name:'财务管理',
+      chargeBill:"收款单",
+      refundBill:"退款单"
+    },
+    project:{
+      name:"项目管理",
+      code:{
+        name:"代码管理",
+        base:"基础接口",
+        business:"业务接口"
+      },
+      version:"版本管理",
+      developer:"开发人员"
+    }
   },
 }

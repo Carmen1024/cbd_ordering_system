@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3125514 */
-  src: url('iconfont.woff2?t=1641871301958') format('woff2'),
-       url('iconfont.woff?t=1641871301958') format('woff'),
-       url('iconfont.ttf?t=1641871301958') format('truetype');
+  src: url('iconfont.woff2?t=1642051357783') format('woff2'),
+       url('iconfont.woff?t=1642051357783') format('woff'),
+       url('iconfont.ttf?t=1642051357783') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,118 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-project:before {
+  content: "\e8cf";
+}
+
+.icon-wwww:before {
+  content: "\e6c5";
+}
+
+.icon-service:before {
+  content: "\eb63";
+}
+
+.icon-tubiao-zhexiantu:before {
+  content: "\eb96";
+}
+
+.icon-jishufuwu:before {
+  content: "\ebce";
+}
+
+.icon-zuzhiqunzu:before {
+  content: "\ebd8";
+}
+
+.icon-APPkaifa:before {
+  content: "\ec23";
+}
+
+.icon-service1:before {
+  content: "\ec2e";
+}
+
+.icon-business:before {
+  content: "\e603";
+}
+
+.icon-developer:before {
+  content: "\e65c";
+}
+
+.icon-zip:before {
+  content: "\e6b1";
+}
+
+.icon-jiankongqu:before {
+  content: "\e6b6";
+}
+
+.icon-daimapianduan:before {
+  content: "\e6d6";
+}
+
+.icon-version:before {
+  content: "\e75f";
+}
+
+.icon-Notebook:before {
+  content: "\e81c";
+}
+
+.icon-yuangongzhanghaoguanli:before {
+  content: "\e620";
+}
+
+.icon-yuangong:before {
+  content: "\e76f";
+}
+
+.icon-finance:before {
+  content: "\e610";
+}
+
+.icon-shoufeiguanli:before {
+  content: "\e65b";
+}
+
+.icon-charge:before {
+  content: "\e74a";
+}
+
+.icon-chargeService:before {
+  content: "\e61e";
+}
+
+.icon-expense:before {
+  content: "\e659";
+}
+
+.icon-chargeManagement:before {
+  content: "\e65a";
+}
+
+.icon-w:before {
+  content: "\e606";
+}
+
+.icon-expenseType:before {
+  content: "\e60f";
+}
+
+.icon-chargeBill:before {
+  content: "\e652";
+}
+
+.icon-refundBill:before {
+  content: "\e657";
+}
+
+.icon-refundReason:before {
+  content: "\e658";
 }
 
 .icon-materialList:before {
@@ -45,7 +157,7 @@
   content: "\e654";
 }
 
-.icon-gerenzhuye:before {
+.icon-staff:before {
   content: "\e655";
 }
 
@@ -103,10 +215,6 @@
 
 .icon-role:before {
   content: "\e690";
-}
-
-.icon-staff:before {
-  content: "\e650";
 }
 
 .icon-jiaose:before {

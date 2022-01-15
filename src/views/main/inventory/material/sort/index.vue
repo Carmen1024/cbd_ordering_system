@@ -4,14 +4,20 @@
       <div class="layout-container-form-handle">
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增分类</el-button>
       </div>
+      <div class="layout-container-form-search">
+        <el-input v-model="filterText" placeholder="请输入分类名" />
+        <el-button type="primary" :icon="Search" class="search-btn" @click="getTree">{{ $t('message.common.search') }}</el-button>
+      </div>
     </div>
     <div class="layout-container-tree">
       <div class="block">
         <el-tree
+          ref="treeRef"
           :data="dataSource"
           node-key="id"
           default-expand-all
           :expand-on-click-node="false"
+          :filter-node-method="filterNode"
           :props="{ class: customNodeClass }"
         >
           <template #default="{ node, data }">
@@ -36,11 +42,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,ref,reactive } from 'vue'
+import { defineComponent,ref,reactive,watch } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import Layer from './layer.vue'
 import type { LayerInterface } from '@/components/layer/index.vue'
 import { Plus } from '@element-plus/icons'
+import type { ElTree } from 'element-plus'
+import { log } from 'console'
 
 export default defineComponent({
   name: 'materialSort',
@@ -133,7 +141,7 @@ export default defineComponent({
       if (data.isIndex) {
         return 'isIndex'
       }
-      return null
+      return `class_${data.id}`
     }
     const dataSource = ref<Tree[]>([
       {
@@ -185,6 +193,15 @@ export default defineComponent({
         ],
       },
     ])
+    const filterText = ref('')
+    const treeRef = ref<InstanceType<typeof ElTree>>()
+    const getTree=()=>{
+      treeRef.value!.filter(filterText.value)
+    }
+    const filterNode = (value: string, data: Tree) => {
+      if (!value) return true
+      return data.label.indexOf(value) !== -1
+    }
     return {
       dataSource,
       layer,
@@ -196,7 +213,10 @@ export default defineComponent({
       getNodeData,
       customNodeClass,
       Plus,
-      handleAdd
+      handleAdd,
+      filterText,
+      getTree,
+      filterNode
     }
   }
 })

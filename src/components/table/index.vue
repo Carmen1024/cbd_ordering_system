@@ -29,13 +29,15 @@
       @current-change="handleCurrentChange"
       @size-change="handleSizeChange"
     >
+    <span class="el-pagination__total">共 {{page.total}} 条</span>
     </el-pagination>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, onActivated, onMounted } from 'vue'
+import { defineComponent, reactive, ref, onActivated, onMounted,watch } from 'vue'
 import { Page } from '@/components/table/type'
+import { log } from 'console'
 export default defineComponent({
   props: {
     data: { type: Array, default: () => [] }, // 数据源
@@ -49,12 +51,18 @@ export default defineComponent({
         return { index: 1, size: 20, total: 0 }
       }
     },
-    pageLayout: { type: String, default: "total, sizes, prev, pager, next, jumper" }, // 分页需要显示的东西，默认全部
+    // 分页需要显示的东西，默认全部
+    pageLayout: { type: String, default: "slot, sizes, prev, pager, next, jumper" }, 
     pageSizes: { type: Array, default: [10, 20, 50, 100] }
   },
   setup(props, context) {
     const table: any = ref(null)
     let timer: any = null
+        // 监听数据的变化
+    watch(props.page, (newVal) => {
+      console.log(newVal);
+      
+    },{deep: true})
     // 分页相关：监听页码切换事件
     const handleCurrentChange = (val: Number) => {
       if (timer) {

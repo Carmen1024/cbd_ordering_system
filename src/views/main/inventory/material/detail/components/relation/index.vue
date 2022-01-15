@@ -11,16 +11,18 @@
         v-model:page="page"
         v-loading="loading"
         :showIndex="true"
-        :showSelection="true"
+        :showSelection="false"
         :data="tableData"
         :showPage="showPage"
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column prop="name" label="名称" align="center" />
-        <el-table-column prop="number" label="数字" align="center" />
-        <el-table-column prop="chooseName" label="选择器" align="center" />
-        <el-table-column prop="radioName" label="单选框" align="center" />
+        <!-- 序号 物料编码 物料名称 物料分类 订购单位 关联数量 操作 -->
+        <el-table-column prop="name" label="物料编码" align="center" />
+        <el-table-column prop="number" label="物料名称" align="center" />
+        <el-table-column prop="chooseName" label="物料分类" align="center" />
+        <el-table-column prop="radioName" label="订购单位" align="center" />
+        <el-table-column prop="radioName" label="关联数量" align="center" />
         <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
           <template #default="scope">
             <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>

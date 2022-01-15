@@ -85,7 +85,7 @@ export default defineComponent({
       border-top: solid 1px #ddd;
       margin-top: 10px;
       padding-top: 10px;
-      height: 50px;
+      // height: 50px;
     }
   }
 

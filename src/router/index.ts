@@ -23,6 +23,9 @@ import Dashboard from './modules/dashboard'
 import System from './modules/system'
 import Inventory from './modules/inventory';
 import Basic from './modules/basic';
+import Charge from './modules/charge';
+import Finance from './modules/finance';
+import Project from './modules/project';
 
 /** 
  * @name 初始化必须要的路由
@@ -47,6 +50,9 @@ let asyncRoutes: Route[] = [
   ...Dashboard,
   ...Basic,
   ...Inventory,
+  ...Charge,
+  ...Finance,
+  ...Project
 ]
 // 动态路由的权限新增，供登录后调用
 export async function addRoutes() {

@@ -47,7 +47,7 @@
         </el-table-column>
       </Table>
     </div>
-    <Drawer :drawer="drawer" v-if="drawer.show" /> 
+    <Detail :drawer="drawer" v-if="drawer.show" /> 
   </div>
 </template>
 
@@ -59,13 +59,13 @@ import { getData, del } from '@/api/table'
 import { ElMessage } from 'element-plus'
 import { selectData, radioData } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
-import Drawer from './drawer.vue';
+import Detail from './../detail/index.vue';
 import type { DrawerInterface } from '@/components/drawer/index.vue';
 export default defineComponent({
   name: 'crudTable',
   components: {
     Table,
-    Drawer
+    Detail
   },
   setup() {
     // 存储搜索用的数据
@@ -144,13 +144,13 @@ export default defineComponent({
     }
     // 新增弹窗功能
     const handleAdd = () => {
-      drawer.title = '新增数据'
+      drawer.title = '新增物料'
       drawer.show = true
       delete drawer.row
     }
     // 编辑弹窗功能
     const handleEdit = (row: object) => {
-      drawer.title='编辑数据-抽屉'
+      drawer.title='编辑物料'
       drawer.show = true
       drawer.row = row;
       console.log(drawer.value)

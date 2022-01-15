@@ -1,20 +1,22 @@
-<!--  -->
+<!-- 物料编辑单项 -->
 <template >
+  <Drawer :drawer="drawer" @confirm="submit">
     <div class="detail-container">
-        <p>基本信息-{{username}}</p>
-        <div class="layout-basic">
-            <BasicInformation />
-        </div>
-        <p>详细信息</p>
-        <div class="layout-full">
-            <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="存储信息" name="first"><StoreInformation /></el-tab-pane>
-                <el-tab-pane label="关联物料" name="second"><Relation /></el-tab-pane>
-                <el-tab-pane label="效期管理" name="third"><ValidityPeriod /></el-tab-pane>
-                <el-tab-pane label="补充信息" name="fourth"><AdditionalInformation /></el-tab-pane>
-            </el-tabs>
-        </div>
+      <p>基本信息</p>
+      <div class="layout-basic">
+        <BasicInformation />
+      </div>
+      <p>详细信息</p>
+      <div class="layout-full">
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="存储信息" name="first"><StoreInformation /></el-tab-pane>
+          <el-tab-pane label="关联物料" name="second"><Relation /></el-tab-pane>
+          <el-tab-pane label="效期管理" name="third"><ValidityPeriod /></el-tab-pane>
+          <el-tab-pane label="补充信息" name="fourth"><AdditionalInformation /></el-tab-pane>
+        </el-tabs>
+      </div>
     </div>
+  </Drawer>
 </template>
 
 <script lang='ts'>
@@ -24,31 +26,62 @@ import StoreInformation from './components/storeInformation.vue'
 import Relation from './components/relation/index.vue';
 import ValidityPeriod from './components/validityPeriod.vue';
 import AdditionalInformation from './components/additionalInformation.vue';
-import { useRoute } from 'vue-router'
+import Drawer from '@/components/drawer/index.vue';
 export default defineComponent({
   name: 'materialDetail',
+  props:{
+    drawer:{
+      type: Object,
+      default: () => {
+          return {
+              show: false,
+              title:'',
+              showButton:true
+          }
+      }
+    }
+  },
   components:{
     BasicInformation,
     StoreInformation,
     Relation,
     ValidityPeriod,
-    AdditionalInformation
+    AdditionalInformation,
+    Drawer,
   },
-  setup(){
+  setup(props){
     const activeName = ref('first')    
-    let username = ref('')
+    let form = ref({
+      id:'',
+      name: ''
+    })
+    const rules = {
+      label: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+    }
+    init()
+    function init() { // 用于判断新增还是编辑功能
+      if (props.drawer.row) {
+        form.value = JSON.parse(JSON.stringify(props.drawer.row)) // 数量量少的直接使用这个转
+      } else {
+
+      }
+    }
     const handleClick = (tab: string, event: Event) => {
     console.log(tab, event)
     }
-    const route = useRoute();
-      // 打印
-    username = ref(<string>route.query.username)
-    console.log(username);
-
+    // import { useRoute } from 'vue-router'
+    // const route = useRoute();
+    // username = ref(<string>route.query.username)
+    // 打印
+    const submit = ()=>{
+      console.log("confirm");
+      props.drawer.show = false;
+    }
     return{
       activeName,
-      username,
-      handleClick
+      handleClick,
+      form,
+      submit
     }
   },
 })

@@ -1,13 +1,13 @@
 import axios , { AxiosError, AxiosRequestConfig, AxiosResponse, AxiosInstance } from 'axios'
 import store from '@/store'
 import { ElMessage } from 'element-plus'
+import { getConfigData } from './../transform/httpConfig';
 const baseURL: any = import.meta.env.VITE_BASE_URL
 
 const service: AxiosInstance = axios.create({
   baseURL: baseURL,
   timeout: 5000
 })
-
 // 请求前的统一处理
 service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
@@ -15,6 +15,9 @@ service.interceptors.request.use(
     if (store.getters['user/token']) {
       config.headers['token'] = store.state.user.token
     }
+    config.data = getConfigData(config.data)
+    // console.log(config);
+    
     return config
   },
   (error: AxiosError) => {
@@ -22,11 +25,11 @@ service.interceptors.request.use(
     return Promise.reject(error)
   }
 )
-
+// 请求结果统一处理
 service.interceptors.response.use(
   (response: AxiosResponse) => {
     const res = response.data
-    if (res.code === 200) {
+    if (res.code == '0000') {
       return res
     } else {
       showError(res)
@@ -50,7 +53,7 @@ function showError(error: any) {
     store.dispatch('user/loginOut')
   } else {
     ElMessage({
-      message: error.msg || error.message || '服务异常',
+      message: error.desc || error.message || '服务异常',
       type: 'error',
       duration: 3 * 1000
     })

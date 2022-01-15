@@ -1,7 +1,12 @@
-import { ConfigEnv, UserConfigExport } from 'vite'
+import { ConfigEnv, UserConfigExport, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { viteMockServe } from 'vite-plugin-mock'
 import { resolve } from 'path'
+
+//获取环境变量
+const getEnv = (mode,env)=> {
+  return loadEnv(mode, process.cwd())[env];
+}
 
 const pathResolve = (dir: string): any => {
   return resolve(__dirname, ".", dir)
@@ -12,14 +17,14 @@ const alias: Record<string, string> = {
 }
 
 // https://vitejs.dev/config/
-export default ({ command }: ConfigEnv): UserConfigExport => {
+export default ({ command,mode }: ConfigEnv): UserConfigExport => {
   const prodMock = true;
   return {
     resolve: {
       alias
     },
     server: {
-      port: 8080,
+      port: Number(getEnv(mode, "VITE_PORT")) || 8080,
       host: '127.0.0.1',
       open: true,
       proxy: { // 代理配置
