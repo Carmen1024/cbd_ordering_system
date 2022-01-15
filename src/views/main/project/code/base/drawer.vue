@@ -16,7 +16,7 @@
             <el-input
               v-model="strObj.f_must_str"
               @blur="strToJson('f_must')"
-              :rows="3"
+              :autosize="{ minRows: 3, maxRows: 10 }"
               type="textarea"
               placeholder="请填写正确的json格式，key必须使用双引号"
             />
@@ -40,7 +40,7 @@
             <el-input
               v-model="strObj.f_tacit_str"
               @blur="strToJson('f_tacit')"
-              :rows="3"
+              :autosize="{ minRows: 3, maxRows: 10 }"
               type="textarea"
               placeholder="请填写正确的json格式，key必须使用双引号"
             />
@@ -52,7 +52,7 @@
             <el-input
               v-model="strObj.f_ext_str"
               @blur="strToJson('f_ext')"
-              :rows="3"
+              :autosize="{ minRows: 3, maxRows: 10 }"
               type="textarea"
               placeholder="请填写正确的json格式，key必须使用双引号"
             />
@@ -64,7 +64,7 @@
             <el-input
               v-model="strObj.f_res_str"
               @blur="strToJson('f_res')"
-              :rows="3"
+              :autosize="{ minRows: 3, maxRows: 10 }"
               type="textarea"
               placeholder="请填写正确的json格式，key必须使用双引号"
             />
@@ -76,7 +76,7 @@
             <el-input
               v-model="strObj.f_mq_str"
               @blur="strToJson('f_mq')"
-              :rows="3"
+              :autosize="{ minRows: 3, maxRows: 10 }"
               type="textarea"
               placeholder="请填写正确的json格式，key必须使用双引号"
             />
@@ -206,12 +206,14 @@ export default defineComponent({
     },
     // 编辑提交事件
     updateForm() {
+      const { _id,f_name,f_path,f_must_enable,f_must,f_should_enable,f_should,
+      f_tacit_enable,f_tacit,f_ext_enable,f_ext,f_res_enable,f_res,f_mq_enable,f_mq } = this.form;
       const params = {
         "eq": {
-          "_id": this.form._id
+          _id
         },
         "set": {
-          ...this.form
+          f_name,f_path,f_must_enable,f_must,f_should_enable,f_should,f_tacit_enable,f_tacit,f_ext_enable,f_ext,f_res_enable,f_res,f_mq_enable,f_mq
         }
       }
       filterUpdate(params)

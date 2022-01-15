@@ -25,12 +25,22 @@
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-      <!-- 序号 档案编号 档案名称 生效区域 状态 备注 操作 -->
-        <el-table-column prop="name" label="档案编号" align="center" />
-        <el-table-column prop="number" label="档案名称" align="center" />
-        <el-table-column prop="chooseName" label="生效区域" align="center" />
-        <el-table-column prop="dateName" label="状态" align="center" />
-        <el-table-column prop="dateName" label="备注" align="center" />
+        <el-table-column prop="f_name" label="接口名称" align="center" />
+        <el-table-column prop="f_path" label="接口路径" align="center" />
+        <!-- <el-table-column prop="f_path" label="类型" align="center" /> -->
+        <el-table-column label="状态" align="center">
+          <template #default="scope">
+            <el-switch
+            v-model="scope.row.c_valid"
+            active-text="有效"
+            inactive-text="无效"
+            @change="handleSwitch(scope.row)"
+          >
+          </el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column prop="c_update_time" label="更新时间" align="center" />
+        <el-table-column prop="c_update_user" label="更新人" align="center" />
         <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
           <template #default="scope">
             <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>

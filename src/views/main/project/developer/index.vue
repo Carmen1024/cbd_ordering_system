@@ -4,17 +4,15 @@
       <Table
         ref="table"
         v-model:page="page"
-        v-loading="loading"
         :showIndex="true"
-        :showSelection="true"
         :data="tableData"
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
         <!-- <el-table-column prop="name" label="工号" align="center" /> -->
-        <el-table-column prop="number" label="姓名" align="center" />
-        <el-table-column prop="chooseName" label="岗位" align="center" />
-        <el-table-column prop="dateName" label="部门" align="center" />
+        <el-table-column prop="name" label="姓名" align="center" />
+        <el-table-column prop="developerName" label="岗位" align="center" />
+        <el-table-column prop="departmentName" label="部门" align="center" />
       </Table>
     </div>
   </div>
@@ -24,10 +22,8 @@
 import { defineComponent, ref, reactive } from 'vue'
 import Table from '@/components/table/index.vue'
 import { Page } from '@/components/table/type'
-import { getData, del } from '@/api/table'
-import { ElMessage } from 'element-plus'
 import type { LayerInterface } from '@/components/layer/index.vue'
-import { developerData, dateData } from './enum'
+import { developerData, departmentData, developers } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
 export default defineComponent({
   name: 'crudTable',
@@ -53,41 +49,30 @@ export default defineComponent({
     })
     const loading = ref(true)
     const tableData = ref([])
-    const chooseData = ref([])
-    const handleSelectionChange = (val: []) => {
-      chooseData.value = val
-    }
     // 获取表格数据
     // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
-    const getTableData = (init: boolean) => {
-        let data = [{
-          _id:'',name:'胡建光',work:'',department:'信息技术部'
-        }]
+    const getTableData = () => {
+        let data = developers;
         if (Array.isArray(data)) {
           data.forEach(d => {
-            const select = developerData.find(select => select.value === d.choose)
-            select ? d.chooseName = select.label : d.chooseName = d.choose
-            const date = dateData.find(select => select.value === d.date)
-            date ? d.dateName = date.label : d.date
+            const select = developerData.find(select => select.value === d.developer)
+            select ? d.developerName = select.label : d.developerName = d.department
+            const date = departmentData.find(select => select.value === d.department)
+            date ? d.departmentName = date.label : d.departmentName = d.developer
           })
         }
         tableData.value = data
     }
-    getTableData(true)
+    getTableData()
     return {
       Plus,
       Search,
       Delete,
       query,
       tableData,
-      chooseData,
       loading,
       page,
       layer,
-      handleSelectionChange,
-      handleAdd,
-      handleEdit,
-      handleDel,
       getTableData
     }
   }

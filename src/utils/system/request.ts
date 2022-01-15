@@ -29,7 +29,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response: AxiosResponse) => {
     const res = response.data
-    if (res.code == '0000') {
+    if (['0000',200].includes(res.code)) {
       return res
     } else {
       showError(res)

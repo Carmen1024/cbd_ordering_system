@@ -110,7 +110,7 @@ export default {
       name:"项目管理",
       code:{
         name:"代码管理",
-        base:"基础接口",
+        base:"接口管理",
         business:"业务接口"
       },
       version:"版本管理",

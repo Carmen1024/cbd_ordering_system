@@ -63,3 +63,11 @@ export function filterValid(data: object) {
     data
   })
 }
+
+export function requestTest(url:string,data:object) {
+  return request({
+    url,
+    method: 'post',
+    data
+  })
+}

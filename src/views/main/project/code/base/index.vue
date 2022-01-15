@@ -21,7 +21,7 @@
       >
       <!-- 接口名称 接口路径 -->
         <el-table-column prop="f_name" label="接口名称" align="center" />
-        <el-table-column prop="f_path" label="路径" align="center" />
+        <el-table-column prop="f_path" label="接口路径" align="center" />
         <!-- <el-table-column prop="f_path" label="类型" align="center" /> -->
         <el-table-column label="状态" align="center">
           <template #default="scope">
@@ -36,9 +36,10 @@
         </el-table-column>
         <el-table-column prop="c_update_time" label="更新时间" align="center" />
         <el-table-column prop="c_update_user" label="更新人" align="center" />
-        <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
+        <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="300">
           <template #default="scope">
             <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
+            <el-button @click="handleTest(scope.row)">接口测试</el-button>
             <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel(scope.row)">
               <template #reference>
                 <el-button type="danger">{{ $t('message.common.del') }}</el-button>
@@ -48,6 +49,7 @@
         </el-table-column>
       </Table>
       <Drawer :drawer="drawer" v-if="drawer.show" /> 
+      <Layer :layer="layer" v-if="layer.show" />
     </div>
   </div>
 </template>
@@ -63,11 +65,14 @@ import { selectData, dateData } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
 import Drawer from './drawer.vue';
 import type { DrawerInterface } from '@/components/drawer/index.vue';
+import { LayerInterface } from '@/components/layer/index.vue';
+import Layer from './layer.vue';
 export default defineComponent({
   name: 'orderRules',
   components: {
     Table,
-    Drawer
+    Drawer,
+    Layer
   },
   setup() {
     // 存储搜索用的数据
@@ -83,6 +88,12 @@ export default defineComponent({
       title:"编辑接口",
       showButton:true,
       width:'50%'
+    })
+    const layer: LayerInterface=reactive({
+      width:'30%',
+      show: false,
+      title: '新增',
+      showButton: true
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
@@ -149,6 +160,12 @@ export default defineComponent({
       drawer.row = row;
       console.log(drawer.value)
     }
+    const handleTest = (row: object) => {
+      layer.title='测试接口'
+      layer.show = true
+      layer.row = row;
+      console.log(drawer.value)
+    }
     const handleSwitch = (row: object) => {
       let params = {"eq": {"_id": row._id},"set": {"c_valid": row.c_valid}};
       filterValid(params)
@@ -176,7 +193,9 @@ export default defineComponent({
       handleSwitch,
       handleDel,
       getTableData,
-      drawer
+      drawer,
+      layer,
+      handleTest
     }
   }
 })
