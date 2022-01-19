@@ -15,6 +15,7 @@ export default [
     url: `/mock/user/login`,
     method: 'post',
     response: ({ body }) => {
+      body = body.data;
       const user = users.find(user => {
         return body.name === user.name && body.password === user.password
       })
@@ -39,7 +40,7 @@ export default [
     url: `/mock/user/info`,
     method: 'post',
     response: ({ body }) => {
-      const { token } = body
+      const { token } = body.data
       const info = users.find(user => {
         return user.token === token
       }).info

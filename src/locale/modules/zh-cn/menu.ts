@@ -18,13 +18,6 @@ export default {
       radar: '雷达图',
       map: '地图',
     },
-    // 以下
-    material:{
-      name:"物料管理",
-      list:"物料列表",
-      detail:"物料详情",
-      sort:"物料分类"
-    },
     basic:{
       name:"基础管理",
       customer:{
@@ -67,7 +60,7 @@ export default {
       },
       material:{
         name:"物料管理",
-        sort:"物料分类",
+        classify:"物料分类",
         list:"物料列表",
         detail:"物料详情",
         bom:{
@@ -110,10 +103,10 @@ export default {
       name:"项目管理",
       code:{
         name:"代码管理",
-        base:"接口管理",
+        base:"接口列表",
         business:"业务接口"
       },
-      version:"版本管理",
+      version:"开发版本",
       developer:"开发人员"
     }
   },

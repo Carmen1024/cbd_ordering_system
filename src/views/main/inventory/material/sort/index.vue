@@ -2,11 +2,9 @@
   <div class="layout-container">
     <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
-        <el-button type="primary" :icon="Plus" @click="handleAdd">新增分类</el-button>
-      </div>
-      <div class="layout-container-form-search">
         <el-input v-model="filterText" placeholder="请输入分类名" />
-        <el-button type="primary" :icon="Search" class="search-btn" @click="getTree">{{ $t('message.common.search') }}</el-button>
+        <el-button :icon="Search" class="search-btn" @click="getTree">{{ $t('message.common.search') }}</el-button>
+        <el-button type="primary" :icon="Plus" @click="handleAdd">新增分类</el-button>
       </div>
     </div>
     <div class="layout-container-tree">
@@ -18,7 +16,7 @@
           default-expand-all
           :expand-on-click-node="false"
           :filter-node-method="filterNode"
-          :props="{ class: customNodeClass }"
+          :props="props"
         >
           <template #default="{ node, data }">
             <span class="custom-tree-node">
@@ -46,9 +44,9 @@ import { defineComponent,ref,reactive,watch } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import Layer from './layer.vue'
 import type { LayerInterface } from '@/components/layer/index.vue'
-import { Plus } from '@element-plus/icons'
+import { Search,Plus } from '@element-plus/icons'
 import type { ElTree } from 'element-plus'
-import { log } from 'console'
+import { classifyQuery } from '@/api/material/classify';
 
 export default defineComponent({
   name: 'materialSort',
@@ -62,6 +60,11 @@ export default defineComponent({
       label: string
       children?: Tree[]
     }
+    const props = {
+      label: 'clf_name',
+      children: 'children',
+      isLeaf: 'leaf',
+    }
     let id = 1000
     // 弹窗控制器
     const layer: LayerInterface = reactive({
@@ -70,6 +73,11 @@ export default defineComponent({
       title: '新增',
       showButton: true
     })
+    // classifyQuery()
+    const getData=()=>{
+      
+    }
+
     //正在操作的节点
     let handleNode:Node
     let handleData:Tree
@@ -137,12 +145,7 @@ export default defineComponent({
     const getNodeData = (form:any,type:boolean) => {
       type ? (handleIndex ? appendIndex(form) : append(form)) : edit(form);
     }
-    const customNodeClass = (data: Tree, node: Node) => {
-      if (data.isIndex) {
-        return 'isIndex'
-      }
-      return `class_${data.id}`
-    }
+
     const dataSource = ref<Tree[]>([
       {
         id: 1,
@@ -210,9 +213,10 @@ export default defineComponent({
       appendIndex,
       edit,
       remove,
+      props,
       getNodeData,
-      customNodeClass,
       Plus,
+      Search,
       handleAdd,
       filterText,
       getTree,

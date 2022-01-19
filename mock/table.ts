@@ -5,7 +5,7 @@ export default [
     url: `/mock/table/list`,
     method: 'post',
     response: ({ body }) => {
-      const { page, pageSize } = body
+      const { page, pageSize } = body.data
       return {
         code: 200,
         data: {

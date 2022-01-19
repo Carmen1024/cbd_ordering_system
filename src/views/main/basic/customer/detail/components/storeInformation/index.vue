@@ -1,48 +1,31 @@
 <template>
-  <div class="layout-container">
-    <div class="layout-container-form flex space-between">
-      <div class="layout-container-form-handle">
+    <div class="layout-container-card">
         <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
-        <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel(chooseData)">
-          <template #reference>
-            <el-button type="danger" :icon="Delete" :disabled="chooseData.length === 0">{{ $t('message.common.delBat') }}</el-button>
-          </template>
-        </el-popconfirm>
-      </div>
-      <div class="layout-container-form-search">
-        <el-input v-model="query.input" :placeholder="$t('message.common.searchTip')" @change="getTableData(true)"></el-input>
-        <el-button type="primary" :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
-      </div>
+        <div class="cardItems">
+          <div class="card-row" v-for="(row,index) in cardData" :key="index">
+            <div class="card-row-title">
+              <div class="card-row-title-main">门店名称{{index+1}}</div>
+              <div class="card-row-title-handle">
+                <el-button @click="handleEdit(row)" :icon="Search" circle size="small"></el-button>
+                <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([row])">
+                  <template #reference>
+                    <el-button size="small" type="danger" :icon="Delete" circle></el-button>
+                  </template>
+                </el-popconfirm>
+              </div>
+            </div>
+            <div class="card-row-main">
+              <div><label>门店品牌</label><span>{{index+1}}</span></div>
+              <div><label>门店名称</label><span>{{index+1}}</span></div>
+              <div><label>门店 ID</label><span>{{index+1}}</span></div>
+              <div><label>所属组织</label><span>{{index+1}}</span></div>
+              <div><label>门店组别</label><span>{{index+1}}</span></div>
+            </div>
+          </div>
+        </div>
     </div>
-    <div class="layout-container-table">
-      <Table
-        ref="table"
-        v-model:page="page"
-        v-loading="loading"
-        :showIndex="true"
-        :showSelection="true"
-        :data="tableData"
-        @getTableData="getTableData"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column prop="name" label="名称" align="center" />
-        <el-table-column prop="number" label="数字" align="center" />
-        <el-table-column prop="chooseName" label="选择器" align="center" />
-        <el-table-column prop="radioName" label="单选框" align="center" />
-        <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
-          <template #default="scope">
-            <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
-            <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([scope.row])">
-              <template #reference>
-                <el-button type="danger">{{ $t('message.common.del') }}</el-button>
-              </template>
-            </el-popconfirm>
-          </template>
-        </el-table-column>
-      </Table>
-      <Layer :layer="layer" @getTableData="getTableData" v-if="layer.show" />
-    </div>
-  </div>
+    <Layer :layer="layer" v-if="layer.show" />
+    <!-- <Layer :layer="layer" @getCardData="getCardData" v-if="layer.show" /> -->
 </template>
 
 <script lang="ts">
@@ -53,7 +36,7 @@ import { getData, del } from '@/api/table'
 import Layer from './layer.vue'
 import { ElMessage } from 'element-plus'
 import type { LayerInterface } from '@/components/layer/index.vue'
-import { selectData, radioData } from './enum'
+import { selectData, dateData } from './../../enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
 export default defineComponent({
   name: 'crudTable',
@@ -70,23 +53,24 @@ export default defineComponent({
     const layer: LayerInterface = reactive({
       show: false,
       title: '新增',
-      showButton: true
+      showButton: false,
+      width:'50%'
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
       index: 1,
-      size: 20,
+      size: 10,
       total: 0
     })
     const loading = ref(true)
-    const tableData = ref([])
+    const cardData = ref([])
     const chooseData = ref([])
     const handleSelectionChange = (val: []) => {
       chooseData.value = val
     }
     // 获取表格数据
     // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
-    const getTableData = (init: boolean) => {
+    const getCardData = (init: boolean) => {
       loading.value = true
       if (init) {
         page.index = 1
@@ -103,15 +87,15 @@ export default defineComponent({
           data.forEach(d => {
             const select = selectData.find(select => select.value === d.choose)
             select ? d.chooseName = select.label : d.chooseName = d.choose
-            const radio = radioData.find(select => select.value === d.radio)
-            radio ? d.radioName = radio.label : d.radio
+            const date = dateData.find(select => select.value === d.date)
+            date ? d.dateName = date.label : d.date
           })
         }
-        tableData.value = res.data.list
+        cardData.value = res.data.list
         page.total = Number(res.data.pager.total)
       })
       .catch(error => {
-        tableData.value = []
+        cardData.value = []
         page.index = 1
         page.total = 0
       })
@@ -132,7 +116,7 @@ export default defineComponent({
           type: 'success',
           message: '删除成功'
         })
-        getTableData(tableData.value.length === 1 ? true : false)
+        getCardData(cardData.value.length === 1 ? true : false)
       })
     }
     // 新增弹窗功能
@@ -147,13 +131,13 @@ export default defineComponent({
       layer.row = row
       layer.show = true
     }
-    getTableData(true)
+    getCardData(true)
     return {
       Plus,
       Search,
       Delete,
       query,
-      tableData,
+      cardData,
       chooseData,
       loading,
       page,
@@ -162,12 +146,52 @@ export default defineComponent({
       handleAdd,
       handleEdit,
       handleDel,
-      getTableData
+      getCardData
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
-  
+  .layout-container-card{
+    // padding:15px;
+    .cardItems{
+      display: flex;
+      flex-wrap: wrap;
+      .card-row{
+        width: 350px;
+        margin: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(rgb(168, 168, 168), .8);
+        &-title{
+          display: flex;
+          padding:10px;
+          line-height: 30px;
+          border-bottom: solid 1px #ddd;
+          &-main{
+            width: 200px;
+            font-weight: bold;
+            flex: 2;
+          }
+          &-handle{
+            width: 80px;
+          }
+        }
+        &-main{
+          padding:10px;
+          line-height: 30px;
+          div{
+            display: flex;
+            label{
+              width: 90px;
+              color:var(--system-primary-color)
+            }
+          }
+
+        }
+      }
+    }
+
+
+  }
 </style>

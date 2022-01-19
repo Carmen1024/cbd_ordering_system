@@ -1,21 +1,36 @@
 <template>
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
+    <!-- 序号 物料编码 物料名称 物料分类 订购单位 关联数量 操作 -->
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
-      <el-form-item label="名称：" prop="name">
+      <el-form-item label="设备平台：" prop="name">
         <el-input v-model="form.name" placeholder="请输入名称"></el-input>
       </el-form-item>
-      <el-form-item label="数字：" prop="number">
+      <el-form-item label="打印任务：" prop="number">
         <el-input v-model="form.number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>
       </el-form-item>
-			<el-form-item label="选择器：" prop="select">
+			<el-form-item label="设备型号：" prop="select">
 			  <el-select v-model="form.choose" placeholder="请选择" clearable>
 					<el-option v-for="item in selectData" :key="item.value" :label="item.label" :value="item.value"></el-option>
 				</el-select>
 			</el-form-item>
-      <el-form-item label="单选框：" prop="radio">
+      <el-form-item label="纸张规则：" prop="radio">
         <el-radio-group v-model="form.radio">
           <el-radio v-for="item in radioData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
         </el-radio-group>
+      </el-form-item>
+      <el-form-item label="设备SN：" prop="name">
+        <el-input v-model="form.name" placeholder="请输入名称"></el-input>
+      </el-form-item>
+      <el-form-item label="设备Key：" prop="name">
+        <el-input v-model="form.name" placeholder="请输入名称"></el-input>
+      </el-form-item>
+      <el-form-item label="启用状态：" prop="date">
+        <el-switch
+          v-model="value1"
+          active-text="开启"
+          inactive-text="关闭"
+        >
+        </el-switch>
       </el-form-item>
     </el-form>
   </Layer>
@@ -27,7 +42,7 @@ import type { Ref } from 'vue'
 import type { ElFormItemContext } from 'element-plus/lib/el-form/src/token'
 import { defineComponent, ref } from 'vue'
 import { add, update } from '@/api/table'
-import { selectData, radioData } from './enum'
+import { selectData, radioData } from './../../enum'
 import Layer from '@/components/layer/index.vue'
 export default defineComponent({
   components: {

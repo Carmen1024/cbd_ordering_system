@@ -2,21 +2,25 @@
 <template>
    <Drawer :drawer="drawer" @confirm="submit">
       <Form>
-        <el-form :model="form" :rules="rules" ref="ruleForm" label-width="150px">
+        <el-form :model="form" :rules="rules" ref="ruleForm" label-width="150px" class="form-item-jv">
           <el-form-item label="接口名称：" prop="f_name">
             <el-input v-model="form.f_name" placeholder="请输入接口名称"></el-input>
           </el-form-item>
           <el-form-item label="接口路径：" prop="f_path">
             <el-input v-model="form.f_path" placeholder="只能输入字母，下划线，数字，斜杠"></el-input>
           </el-form-item>
+          <el-form-item label="接口描述：" prop="c_desc">
+            <el-input v-model="form.c_desc" placeholder="请输入"></el-input>
+          </el-form-item>
           <el-form-item label="是否验证必填项：" prop="f_must_enable">
             <el-switch v-model="form.f_must_enable" active-text="验证" inactive-text="不验证" />
           </el-form-item>
-          <el-form-item label="必填项：" prop="f_must">
+          <el-form-item label="必填项：" prop="f_must" class="form-item-jv">
+            <json-viewer :value="form.f_must" copyable boxed sort />
             <el-input
               v-model="strObj.f_must_str"
               @blur="strToJson('f_must')"
-              :autosize="{ minRows: 3, maxRows: 10 }"
+              :rows="10"
               type="textarea"
               placeholder="请填写正确的json格式，key必须使用双引号"
             />
@@ -24,11 +28,12 @@
           <el-form-item label="是否过滤可选项：" prop="f_should_enable">
             <el-switch v-model="form.f_should_enable" active-text="过滤" inactive-text="不过滤" />
           </el-form-item>
-          <el-form-item label="可选项：" prop="f_should">
+          <el-form-item label="可选项：" prop="f_should" class="form-item-jv">
+            <json-viewer :value="form.f_should" copyable boxed sort />
             <el-input
               v-model="strObj.f_should_str"
               @blur="strToJson('f_should')"
-              :autosize="{ minRows: 3, maxRows: 10 }"
+              :rows="10"
               type="textarea"
               placeholder="请填写正确的json格式，key必须使用双引号"
             />
@@ -36,11 +41,12 @@
           <el-form-item label="是否填入默认值：" prop="f_tacit_enable">
             <el-switch v-model="form.f_tacit_enable" active-text="填入" inactive-text="不填入" />
           </el-form-item>
-          <el-form-item label="默认值：" prop="f_tacit">
+          <el-form-item label="默认值：" prop="f_tacit" class="form-item-jv">
+            <json-viewer :value="form.f_tacit" copyable boxed sort />
             <el-input
               v-model="strObj.f_tacit_str"
               @blur="strToJson('f_tacit')"
-              :autosize="{ minRows: 3, maxRows: 10 }"
+              :rows="10"
               type="textarea"
               placeholder="请填写正确的json格式，key必须使用双引号"
             />
@@ -48,11 +54,12 @@
           <el-form-item label="是否填入扩展值：" prop="f_ext_enable">
             <el-switch v-model="form.f_ext_enable" active-text="过滤" inactive-text="不过滤" />
           </el-form-item>          
-          <el-form-item label="扩展值：" prop="f_ext">
+          <el-form-item label="扩展值：" prop="f_ext" class="form-item-jv">
+            <json-viewer :value="form.f_ext" copyable boxed sort />
             <el-input
               v-model="strObj.f_ext_str"
               @blur="strToJson('f_ext')"
-              :autosize="{ minRows: 3, maxRows: 10 }"
+              :rows="10"
               type="textarea"
               placeholder="请填写正确的json格式，key必须使用双引号"
             />
@@ -60,23 +67,25 @@
           <el-form-item label="是否过滤返回值：" prop="f_res_enable">
             <el-switch v-model="form.f_res_enable" active-text="过滤" inactive-text="不过滤" />
           </el-form-item>
-          <el-form-item label="返回值：" prop="f_res">
+          <el-form-item label="返回值：" prop="f_res" class="form-item-jv">
+            <json-viewer :value="form.f_res" copyable boxed sort />
             <el-input
               v-model="strObj.f_res_str"
               @blur="strToJson('f_res')"
-              :autosize="{ minRows: 3, maxRows: 10 }"
+              :rows="10"
               type="textarea"
-              placeholder="请填写正确的json格式，key必须使用双引号"
+              placeholder="请填写正确的json格式，key必须使用双引号。"
             />
           </el-form-item>
           <el-form-item label="是否发送异步消息：" prop="f_mq_enable">
             <el-switch v-model="form.f_mq_enable" active-text="过滤" inactive-text="不过滤" />
           </el-form-item>
-          <el-form-item label="异步消息：" prop="f_mq">
+          <el-form-item label="异步消息：" prop="f_mq" class="form-item-jv">
+            <json-viewer :value="form.f_mq" copyable boxed sort />
             <el-input
               v-model="strObj.f_mq_str"
               @blur="strToJson('f_mq')"
-              :autosize="{ minRows: 3, maxRows: 10 }"
+              :rows="10"
               type="textarea"
               placeholder="请填写正确的json格式，key必须使用双引号"
             />
@@ -95,6 +104,7 @@ import {dateData} from './enum';
 import Form from '@/components/Form/index.vue';
 import { filterInsert,filterUpdate } from '@/api/project/code';
 import { baseInterface } from './api';
+import { ElMessage } from 'element-plus'
 export default defineComponent({
   name: 'name',
   components:{
@@ -120,8 +130,9 @@ export default defineComponent({
       f_path: [{ required: true, message: '请输入接口路径', trigger: 'blur' }]
     }
     let form = ref({
-      "f_name": "测试新增接口",
-      "f_path": "/test",
+      "f_name": "",
+      "f_path": "",
+      "c_desc":"接口描述",
       "f_must_enable": true,
       "f_must": {"eq":{"_id":""}},
       "f_should_enable": true,
@@ -143,7 +154,6 @@ export default defineComponent({
       "f_mq_str":"",
       "f_res_str":"",
     })
-    const objArray = ["f_must","f_should","f_ext","f_tacit","f_mq","f_res"];
     init()
     function init() { // 用于判断新增还是编辑功能
       if (props.drawer.row) {
@@ -153,24 +163,31 @@ export default defineComponent({
       } else {
 
       }
-      jsonToStr();
+      // jsonToStr();
     }
     const strToJson=(val:string)=>{
       // console.log(form,strObj[val+'_str']);
-      form.value[val] = JSON.parse(strObj.value[val+'_str']);
-      // console.log(form);
+      try{
+        form.value[val] = JSON.parse(strObj.value[val+'_str']);
+      }catch(e){
+        ElMessage({
+          type: 'error',
+          message: '请填写正确的json格式'
+        })
+      }
+      console.log(form);
     }
-    function jsonToStr(){
-      objArray.map(item=>{
-        strObj.value[item+"_str"] = JSON.stringify(form.value[item])
-      })
-    }
+    // function jsonToStr(){
+    //   objArray.map(item=>{
+    //     strObj.value[item+"_str"] = JSON.stringify(form.value[item])
+    //   })
+    // }
     return{
       form,
       dateData,
       strToJson,
       strObj,
-      objArray,
+      // objArray,
       rules,
       ruleForm,
     }
@@ -206,14 +223,14 @@ export default defineComponent({
     },
     // 编辑提交事件
     updateForm() {
-      const { _id,f_name,f_path,f_must_enable,f_must,f_should_enable,f_should,
+      const { _id,f_name,f_path,c_desc,f_must_enable,f_must,f_should_enable,f_should,
       f_tacit_enable,f_tacit,f_ext_enable,f_ext,f_res_enable,f_res,f_mq_enable,f_mq } = this.form;
       const params = {
         "eq": {
           _id
         },
         "set": {
-          f_name,f_path,f_must_enable,f_must,f_should_enable,f_should,f_tacit_enable,f_tacit,f_ext_enable,f_ext,f_res_enable,f_res,f_mq_enable,f_mq
+          f_name,f_path,c_desc,f_must_enable,f_must,f_should_enable,f_should,f_tacit_enable,f_tacit,f_ext_enable,f_ext,f_res_enable,f_res,f_mq_enable,f_mq
         }
       }
       filterUpdate(params)
@@ -232,6 +249,7 @@ export default defineComponent({
 <style src="@wangeditor/editor/dist/css/style.css"></style>
 <style lang='scss' scoped>
 .formContainer {
+  max-width: 95%;
   .el-form {
     .el-form-item{
       width: 90%;

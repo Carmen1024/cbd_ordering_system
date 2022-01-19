@@ -22,13 +22,10 @@
         :showIndex="true"
         :showSelection="true"
         :data="tableData"
+        :columnData="columnData"
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column prop="name" label="名称" align="center" />
-        <el-table-column prop="number" label="数字" align="center" />
-        <el-table-column prop="chooseName" label="选择器" align="center" />
-        <el-table-column prop="radioName" label="单选框" align="center" />
         <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
           <template #default="scope">
             <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
@@ -40,7 +37,7 @@
           </template>
         </el-table-column>
       </Table>
-      <Layer :layer="layer" @getTableData="getTableData" v-if="layer.show" />
+      <Detail :drawer="drawer" v-if="drawer.show" />
     </div>
   </div>
 </template>
@@ -50,16 +47,16 @@ import { defineComponent, ref, reactive } from 'vue'
 import Table from '@/components/table/index.vue'
 import { Page } from '@/components/table/type'
 import { getData, del } from '@/api/table'
-import Layer from './layer.vue'
 import { ElMessage } from 'element-plus'
-import type { LayerInterface } from '@/components/layer/index.vue'
+import type { DrawerInterface } from '@/components/drawer/index.vue'
 import { selectData, radioData } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
+import Detail from './../detail/index.vue';
 export default defineComponent({
   name: 'crudTable',
   components: {
     Table,
-    Layer
+    Detail
   },
   setup() {
     // 存储搜索用的数据
@@ -67,10 +64,11 @@ export default defineComponent({
       input: ''
     })
     // 弹窗控制器
-    const layer: LayerInterface = reactive({
-      show: false,
-      title: '新增',
-      showButton: true
+    const drawer: DrawerInterface = reactive({
+      show:false,
+      title:"编辑规则",
+      showButton:true,
+      width:'70%'
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
@@ -84,6 +82,17 @@ export default defineComponent({
     const handleSelectionChange = (val: []) => {
       chooseData.value = val
     }
+    const columnData = ref([
+      {prop:'name',label:'门店编码'},
+      {prop:'name',label:'门店名称'},
+      {prop:'name',label:'归属组织'},
+      {prop:'name',label:'归属客户'},
+      {prop:'name',label:'门店类型'},
+      {prop:'name',label:'联系人'},
+      {prop:'name',label:'联系电话'},
+      {prop:'name',label:'门店地址'},
+      {prop:'name',label:'门店状态'},
+    ])
     // 获取表格数据
     // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
     const getTableData = (init: boolean) => {
@@ -137,15 +146,15 @@ export default defineComponent({
     }
     // 新增弹窗功能
     const handleAdd = () => {
-      layer.title = '新增数据'
-      layer.show = true
-      delete layer.row
+      drawer.title = '新增数据'
+      drawer.show = true
+      delete drawer.row
     }
     // 编辑弹窗功能
     const handleEdit = (row: object) => {
-      layer.title = '编辑数据'
-      layer.row = row
-      layer.show = true
+      drawer.title = '编辑数据'
+      drawer.row = row
+      drawer.show = true
     }
     getTableData(true)
     return {
@@ -157,12 +166,13 @@ export default defineComponent({
       chooseData,
       loading,
       page,
-      layer,
+      drawer,
       handleSelectionChange,
       handleAdd,
       handleEdit,
       handleDel,
-      getTableData
+      getTableData,
+      columnData
     }
   }
 })

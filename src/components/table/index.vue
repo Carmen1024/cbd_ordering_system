@@ -15,6 +15,14 @@
           {{ (page.index - 1) * page.size + scope.$index + 1 }}
         </template>
       </el-table-column>
+      <el-table-column 
+        v-for="(item,index) in columnData" 
+        :key="index" 
+        :prop="item.prop" 
+        :label="item.label"
+        :width="item.width"
+        align="center"
+      />
       <slot></slot>
     </el-table>
     <el-pagination
@@ -42,6 +50,7 @@ export default defineComponent({
   props: {
     data: { type: Array, default: () => [] }, // 数据源
     select: { type: Array, default: () => [] }, // 已选择的数据，与selection结合使用
+    columnData: { type: Array, default: () => [] }, // 表格表头数据，与columnData结合使用
     showIndex: { type: Boolean, default: false }, // 是否展示index选择，默认否
     showSelection: { type: Boolean, default: false }, // 是否展示选择框，默认否
     showPage: { type: Boolean, default: true }, // 是否展示页级组件，默认是

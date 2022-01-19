@@ -6,6 +6,7 @@
         v-model:page="page"
         :showIndex="true"
         :data="tableData"
+        :showPage="false"
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
@@ -14,6 +15,7 @@
         <el-table-column prop="developerName" label="岗位" align="center" />
         <el-table-column prop="departmentName" label="部门" align="center" />
       </Table>
+      
     </div>
   </div>
 </template>
@@ -73,7 +75,7 @@ export default defineComponent({
       loading,
       page,
       layer,
-      getTableData
+      getTableData,
     }
   }
 })

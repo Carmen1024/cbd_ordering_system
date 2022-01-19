@@ -61,9 +61,9 @@ const route: Route[] = [
         alwayShow: true,
         children: [
           {
-            path: 'sort',
-            component: createNameComponent(() => import('@/views/main/inventory/material/sort/index.vue')),
-            meta: { title: 'message.menu.inventory.material.sort', icon: 'iconfont icon-materialSort', cache: true }
+            path: 'classify',
+            component: createNameComponent(() => import('@/views/main/inventory/material/classify/index.vue')),
+            meta: { title: 'message.menu.inventory.material.classify', icon: 'iconfont icon-materialSort', cache: true }
           },
           {
             path: 'list',

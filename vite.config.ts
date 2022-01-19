@@ -25,7 +25,7 @@ export default ({ command,mode }: ConfigEnv): UserConfigExport => {
     },
     server: {
       port: Number(getEnv(mode, "VITE_PORT")) || 8080,
-      host: '127.0.0.1',
+      host: '0.0.0.0', //127.0.0.1
       open: true,
       proxy: { // 代理配置
         '/dev': 'https://www.fastmock.site/mock/48cab8545e64d93ff9ba66a87ad04f6b/'
@@ -37,9 +37,11 @@ export default ({ command,mode }: ConfigEnv): UserConfigExport => {
           manualChunks: {
             'echarts': ['echarts']
           }
-        }
-      }
+        },
+      },
     },
+    // base:getEnv(mode, "BASE_URL") || '/',
+    base:'/admintest/',
     plugins: [
       vue(),
       viteMockServe({

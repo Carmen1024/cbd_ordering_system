@@ -1,22 +1,19 @@
 <template>
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
-      <el-form-item label="名称：" prop="name">
+      <el-form-item label="单据ID：" prop="name">
         <el-input v-model="form.name" placeholder="请输入名称"></el-input>
       </el-form-item>
-      <el-form-item label="数字：" prop="number">
+      <el-form-item label="单据名称：" prop="number">
         <el-input v-model="form.number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>
       </el-form-item>
-			<el-form-item label="选择器：" prop="select">
-			  <el-select v-model="form.choose" placeholder="请选择" clearable>
-					<el-option v-for="item in selectData" :key="item.value" :label="item.label" :value="item.value"></el-option>
-				</el-select>
+			<el-form-item label="单据说明：" prop="select">
+			  <el-input v-model="form.number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>
 			</el-form-item>
-      <el-form-item label="单选框：" prop="radio">
-        <el-radio-group v-model="form.radio">
-          <el-radio v-for="item in radioData" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
-        </el-radio-group>
+      <el-form-item label="审核节点：" prop="date">
+        <el-input v-model="form.name" placeholder="请输入密码"></el-input>
       </el-form-item>
+      
     </el-form>
   </Layer>
 </template>
@@ -27,7 +24,7 @@ import type { Ref } from 'vue'
 import type { ElFormItemContext } from 'element-plus/lib/el-form/src/token'
 import { defineComponent, ref } from 'vue'
 import { add, update } from '@/api/table'
-import { selectData, radioData } from './enum'
+import { selectData, dateData } from './enum'
 import Layer from '@/components/layer/index.vue'
 export default defineComponent({
   components: {
@@ -49,18 +46,21 @@ export default defineComponent({
     const ruleForm: Ref<ElFormItemContext|null> = ref(null)
     const layerDom: Ref<LayerType|null> = ref(null)
     let form = ref({
-      name: ''
+      name: '',
+      date:[]
     })
     const rules = {
       name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
       number: [{ required: true, message: '请输入数字', trigger: 'blur' }],
       choose: [{ required: true, message: '请选择', trigger: 'blur' }],
-      radio: [{ required: true, message: '请选择', trigger: 'blur' }]
+      date: [{ required: true, message: '请选择', trigger: 'blur' }]
     }
     init()
     function init() { // 用于判断新增还是编辑功能
       if (props.layer.row) {
-        form.value = JSON.parse(JSON.stringify(props.layer.row)) // 数量量少的直接使用这个转
+        let row = JSON.parse(JSON.stringify(props.layer.row));
+        row.date=[];
+        form.value = row // 数量量少的直接使用这个转
       } else {
 
       }
@@ -71,7 +71,7 @@ export default defineComponent({
       layerDom,
       ruleForm,
       selectData,
-      radioData
+      dateData
     }
   },
   methods: {

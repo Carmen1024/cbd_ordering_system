@@ -7,7 +7,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Chart from '@/components/charts/index.vue'
-import option from './modules/circle'
+import option from './modules/map'
 export default defineComponent({
   components: {
     Chart

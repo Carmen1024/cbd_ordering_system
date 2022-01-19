@@ -10,6 +10,7 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import i18n from './locale'
+import JsonViewer from "vue3-json-viewer"
 if (import.meta.env.MODE !== 'development') { // 非开发环境调用百度统计
   baidu()
 }
@@ -18,6 +19,7 @@ app.use(ElementPlus, { size: store.state.app.elementSize })
 app.use(store)
 app.use(router)
 app.use(i18n)
+app.use(JsonViewer)
 // app.config.performance = true
 // app.config.silent = false
 app.mount('#app')

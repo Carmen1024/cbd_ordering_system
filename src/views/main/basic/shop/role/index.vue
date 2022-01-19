@@ -22,16 +22,14 @@
         :showIndex="true"
         :showSelection="true"
         :data="tableData"
+        :columnData="columnData"
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column prop="name" label="名称" align="center" />
-        <el-table-column prop="number" label="数字" align="center" />
-        <el-table-column prop="chooseName" label="选择器" align="center" />
-        <el-table-column prop="radioName" label="单选框" align="center" />
-        <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
+        <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="300">
           <template #default="scope">
             <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
+            <el-button @click="handleRole(scope.row)">权限管理</el-button>
             <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([scope.row])">
               <template #reference>
                 <el-button type="danger">{{ $t('message.common.del') }}</el-button>
@@ -70,7 +68,8 @@ export default defineComponent({
     const layer: LayerInterface = reactive({
       show: false,
       title: '新增',
-      showButton: true
+      showButton: true,
+      width:'30%'
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
@@ -84,6 +83,15 @@ export default defineComponent({
     const handleSelectionChange = (val: []) => {
       chooseData.value = val
     }
+    const columnData=ref([
+      {prop:"name",label:"角色ID"},
+      {prop:"name",label:"角色名称"},
+      {prop:"name",label:"角色说明"},
+      {prop:"name",label:"状态"},
+      {prop:"name",label:"更新时间"},
+      {prop:"name",label:"创建人"},
+      {prop:"name",label:"备注"},
+    ])
     // 获取表格数据
     // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
     const getTableData = (init: boolean) => {
@@ -147,6 +155,9 @@ export default defineComponent({
       layer.row = row
       layer.show = true
     }
+    const handleRole = (row: object) => {
+      
+    }
     getTableData(true)
     return {
       Plus,
@@ -161,8 +172,10 @@ export default defineComponent({
       handleSelectionChange,
       handleAdd,
       handleEdit,
+      handleRole,
       handleDel,
-      getTableData
+      getTableData,
+      columnData
     }
   }
 })

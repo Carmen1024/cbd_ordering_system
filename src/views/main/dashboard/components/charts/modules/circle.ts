@@ -1,4 +1,15 @@
 const option = {
+  title: {
+    text: '物料分类汇总',
+    left: 'left'
+  },
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    orient: 'vertical',
+    left: 'right'
+  },
   series: [
     {
       name: '物料',

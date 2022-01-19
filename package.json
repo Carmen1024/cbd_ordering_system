@@ -4,7 +4,7 @@
   "scripts": {
     "serve": "vite",
     "start": "vite",
-    "build": "vue-cli-service build",
+    "build": "vite build --mode=development",
     "build:vite": "vite build --mode=production",
     "build:stag": "vite build --mode=staging",
     "dev": "vite preview"
@@ -17,6 +17,7 @@
     "@vueuse/core": "^4.10.0",
     "@wangeditor/editor-for-vue": "^5.1.8-6",
     "axios": "^0.21.1",
+    "clipboard": "^2.0.8",
     "codemirror": "^5.61.1",
     "cropperjs": "^1.5.12",
     "echarts": "^5.1.1",
@@ -31,6 +32,7 @@
     "vue": "^3.1.2",
     "vue-i18n": "^9.1.6",
     "vue-router": "4",
+    "vue3-json-viewer": "^1.0.4",
     "vuex": "^4.0.0",
     "webpack": "^5.66.0",
     "xlsx": "^0.17.1"
