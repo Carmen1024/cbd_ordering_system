@@ -2,11 +2,9 @@
   <div class="layout-container">
     <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
+        <el-input v-model="filterText.like.clf_name" placeholder="请输入分类名" />
+        <el-button :icon="Search" @click="initClassify">{{ $t('message.common.search') }}</el-button>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增分类</el-button>
-      </div>
-      <div class="layout-container-form-search">
-        <el-input v-model="filterText" placeholder="请输入分类名" />
-        <el-button type="primary" :icon="Search" class="search-btn" @click="getTree">{{ $t('message.common.search') }}</el-button>
       </div>
     </div>
     <div class="layout-container-tree">
@@ -17,18 +15,19 @@
           node-key="id"
           :expand-on-click-node="false"
           :props="props"
+          lazy 
           @node-expand="getClassifyChildren"
-          render-after-expand
+          :default-expanded-keys="openKeys"
         >
           <template #default="{ node, data }">
             <span class="custom-tree-node">
               <span>{{ node.label }}</span>
               <span class="tree-handle">
-                <a @click="setNode(node,data,true)"> 增加子分类 </a>
+                <a v-if="data.clf_lay<3" @click="setNode(node,data,true)"> 增加子分类 </a>
                 <a @click="setNode(node,data,false)"> 编辑 </a>
                 <el-popconfirm title="是否删除该分类及其子分类" @confirm="remove(node, data)">
                   <template #reference>
-                    <a>删除分类</a>
+                    <a>删除</a>
                   </template>
                 </el-popconfirm>
               </span>
@@ -42,12 +41,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,ref,reactive,watch } from 'vue'
+import { defineComponent,ref,reactive } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import Layer from './layer.vue'
 import type { LayerInterface } from '@/components/layer/index.vue'
-import { Plus } from '@element-plus/icons'
-import type { ElTree } from 'element-plus'
+import { Plus,Search } from '@element-plus/icons'
+import { ElMessage } from 'element-plus'
 import { classifyQuery,classifyDelete } from '@/api/material/classify'
 
 export default defineComponent({
@@ -57,8 +56,13 @@ export default defineComponent({
   },
   setup() {
     interface Tree {
+      id?:string
       _id: string
-      clf_name: string
+      clf_type?: number //1:物料,2:半成品,3:销售成品。
+      clf_name_link?: string //层级结构名称，如：/水果/苹果/湖南苹果
+      clf_lay?: number //分类层级：1-一级分类 2-二级分类 3-三级分类
+      clf_name?: string //分类名称
+      clf_su_id?:string //上级分类名称。 一级不必传
       leaf?:boolean //是否还有子节点
       children?: Tree[]
     }
@@ -67,33 +71,40 @@ export default defineComponent({
       children: 'children',
       isLeaf: 'leaf',
     }
-    // const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
-    //   if (node.level === 0) {
-    //     return getClassify().then(data=>{
-    //       console.log(data);
-    //       resolve(data);
-    //     });
-    //   }
-    //   if (node.level > 3) return resolve([])
-      
-    //   return getClassify(node.data._id).then(data=>{
-    //     console.log(data);
-    //     resolve(data)
-    //   });
-    // }
+    const dataSource = ref<Tree[]>([])
+    const filterText = ref({
+      like:{
+        clf_name:""
+      },
+      eq:{
+        clf_su_id:""
+      }
+    })
+    const openKeys=ref([])
     const getClassifyChildren = (data: Tree,node: Node)=>{
+      // if(data.children && data.children.length>0){
+      //   return;
+      // }
       handleNode = node
       handleData = data
-      getClassify(data._id).then(data=>{
-        handleData.children=data;
+      filterText.value.eq.clf_su_id = data._id;
+      openKeys.value = [data._id]
+      console.log(openKeys.value)
+      getClassify().then(data=>{
+        data.length>0 ? (handleData.children=data.map(item=>{
+          // item.children = item.clf_lay<3 ? [{}] :[]
+          item.leaf=item.clf_lay<3?false:true;
+          item.id = item._id;
+          return item;
+        })) : (handleData.leaf=true)
         console.log(data);
         dataSource.value = [...dataSource.value];
         console.log(dataSource.value);
       });
     }
     // 获取子节点
-    const getClassify = (clf_su_id="")=>{
-      return classifyQuery({eq:{clf_su_id}}).then(res=>{
+    const getClassify = ()=>{
+      return classifyQuery(filterText.value).then(res=>{
         return Promise.resolve(res.data);
       })
     }
@@ -109,9 +120,9 @@ export default defineComponent({
     let handleIndex = false //正在操作根节点
     // 增加一级分类
     const handleAdd = ()=>{
-      layer.title = '新增一级分类'
+      layer.title = '新增分类'
       layer.show = true
-      delete layer.row
+      layer.row = setNewRow()
       handleIndex = true
     }
     //正在操作的节点
@@ -126,25 +137,31 @@ export default defineComponent({
       // layer.title = type?'新增节点':'编辑节点'
       layer.show = true
       if(type){
-        delete layer.row;
+        layer.row = setNewRow(data);
         layer.title = '新增分类'
       }else{
         layer.row = data;
         layer.title = '编辑分类'
       }
     }
-    // 新增一级节点
-    const appendIndex = (form: any) => {
-      const newChild = { id: id++, children: [],...form }
-      dataSource.value.push(newChild)
+    const setNewRow = (data:Tree={_id:""})=>{
+        return {
+          "clf_type": 1, //1:物料,2:半成品,3:销售成品。
+          "clf_name_link": data.clf_name_link || "",//层级结构名称，如：/水果/苹果/湖南苹果
+          "clf_lay": data.clf_lay ? (data.clf_lay + 1): 1, //分类层级：1-一级分类 2-二级分类 3-三级分类
+          "clf_name": "", //分类名称
+          "clf_su_id":data._id, //上级分类名称。 一级不必传
+        }
     }
+    // 新增一级节点
+    // const appendIndex = (form: any) => {
+    //   initClassify();
+    // }
     //新增子节点
     const append = (form: any) => {
-      const newChild = { id: id++, children: [],...form }
-      if (!handleData.children) {
-        handleData.children = []
-      }
-      handleData.children.push(newChild)
+      // if(form.clf_lay<3) form.children = [{}]
+      form.leaf=form.clf_lay<3?false:true;
+      handleData.children.push(form)
       dataSource.value = [...dataSource.value]
       console.log(dataSource.value);
     }
@@ -162,7 +179,7 @@ export default defineComponent({
     //删除节点
     const remove = (node: Node, data: Tree) => {
       classifyDelete({eq:{_id:data._id}}).then(res=>{
-        this.$message({
+        ElMessage({
           type: 'success',
           message: '删除成功'
         })
@@ -175,25 +192,19 @@ export default defineComponent({
     }
     //编辑或提交
     const getNodeData = (form:any,type:boolean) => {
-      type ? (handleIndex ? appendIndex(form) : append(form)) : edit(form);
-    }
-    const dataSource = ref<Tree[]>([])
-    const filterText = ref('')
-    const treeRef = ref<InstanceType<typeof ElTree>>()
-    const getTree=()=>{
-      treeRef.value!.filter(filterText.value)
+      type ? (handleIndex ? initClassify() : append(form)) : edit(form);
     }
     const initClassify=()=>{
-      getClassify().then(data=>{
+      getClassify(filterText.value).then(data=>{
         console.log(data);
         data = data.map(item => {
           item.level = 1;
-          item.children = [{}];
           item.leaf=false;
+          item.id = item._id;
           return item
         });
         dataSource.value = data
-        console.log(dataSource);
+        console.log(dataSource.value);
       });
     }
     initClassify();
@@ -203,18 +214,20 @@ export default defineComponent({
       layer,
       setNode,
       append,
-      appendIndex,
+      // appendIndex,
       edit,
       remove,
       getNodeData,
       Plus,
+      Search,
       handleAdd,
       filterText,
-      getTree,
       props,
       // loadNode,
       getClassify,
-      getClassifyChildren
+      getClassifyChildren,
+      initClassify,
+      openKeys
     }
   }
 })

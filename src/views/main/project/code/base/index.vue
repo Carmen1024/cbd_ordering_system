@@ -20,7 +20,7 @@
         @selection-change="handleSelectionChange"
       >
       <!-- 接口名称 接口路径 -->
-        <el-table-column prop="f_name" label="接口名称" align="center" width="200" />
+        <el-table-column prop="f_name" label="接口名称" align="center" width="100" />
         <el-table-column prop="f_path" label="接口路径" align="center" />
         <el-table-column prop="c_desc" label="接口描述" align="center" />
         <el-table-column prop="c_update_time" label="更新时间" align="center" />

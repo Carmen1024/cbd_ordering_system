@@ -39,7 +39,7 @@ export default defineComponent({
     const ruleForm: Ref<ElFormItemContext|null> = ref(null)
     const layerDom: Ref<LayerType|null> = ref(null)
     let form = ref({
-      clf_name: ''
+      "clf_name": "", //分类名称
     })
     const rules = {
       clf_name: [{ required: true, message: '请输入物料分类名称', trigger: 'blur' }],
@@ -48,6 +48,8 @@ export default defineComponent({
     function init() { // 用于判断新增还是编辑功能
       if (props.layer.row) {
         form.value = JSON.parse(JSON.stringify(props.layer.row)) // 数量量少的直接使用这个转
+        console.log("form.value",form.value);
+        
       } else {
 
       }
@@ -66,7 +68,7 @@ export default defineComponent({
       if (this.ruleForm) {
         this.ruleForm.validate((valid) => {
           if (valid) {
-            if (this.layer.row) {
+            if (this.layer.title=="编辑分类") {
               this.updateForm()
             } else {
               this.addForm()
@@ -79,7 +81,10 @@ export default defineComponent({
     },
     // 新增提交事件
     addForm() {
-      classifyInsert(this.form).then(res => {
+      let params = this.form;
+      params.clf_name_link+=`/${params.clf_name}`;
+      if(params.clf_su_id=="") delete params.clf_su_id;
+      classifyInsert(params).then(res => {
         this.$message({
           type: 'success',
           message: '新增成功'
