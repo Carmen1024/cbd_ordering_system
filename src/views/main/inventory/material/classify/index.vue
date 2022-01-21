@@ -2,7 +2,7 @@
   <div class="layout-container">
     <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
-        <el-input v-model="filterText.like.clf_name" placeholder="请输入分类名" />
+        <el-input v-model="filterText.like.clf_name" @change="initClassify" placeholder="请输入分类名" />
         <el-button :icon="Search" @click="initClassify">{{ $t('message.common.search') }}</el-button>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增分类</el-button>
       </div>
@@ -195,6 +195,7 @@ export default defineComponent({
       type ? (handleIndex ? initClassify() : append(form)) : edit(form);
     }
     const initClassify=()=>{
+      filterText.value.eq.clf_su_id="";
       getClassify(filterText.value).then(data=>{
         console.log(data);
         data = data.map(item => {
