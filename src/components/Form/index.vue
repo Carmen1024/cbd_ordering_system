@@ -1,23 +1,47 @@
 <template>
   <div class="formContainer">
-    <el-form :ref="formRef" :model="form" label-width="120px">
-        <slot></slot>
+    <el-form :ref="formRef" :model="form" :rules="rules" label-width="120px">
+      <slot></slot>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-export default defineComponent({
-// do not use same name with ref
-setup(){
-    const formRef = "formRef";
-    return{
-        formRef
-    }
-}
+import { defineComponent,watch,onMounted } from 'vue'
+  export default defineComponent({
+    // do not use same name with ref
+    props:{
+        rules:{
+          type: Object,
+          default: () => {
+            return {}
+          }
+        },
+        form:{
+          type: Object,
+          default: () => {}
+        },
+        formRef:{
+          type: String,
+          default: "formRef"
+        },
+    },
+    setup(props){
+      console.log("props.rules:",props.rules)
+      // onMounted(() => {
+      //   watch(props.rules, (newVal) => {
+      //     console.log("props.rules2:",newVal)
+      //   })
+      // })
+      // watch(props.rules, (newVal) => {
+      //   console.log("props.rules1:",newVal)
+      // })
+      return {
 
-})
+      }
+    }
+
+  })
 </script>
 <style lang="scss">
     .formContainer{
@@ -28,22 +52,6 @@ setup(){
         .el-form-item{
           width: 50%;
           text-align: left;
-          // .el-form-item__content{
-          //   display: flex;
-          //   .el-input + .el-radio{
-          //     margin-left: 10px;
-          //   }
-          //   .el-select + .el-select{
-          //     margin-left: 10px;
-          //   }
-          //   .el-input + .el-select{
-          //     margin-left: 10px;
-          //     width: 100%;
-          //   }
-          //   .el-input + .el-input{
-          //     margin-left: 10px;
-          //   }
-          // }
         }
       }
     }

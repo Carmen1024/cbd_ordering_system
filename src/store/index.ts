@@ -3,13 +3,15 @@ import Persistent from './plugins/persistent'
 import {userState} from "@/store/modules/user";
 import {keepAliveState} from "@/store/modules/keepAlive";
 import {appState} from "@/store/modules/app";
+import {enumState} from '@/store/modules/enum';
 const debug = import.meta.env.MODE !== 'production'
 const files= import.meta.globEager('./modules/*.ts')
 
 export interface RootState {
   user: userState,
   keepAlive: keepAliveState,
-  app: appState
+  app: appState,
+  enum:enumState
 }
 
 let modules: any = {}

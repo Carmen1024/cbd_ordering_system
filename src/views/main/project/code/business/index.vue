@@ -2,16 +2,10 @@
   <div class="layout-container">
     <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
-        <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
-        <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel(chooseData)">
-          <template #reference>
-            <el-button type="danger" :icon="Delete" :disabled="chooseData.length === 0">{{ $t('message.common.delBat') }}</el-button>
-          </template>
-        </el-popconfirm>
-      </div>
-      <div class="layout-container-form-search">
-        <el-input v-model="query.input" :placeholder="$t('message.common.searchTip')" @change="getTableData(true)"></el-input>
-        <el-button type="primary" :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
+        <el-input v-model="query.like.dict_group" placeholder="请输入字典名称" @change="getTableData(true)"></el-input>
+        <el-input v-model="query.like.dict_val_str" placeholder="请输入字典类型" @change="getTableData(true)"></el-input>
+        <el-button :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
+        <!-- <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button> -->
       </div>
     </div>
     <div class="layout-container-table">
@@ -25,34 +19,25 @@
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column prop="f_name" label="接口名称" align="center" />
-        <el-table-column prop="f_path" label="接口路径" align="center" />
-        <!-- <el-table-column prop="f_path" label="类型" align="center" /> -->
-        <el-table-column label="状态" align="center">
-          <template #default="scope">
-            <el-switch
-            v-model="scope.row.c_valid"
-            active-text="有效"
-            inactive-text="无效"
-            @change="handleSwitch(scope.row)"
-          >
-          </el-switch>
-          </template>
-        </el-table-column>
-        <el-table-column prop="c_update_time" label="更新时间" align="center" />
-        <el-table-column prop="c_update_user" label="更新人" align="center" />
+      <!-- 字典名称 字典路径 -->
+        <el-table-column prop="dict_val_str" label="字典名称" align="center" />
+        <el-table-column prop="dict_group" label="字典类型" align="center" />
+        <el-table-column prop="dict_type_desc" label="字典类型" align="center" />
+        <el-table-column prop="dict_remark" label="备注" align="center" />
+        <el-table-column prop="c_create_time" label="创建时间" align="center" />
         <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
           <template #default="scope">
-            <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
-            <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([scope.row])">
+            <el-button @click="handleEdit(scope.row)">查看</el-button>
+            <!-- <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel(scope.row)">
               <template #reference>
                 <el-button type="danger">{{ $t('message.common.del') }}</el-button>
               </template>
-            </el-popconfirm>
+            </el-popconfirm> -->
           </template>
         </el-table-column>
       </Table>
-      <Drawer :drawer="drawer" v-if="drawer.show" /> 
+      <!-- <Drawer :parentDict="parentDict" v-if="parentDict.show" @getTableData="getTableData" /> -->
+      <Detail :parentDict="parentDict" v-if="parentDict.show" />
     </div>
   </div>
 </template>
@@ -61,29 +46,32 @@
 import { defineComponent, ref, reactive } from 'vue'
 import Table from '@/components/table/index.vue'
 import { Page } from '@/components/table/type'
-import { getData, del } from '@/api/table'
 import { ElMessage } from 'element-plus'
-import { selectData, dateData } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
-import Drawer from './drawer.vue';
-import type { DrawerInterface } from '@/components/drawer/index.vue';
+import Detail from './detail/index.vue';
+import type { DrawerInterface } from '@/components/parentDict/index.vue'
+import { bizDictQuery,bizDictDelete, bizDictRow } from '@/api/project/bizDict'
+import { dict_type_data } from './enum';
 export default defineComponent({
   name: 'orderRules',
   components: {
     Table,
-    Drawer
+    Detail
   },
   setup() {
     // 存储搜索用的数据
-    const query = reactive({
-      input: ''
+    const query = ref({
+      like:{
+        dict_val_str:"",
+        dict_group:""
+      }
     })
     // 弹窗控制器
-    const drawer: DrawerInterface = reactive({
+    const parentDict: DrawerInterface = reactive({
       show:false,
-      title:"编辑规则",
-      showButton:true,
-      width:'50%'
+      title:"查看字典",
+      showButton:false,
+      width:'70%'
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
@@ -105,23 +93,22 @@ export default defineComponent({
         page.index = 1
       }
       let params = {
-        page: page.index,
-        pageSize: page.size,
-        ...query
+        start: <number>page.index-1,
+        size: page.size,
+        ...query.value
       }
-      getData(params)
+      bizDictQuery(params)
       .then(res => {
-        let data = res.data.list
+        console.log(res);
+        let data = res.data
         if (Array.isArray(data)) {
           data.forEach(d => {
-            const select = selectData.find(select => select.value === d.choose)
-            select ? d.chooseName = select.label : d.chooseName = d.choose
-            const date = dateData.find(select => select.value === d.date)
-            date ? d.dateName = date.label : d.date
+            const dict_type = dict_type_data.find(item => item.value === d.dict_type)
+            d.dict_type_desc = dict_type ?  dict_type.label : d.dict_type
           })
         }
-        tableData.value = res.data.list
-        page.total = Number(res.data.pager.total)
+        tableData.value = data
+        page.total = res.total
       })
       .catch(error => {
         tableData.value = []
@@ -133,13 +120,9 @@ export default defineComponent({
       })
     }
     // 删除功能
-    const handleDel = (data: object[]) => {
-      let params = {
-        ids: data.map((e:any)=> {
-          return e.id
-        }).join(',')
-      }
-      del(params)
+    const handleDel = (row: object) => {
+      let params = {"eq": {"_id": row._id}};
+      bizDictDelete(params)
       .then(res => {
         ElMessage({
           type: 'success',
@@ -150,16 +133,15 @@ export default defineComponent({
     }
     // 新增弹窗功能
     const handleAdd = () => {
-      drawer.title = '新增数据'
-      drawer.show = true
-      delete drawer.row
+      parentDict.title = '新增字典'
+      parentDict.show = true
+      delete parentDict.row
     }
     // 编辑弹窗功能
     const handleEdit = (row: object) => {
-      drawer.title='编辑数据-抽屉'
-      drawer.show = true
-      drawer.row = row;
-      console.log(drawer.value)
+      parentDict.title='编辑字典'
+      parentDict.show = true
+      parentDict.row = row
     }
     getTableData(true)
     return {
@@ -176,7 +158,7 @@ export default defineComponent({
       handleEdit,
       handleDel,
       getTableData,
-      drawer
+      parentDict,
     }
   }
 })

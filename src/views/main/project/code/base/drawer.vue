@@ -16,7 +16,7 @@
             <el-switch v-model="form.f_must_enable" active-text="验证" inactive-text="不验证" />
           </el-form-item>
           <el-form-item label="必填项：" prop="f_must" class="form-item-jv">
-            <json-viewer :value="form.f_must" copyable boxed sort />
+            <json-viewer :value="form.f_must" copyable boxed />
             <el-input
               v-model="strObj.f_must_str"
               @blur="strToJson('f_must')"
@@ -29,7 +29,7 @@
             <el-switch v-model="form.f_should_enable" active-text="过滤" inactive-text="不过滤" />
           </el-form-item>
           <el-form-item label="可选项：" prop="f_should" class="form-item-jv">
-            <json-viewer :value="form.f_should" copyable boxed sort />
+            <json-viewer :value="form.f_should" copyable boxed />
             <el-input
               v-model="strObj.f_should_str"
               @blur="strToJson('f_should')"
@@ -42,7 +42,7 @@
             <el-switch v-model="form.f_tacit_enable" active-text="填入" inactive-text="不填入" />
           </el-form-item>
           <el-form-item label="默认值：" prop="f_tacit" class="form-item-jv">
-            <json-viewer :value="form.f_tacit" copyable boxed sort />
+            <json-viewer :value="form.f_tacit" copyable boxed />
             <el-input
               v-model="strObj.f_tacit_str"
               @blur="strToJson('f_tacit')"
@@ -55,7 +55,7 @@
             <el-switch v-model="form.f_ext_enable" active-text="过滤" inactive-text="不过滤" />
           </el-form-item>          
           <el-form-item label="扩展值：" prop="f_ext" class="form-item-jv">
-            <json-viewer :value="form.f_ext" copyable boxed sort />
+            <json-viewer :value="form.f_ext" copyable boxed />
             <el-input
               v-model="strObj.f_ext_str"
               @blur="strToJson('f_ext')"
@@ -68,7 +68,7 @@
             <el-switch v-model="form.f_res_enable" active-text="过滤" inactive-text="不过滤" />
           </el-form-item>
           <el-form-item label="返回值：" prop="f_res" class="form-item-jv">
-            <json-viewer :value="form.f_res" copyable boxed sort />
+            <json-viewer :value="form.f_res" copyable boxed />
             <el-input
               v-model="strObj.f_res_str"
               @blur="strToJson('f_res')"
@@ -81,7 +81,7 @@
             <el-switch v-model="form.f_mq_enable" active-text="过滤" inactive-text="不过滤" />
           </el-form-item>
           <el-form-item label="异步消息：" prop="f_mq" class="form-item-jv">
-            <json-viewer :value="form.f_mq" copyable boxed sort />
+            <json-viewer :value="form.f_mq" copyable boxed />
             <el-input
               v-model="strObj.f_mq_str"
               @blur="strToJson('f_mq')"

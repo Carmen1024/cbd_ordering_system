@@ -48,7 +48,7 @@
 <script lang="ts">
 import { defineComponent,reactive } from 'vue'
 import Form from '@/components/Form/index.vue';
-import { materialStateData } from './../enum';
+import { materialStateData } from './../../list/enum';
 import timeItem from '@/components/time/index.vue';
 export default defineComponent({
 // do not use same name with ref

@@ -4,25 +4,23 @@
     <div class="detail-container">
       <p>基本信息</p>
       <div class="layout-basic">
-        <BasicInformation />
+        <BasicInformation :basic-info="drawer"  />
       </div>
       <p>详细信息</p>
-      <div class="layout-full">
+      <!-- <div class="layout-full">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="存储信息" name="first"><StoreInformation /></el-tab-pane>
+          <el-tab-pane label="效期管理" name="first"><ValidityPeriod /></el-tab-pane>
           <el-tab-pane label="关联物料" name="second"><Relation /></el-tab-pane>
-          <el-tab-pane label="效期管理" name="third"><ValidityPeriod /></el-tab-pane>
-          <el-tab-pane label="补充信息" name="fourth"><AdditionalInformation /></el-tab-pane>
-        </el-tabs>
-      </div>
+          <el-tab-pane label="补充信息" name="third"><AdditionalInformation /></el-tab-pane>
+        </el-tabs> -->
+      <!-- </div> -->
     </div>
   </Drawer>
 </template>
 
 <script lang='ts'>
-import { defineComponent,ref } from 'vue'
+import { defineComponent,reactive,ref } from 'vue'
 import BasicInformation from './components/basicInformation.vue'
-import StoreInformation from './components/storeInformation.vue'
 import Relation from './components/relation/index.vue';
 import ValidityPeriod from './components/validityPeriod.vue';
 import AdditionalInformation from './components/additionalInformation.vue';
@@ -43,7 +41,6 @@ export default defineComponent({
   },
   components:{
     BasicInformation,
-    StoreInformation,
     Relation,
     ValidityPeriod,
     AdditionalInformation,
@@ -55,9 +52,7 @@ export default defineComponent({
       id:'',
       name: ''
     })
-    const rules = {
-      label: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-    }
+
     init()
     function init() { // 用于判断新增还是编辑功能
       if (props.drawer.row) {

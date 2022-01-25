@@ -2,39 +2,31 @@
   <div class="layout-container">
     <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
+        <el-input v-model="query.like.clf_name" placeholder="请输入物料分类" @change="getTableData(true)"></el-input>
+        <el-input v-model="query.like.m_code" placeholder="请输入物料编码" @change="getTableData(true)"></el-input>
+        <el-input v-model="query.like.m_name" placeholder="请输入物料名称" @change="getTableData(true)"></el-input>
+        <el-button :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
         <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
-        <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel(chooseData)">
-          <template #reference>
-            <el-button type="danger" :icon="Delete" :disabled="chooseData.length === 0">{{ $t('message.common.delBat') }}</el-button>
-          </template>
-        </el-popconfirm>
       </div>
-      <div class="layout-container-form-search">
-        <el-input v-model="query.input" :placeholder="$t('message.common.searchTip')" @change="getTableData(true)"></el-input>
-        <el-button type="primary" :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
-      </div>
-    </div>
+   </div>
     <div class="layout-container-table">
       <Table
         ref="table"
         v-model:page="page"
         v-loading="loading"
         :showIndex="true"
-        :showSelection="true"
         :data="tableData"
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column prop="name" label="物料编码" align="center" />
-        <el-table-column prop="number" label="物料名称" align="center" />
-        <el-table-column prop="chooseName" label="物料分类" align="center" />
-        <el-table-column prop="radioName" label="订购单位" align="center" />
-        <el-table-column prop="radioName" label="包装规格" align="center" />
-        <el-table-column prop="radioName" label="进项税率" align="center" />
-        <el-table-column prop="radioName" label="盘点周期" align="center" />
-        <el-table-column prop="chooseName" label="状态" align="center" >
-          <el-switch v-model="tableData.chooseName" inline-prompt active-text="是" inactive-text="否"/>
-        </el-table-column>
+        <el-table-column prop="m_code" label="物料编码" align="center" />
+        <el-table-column prop="m_name" label="物料名称" align="center" />
+        <el-table-column prop="clf_names" label="物料分类" align="center" />
+        <el-table-column prop="m_order_step_type_desc" label="订货规则" align="center" />
+        <el-table-column prop="m_type_desc" label="物料类型" align="center" />
+        <el-table-column prop="m_split_type_desc" label="拆单方式" align="center" />
+        <el-table-column prop="m_sell_type_desc" label="销售类型" align="center" />
+        <el-table-column prop="m_status_desc" label="物料状态" align="center" />
         <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
           <template #default="scope">
             <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
@@ -55,12 +47,13 @@
 import { defineComponent, ref, reactive } from 'vue'
 import Table from '@/components/table/index.vue'
 import { Page } from '@/components/table/type'
-import { getData, del } from '@/api/table'
 import { ElMessage } from 'element-plus'
-import { selectData, radioData } from './enum'
+import { m_order_step_type_data, m_type_data,m_split_type_data,m_sell_type_data,m_status_data } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
 import Detail from './../detail/index.vue';
 import type { DrawerInterface } from '@/components/drawer/index.vue';
+import { materialQuery } from '@/api/material/material';
+import { useStore } from "vuex";
 export default defineComponent({
   name: 'crudTable',
   components: {
@@ -68,16 +61,22 @@ export default defineComponent({
     Detail
   },
   setup() {
+    const store = useStore();
+    // store.commit("enum/setOption", "m_status");
     // 存储搜索用的数据
     const query = reactive({
-      input: ''
+      like:{
+        clf_m_code:"", //物料编码
+        clf_name:"", //分类名称
+        m_name:"" //分类名称
+      }
     })
     // 弹窗控制器
     const drawer: DrawerInterface = reactive({
       show:false,
       title:"编辑规则",
       showButton:true,
-      width:'50%'
+      width:'70%'
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
@@ -99,23 +98,34 @@ export default defineComponent({
         page.index = 1
       }
       let params = {
-        page: page.index,
-        pageSize: page.size,
+        start: <number>page.index-1,
+        size: page.size,
         ...query
       }
-      getData(params)
+      materialQuery(params)
       .then(res => {
-        let data = res.data.list
+        let data = res.data
         if (Array.isArray(data)) {
           data.forEach(d => {
-            const select = selectData.find(select => select.value === d.choose)
-            select ? d.chooseName = select.label : d.chooseName = d.choose
-            const radio = radioData.find(select => select.value === d.radio)
-            radio ? d.radioName = radio.label : d.radio
+            const m_order_step_type = m_order_step_type_data.find(item => item.value === d.m_order_step_type)
+            d.m_order_step_type_desc = m_order_step_type ?  m_order_step_type.label : d.m_order_step_type
+
+            const m_type = m_type_data.find(item => item.value === d.m_type)
+            d.m_type_desc = m_type ?  m_type.label : d.m_type
+
+            const m_split_type = m_split_type_data.find(item => item.value === d.m_split_type)
+            d.m_split_type_desc = m_split_type ?  m_split_type.label : d.m_split_type
+
+            const m_sell_type = m_sell_type_data.find(item => item.value === d.m_sell_type)
+            d.m_sell_type_desc = m_sell_type ?  m_sell_type.label : d.m_sell_type
+
+            const m_status = m_status_data.find(item => item.value === d.m_status)
+            d.m_status_desc = m_status ?  m_status.label : d.m_status
           })
         }
-        tableData.value = res.data.list
-        page.total = Number(res.data.pager.total)
+        console.log(data);
+        tableData.value = data
+        page.total = Number(res.total)
       })
       .catch(error => {
         tableData.value = []
@@ -171,24 +181,6 @@ export default defineComponent({
       handleDel,
       getTableData,
       drawer
-    }
-  },
-  methods:{
-    toDetail(row:object){
-      // 这三种形式是等价的
-      // router.push('/users/posva#bio')
-      // router.push({ path: '/users/posva', hash: '#bio' })
-      // router.push({ name: 'users', params: { username: 'posva' }, hash: '#bio' })
-      // // 只改变 hash
-      // router.push({ hash: '#bio' })
-      // // 只改变 query
-      // router.push({ query: { page: '2' } })
-      // // 只改变 param
-      // router.push({ params: { username: 'jolyne' } })
-      this.$router.push({
-        path: '/inventory/material/detail',
-        query: { username: 'posva' }
-      })
     }
   }
 })

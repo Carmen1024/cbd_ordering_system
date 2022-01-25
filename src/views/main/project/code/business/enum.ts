@@ -14,3 +14,8 @@ export const dateData = [
   { value: 6, label: '周六' },
   { value: 7, label: '周日' },
 ]
+
+export const dict_type_data = [
+  { value: 1, label: '列表' },
+  { value: 2, label: '树' },
+]

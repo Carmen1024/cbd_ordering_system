@@ -104,7 +104,7 @@ export default {
       code:{
         name:"代码管理",
         base:"接口列表",
-        business:"业务接口"
+        business:"系统字典"
       },
       version:"开发版本",
       developer:"开发人员"

@@ -5,7 +5,7 @@
         <el-input v-model="form.path"></el-input>
       </el-form-item>
       <el-form-item label="接口条件：" prop="data_str" class="form-item-jv">
-        <json-viewer :value="form.data" copyable boxed sort />
+        <json-viewer :value="form.data" copyable boxed />
         <el-input
           v-model="form.data_str"
           rows="10"
@@ -14,7 +14,7 @@
         />
       </el-form-item>
       <el-form-item label="接口返回值：" class="form-item-response">
-        <json-viewer :value="form.response" copyable boxed sort />
+        <json-viewer :value="form.response" copyable boxed />
       </el-form-item>
     </el-form>
   </Layer>
