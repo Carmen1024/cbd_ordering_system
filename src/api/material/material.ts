@@ -32,3 +32,27 @@ export function materialDelete(data: object) {
     data
   })
 }
+
+export function materialSupplementQuery(data: object) {
+  return request({
+    url: '/g/materials_supplement/query',
+    method: 'post',
+    data
+  })
+}
+
+export function materialSupplementInsert(data: object) {
+  return request({
+    url: '/g/materials_supplement/insert',
+    method: 'post',
+    data
+  })
+}
+
+export function materialSupplementUpdate(data: object) {
+  return request({
+    url: '/g/materials_supplement/update',
+    method: 'post',
+    data
+  })
+}

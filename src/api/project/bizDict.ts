@@ -10,7 +10,7 @@ export function bizDictQuery(data: object) {
 
 export function bizDictRow(data: object) {
   return request({
-    url: '/g/biz_dict/query_valid',
+    url: '/g/biz_dict/query_valid_list',
     method: 'post',
     data
   })

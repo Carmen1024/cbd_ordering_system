@@ -48,7 +48,7 @@ import { defineComponent, ref, reactive } from 'vue'
 import Table from '@/components/table/index.vue'
 import { Page } from '@/components/table/type'
 import { ElMessage } from 'element-plus'
-import { m_order_step_type_data, m_type_data,m_split_type_data,m_sell_type_data,m_status_data } from './enum'
+import { options } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
 import Detail from './../detail/index.vue';
 import type { DrawerInterface } from '@/components/drawer/index.vue';
@@ -62,7 +62,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    // store.commit("enum/setOption", "m_status");
+    store.commit("enum/setOption", "m_status");
     // 存储搜索用的数据
     const query = reactive({
       like:{
@@ -75,7 +75,7 @@ export default defineComponent({
     const drawer: DrawerInterface = reactive({
       show:false,
       title:"编辑规则",
-      showButton:true,
+      showButton:false,
       width:'70%'
     })
     // 分页参数, 供table使用
@@ -107,19 +107,19 @@ export default defineComponent({
         let data = res.data
         if (Array.isArray(data)) {
           data.forEach(d => {
-            const m_order_step_type = m_order_step_type_data.find(item => item.value === d.m_order_step_type)
+            const m_order_step_type = options.m_order_step_type_data.find(item => item.value === d.m_order_step_type)
             d.m_order_step_type_desc = m_order_step_type ?  m_order_step_type.label : d.m_order_step_type
 
-            const m_type = m_type_data.find(item => item.value === d.m_type)
+            const m_type = options.m_type_data.find(item => item.value === d.m_type)
             d.m_type_desc = m_type ?  m_type.label : d.m_type
 
-            const m_split_type = m_split_type_data.find(item => item.value === d.m_split_type)
+            const m_split_type = options.m_split_type_data.find(item => item.value === d.m_split_type)
             d.m_split_type_desc = m_split_type ?  m_split_type.label : d.m_split_type
 
-            const m_sell_type = m_sell_type_data.find(item => item.value === d.m_sell_type)
+            const m_sell_type = options.m_sell_type_data.find(item => item.value === d.m_sell_type)
             d.m_sell_type_desc = m_sell_type ?  m_sell_type.label : d.m_sell_type
 
-            const m_status = m_status_data.find(item => item.value === d.m_status)
+            const m_status = options.m_status_data.find(item => item.value === d.m_status)
             d.m_status_desc = m_status ?  m_status.label : d.m_status
           })
         }

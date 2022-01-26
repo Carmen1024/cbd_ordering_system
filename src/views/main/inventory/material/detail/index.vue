@@ -7,13 +7,13 @@
         <BasicInformation :basic-info="drawer"  />
       </div>
       <p>详细信息</p>
-      <!-- <div class="layout-full">
+      <div class="layout-full">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="效期管理" name="first"><ValidityPeriod /></el-tab-pane>
-          <el-tab-pane label="关联物料" name="second"><Relation /></el-tab-pane>
-          <el-tab-pane label="补充信息" name="third"><AdditionalInformation /></el-tab-pane>
-        </el-tabs> -->
-      <!-- </div> -->
+          <el-tab-pane label="效期管理" name="first"><validity-period /></el-tab-pane>
+          <el-tab-pane label="关联物料" name="second"><relation /></el-tab-pane>
+          <el-tab-pane label="补充信息" name="third"><additional-information /></el-tab-pane>
+        </el-tabs>
+      </div>
     </div>
   </Drawer>
 </template>
@@ -47,7 +47,7 @@ export default defineComponent({
     Drawer,
   },
   setup(props){
-    const activeName = ref('first')    
+    const activeName = ref('third')    
     let form = ref({
       id:'',
       name: ''
@@ -70,7 +70,8 @@ export default defineComponent({
     // 打印
     const submit = ()=>{
       console.log("confirm");
-      props.drawer.show = false;
+      // props.drawer.show = false;
+      // basicInformationRef.onSubmit();
     }
     return{
       activeName,

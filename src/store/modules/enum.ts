@@ -1,4 +1,5 @@
 import { bizDictRow } from '@/api/project/bizDict';
+import {reactive} from 'vue';
 
 interface Option<T>  {
   name: keyof optionKey<T>
@@ -13,13 +14,13 @@ type optionValue<T> = {
   value: T[keyof T]
 }
 export interface enumState {
-  options: Object
+  // options: Object
 }
-const state = () => ({
-  options:{}
+const state = () => reactive({
+  // options:{}
 })
 
-const getOptions = (state: enumState, key:String)=>{
+const getOptions = (state:object, key:string)=>{
  
   const params = {
     "eq": {
@@ -28,20 +29,23 @@ const getOptions = (state: enumState, key:String)=>{
     }
   }
   console.log("============");
-  return bizDictRow(params).then(res=>{
+  bizDictRow(params).then(res=>{
     //dict_val_int dict_val_str
     const data = res.data.map(item=>{
       return item.dict_val_int && {value:item.dict_val_int,label:item.dict_val_str}
     })
-    console.log(data);
-    console.log(state,state.value);
-    state.options[key] = data;
+    // console.log(data);
+    // state[key] = data
+    // Vue.set(state.options, key, data);
+    // state.options.push({[key]:data})
+    console.log(state,key,data);
+    Object.defineProperty(state,key,data)
     // Promise.resolve(data)
   })
 }
 // mutations
 const mutations = {
-  setOption(state: enumState, key:String) {
+  setOption(state: object, key:string) {
     getOptions(state,key)
   }
 }
