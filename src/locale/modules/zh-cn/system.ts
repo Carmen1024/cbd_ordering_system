@@ -1,6 +1,6 @@
 export default {
   system: {
-    title: '茶百道运营平台',
+    title: '茶百道订货系统管理平台',
     login: '登录',
     userName: '用户名',
     password: '密码',

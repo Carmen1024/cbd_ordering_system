@@ -43,7 +43,6 @@ import { useRouter, useRoute } from 'vue-router'
 import FullScreen from './functionList/fullscreen.vue'
 import Word from './functionList/word.vue'
 import SizeChange from './functionList/sizeChange.vue'
-import Github from './functionList/github.vue'
 import Theme from './functionList/theme.vue'
 import Breadcrumb from './Breadcrumb.vue'
 import PasswordLayer from './passwordLayer.vue'
@@ -53,7 +52,6 @@ export default defineComponent({
     Breadcrumb,
     Word,
     SizeChange,
-    Github,
     Theme,
     PasswordLayer
   },
