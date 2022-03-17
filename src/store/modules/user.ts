@@ -3,11 +3,13 @@ import { ActionContext } from 'vuex'
 
 export interface userState {
   token: string,
-  info: object
+  info: object,
+  loginInfo:object
 }
 const state = (): userState => ({
   token: '', // 登录token
   info: {},  // 用户信息
+  loginInfo:{}
 })
 
 // getters
@@ -24,6 +26,9 @@ const mutations = {
   },
   infoChange(state: userState, info: object) {
     state.info = info
+  },
+  loginInfoChange(state: userState, loginInfo: object) {
+    state.loginInfo = loginInfo
   }
 }
 
@@ -32,10 +37,18 @@ const actions = {
   // login by login.vue
   login({ commit, dispatch }: ActionContext<userState, userState>, params: any) {
     return new Promise((resolve, reject) => {
-      loginApi(params)
+      let new_params = {
+        "eq":{
+          user_phone: params.name,
+          user_pass: params.password
+        }
+      }
+      loginApi(new_params)
       .then(res => {
         commit('tokenChange', res.data.token)
-        dispatch('getInfo', { token: res.data.token })
+        commit('loginInfoChange', params)
+        // resolve(res.data.token)
+        dispatch('getInfo')
         .then(infoRes => {
           resolve(res.data.token)
         })
@@ -45,12 +58,12 @@ const actions = {
     })
   },
   // get user info after user logined
-  getInfo({ commit }: ActionContext<userState, userState>, params: any) {
+  getInfo({ commit }: ActionContext<userState, userState>) {
     return new Promise((resolve, reject) => {
-      getInfoApi(params)
+      getInfoApi()
       .then(res => {
-        commit('infoChange', res.data.info)
-        resolve(res.data.info)
+        commit('infoChange', res.data)
+        resolve(res.data)
       })
     })
   },
@@ -59,16 +72,16 @@ const actions = {
   loginOut({ commit }: ActionContext<userState, userState>) {
     loginOutApi()
     .then(res => {
-
+      localStorage.removeItem('tabs')
+      localStorage.removeItem('vuex')
+      sessionStorage.removeItem('vuex')
+      location.reload()
     })
     .catch(error => {
 
     })
     .finally(() => {
-      localStorage.removeItem('tabs')
-      localStorage.removeItem('vuex')
-      sessionStorage.removeItem('vuex')
-      location.reload()
+
     })
   }
 }

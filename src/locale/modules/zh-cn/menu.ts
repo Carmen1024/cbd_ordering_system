@@ -1,7 +1,7 @@
 export default {
   menu: {
     dashboard: {
-      name: '茶百道运营平台',
+      name: '茶百道订货系统管理平台',
       index: '首页'
     },
     system: {
@@ -17,6 +17,12 @@ export default {
       pie: '饼图',
       radar: '雷达图',
       map: '地图',
+    },
+    user:{
+      name:"个人中心",
+      account:{
+        name:"我的账号"
+      }
     },
     basic:{
       name:"基础管理",
@@ -104,7 +110,7 @@ export default {
       code:{
         name:"代码管理",
         base:"接口列表",
-        business:"系统字典"
+        business:"枚举"
       },
       version:"开发版本",
       developer:"开发人员"

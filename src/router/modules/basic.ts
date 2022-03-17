@@ -50,6 +50,12 @@ const route: Route[] = [
           },
         ]
       },
+      //systemDictionary
+      {
+        path: 'systemDictionary',
+        component: createNameComponent(() => import('@/views/main/basic/systemDictionary/index.vue')),
+        meta: { title: 'message.menu.basic.systemDictionary', icon: 'iconfont icon-systemDictionary' }
+      },
       {
         path: 'receipt',
         component: createNameComponent(() => import('@/views/main/basic/receipt/index.vue')),

@@ -74,8 +74,8 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const form = reactive({
-      name: 'admin',
-      password: '123456',
+      name: '18628062774',
+      password: '123',
       verifyCode: '',
       loading: false
     })

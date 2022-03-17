@@ -2,11 +2,10 @@
   <div class="layout-container">
     <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
+        <el-input v-model="query.like.dict_name" placeholder="请输入字典中文名" @change="getTableData(true)"></el-input>
+        <el-input v-model="query.like.dict_key" placeholder="请输入字典英文名" @change="getTableData(true)"></el-input>
+        <el-button :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
         <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
-      </div>
-      <div class="layout-container-form-search">
-        <el-input v-model="query.input" :placeholder="$t('message.common.searchTip')" @change="getTableData(true)"></el-input>
-        <el-button type="primary" :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
       </div>
     </div>
     <div class="layout-container-table">
@@ -17,22 +16,28 @@
         :showIndex="true"
         :showSelection="true"
         :data="tableData"
-        :columnData="columnData"
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
+      <!-- 字典名称 字典路径 -->
+        <el-table-column prop="dict_val_str" label="字典名称" align="center" />
+        <el-table-column prop="dict_group" label="字典类型" align="center" />
+        <el-table-column prop="dict_type_desc" label="字典类型" align="center" />
+        <el-table-column prop="dict_remark" label="备注" align="center" />
+        <el-table-column prop="c_create_time" label="创建时间" align="center" />
         <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
           <template #default="scope">
-            <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
-            <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([scope.row])">
+            <el-button @click="handleEdit(scope.row)">查看</el-button>
+            <!-- <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel(scope.row)">
               <template #reference>
                 <el-button type="danger">{{ $t('message.common.del') }}</el-button>
               </template>
-            </el-popconfirm>
+            </el-popconfirm> -->
           </template>
         </el-table-column>
       </Table>
-      <Detail :drawer="drawer" v-if="drawer.show" />
+      <!-- <Drawer :layer="layer" v-if="layer.show" @getTableData="getTableData" /> -->
+      <layer :layer="layer" v-if="layer.show" @getTableData="getTableData" />
     </div>
   </div>
 </template>
@@ -41,30 +46,41 @@
 import { defineComponent, ref, reactive } from 'vue'
 import Table from '@/components/table/index.vue'
 import { Page } from '@/components/table/type'
-import { getData, del } from '@/api/table'
-import { storeQuery,storeValid } from '@/api/shop/shop';
 import { ElMessage } from 'element-plus'
-import type { DrawerInterface } from '@/components/drawer/index.vue'
-import { typeData, statusData } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
-import Detail from './../detail/index.vue';
+import Layer from './layer.vue';
+import type { LayerInterface } from '@/components/layer/index.vue'
+import { dictQuery,dictDelete, dictInsert,dictFetch,dictValid,dictUpdate } from '@/api/system/dictionary'
+import { dict_type_data } from './enum';
 export default defineComponent({
-  name: 'crudTable',
+  name: 'orderRules',
   components: {
     Table,
-    Detail
+    Layer
   },
   setup() {
     // 存储搜索用的数据
-    const query = reactive({
-      input: ''
+    const query = ref({
+      // like:{
+      //   dict_val_str:"",
+      //   dict_group:""
+      // }
+      eq:{
+        //1：字符串类型，2：整数类型，3：布尔类型，4：数组类型，5：对象类型，6：对象数组类型。
+         "dict_val_type":5
+      },
+      like:{
+         "dict_group":"",////可选，组名
+         "dict_key":"store_status", ////必填，字典键名，英文
+         "dict_name":"门店状态" ////必填，字典中文名
+      }
     })
     // 弹窗控制器
-    const drawer: DrawerInterface = reactive({
-      show:false,
-      title:"编辑规则",
-      showButton:true,
-      width:'70%'
+    const layer: LayerInterface = reactive({
+      show: false,
+      title: '新增',
+      showButton: true,
+      width:'30%'
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
@@ -78,17 +94,6 @@ export default defineComponent({
     const handleSelectionChange = (val: []) => {
       chooseData.value = val
     }
-    const columnData = ref([
-      {prop:'s_code',label:'门店编码'},
-      {prop:'s_name',label:'门店名称'},
-      // {prop:'name',label:'归属组织'},
-      // {prop:'name',label:'归属客户'},
-      {prop:'s_type_desc',label:'门店类型'}, //门店类型，1:直营店,2:加盟店,3:经销商,4:社会客户。
-      {prop:'s_charge_name',label:'联系人'},
-      {prop:'s_charge_phone_num',label:'联系电话'},
-      {prop:'s_addr',label:'门店地址'},
-      {prop:'s_status_desc',label:'门店状态'}, //门店状态，1:正常营业2:暂停营业3:永久关闭。
-    ])
     // 获取表格数据
     // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
     const getTableData = (init: boolean) => {
@@ -97,23 +102,22 @@ export default defineComponent({
         page.index = 1
       }
       let params = {
-        page: page.index,
-        pageSize: page.size,
-        ...query
+        start: <number>page.index-1,
+        size: page.size,
+        ...query.value
       }
-      storeQuery(params)
+      dictQuery(params)
       .then(res => {
+        console.log(res);
         let data = res.data
         if (Array.isArray(data)) {
           data.forEach(d => {
-            const type = typeData.find(select => select.value === d.s_type)
-            d.s_type_desc = type ? type.label :  d.s_type
-            const status = statusData.find(select => select.value === d.s_status)
-            d.s_status_desc = status ? status.label :  d.s_status
+            const dict_type = dict_type_data.find(item => item.value === d.dict_type)
+            d.dict_type_desc = dict_type ?  dict_type.label : d.dict_type
           })
         }
-        tableData.value = res.data
-        page.total = Number(res.total)
+        tableData.value = data
+        page.total = res.total
       })
       .catch(error => {
         tableData.value = []
@@ -125,13 +129,9 @@ export default defineComponent({
       })
     }
     // 删除功能
-    const handleDel = (data: object[]) => {
-      let params = {
-        ids: data.map((e:any)=> {
-          return e.id
-        }).join(',')
-      }
-      del(params)
+    const handleDel = (row: object) => {
+      let params = {"eq": {"_id": row._id}};
+      dictDelete(params)
       .then(res => {
         ElMessage({
           type: 'success',
@@ -142,15 +142,15 @@ export default defineComponent({
     }
     // 新增弹窗功能
     const handleAdd = () => {
-      drawer.title = '新增数据'
-      drawer.show = true
-      delete drawer.row
+      layer.title = '新增字典'
+      layer.show = true
+      delete layer.row
     }
     // 编辑弹窗功能
     const handleEdit = (row: object) => {
-      drawer.title = '编辑数据'
-      drawer.row = row
-      drawer.show = true
+      layer.title='编辑字典'
+      layer.show = true
+      layer.row = row
     }
     getTableData(true)
     return {
@@ -162,13 +162,12 @@ export default defineComponent({
       chooseData,
       loading,
       page,
-      drawer,
       handleSelectionChange,
       handleAdd,
       handleEdit,
       handleDel,
       getTableData,
-      columnData
+      layer,
     }
   }
 })

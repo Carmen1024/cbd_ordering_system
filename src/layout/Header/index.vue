@@ -20,12 +20,12 @@
       <div class="user-info">
         <el-dropdown>
           <span class="el-dropdown-link">
-            {{ $t('message.system.user') }}
+            {{user.name}}
             <i class="sfont system-xiala"></i>
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item @click="showPasswordLayer">{{ $t('message.system.changePassword') }}</el-dropdown-item>
+              <!-- <el-dropdown-item @click="showPasswordLayer">{{ $t('message.system.changePassword') }}</el-dropdown-item> -->
               <el-dropdown-item @click="loginOut">{{ $t('message.system.loginOut') }}</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -77,12 +77,14 @@ export default defineComponent({
     const showPasswordLayer = () => {
       layer.show = true
     }
+    const user = store.state.user.loginInfo
     return {
       isCollapse,
       layer,
       opendStateChange,
       loginOut,
-      showPasswordLayer
+      showPasswordLayer,
+      user
     }
   }
 })

@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3125514 */
-  src: url('iconfont.woff2?t=1642051357783') format('woff2'),
-       url('iconfont.woff?t=1642051357783') format('woff'),
-       url('iconfont.ttf?t=1642051357783') format('truetype');
+  src: url('iconfont.woff2?t=1647503225678') format('woff2'),
+       url('iconfont.woff?t=1647503225678') format('woff'),
+       url('iconfont.ttf?t=1647503225678') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,162 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-systemDictionary2:before {
+  content: "\e667";
+}
+
+.icon-systemDictionary:before {
+  content: "\e6a8";
+}
+
+.icon-youxiang1:before {
+  content: "\e61d";
+}
+
+.icon-account:before {
+  content: "\e61b";
+}
+
+.icon-center:before {
+  content: "\e6a4";
+}
+
+.icon-back:before {
+  content: "\e60e";
+}
+
+.icon-a-shoujihaoshouji:before {
+  content: "\e6b3";
+}
+
+.icon-a-shoujihaoshouji1:before {
+  content: "\e6b4";
+}
+
+.icon-yonghuzhucexieyi:before {
+  content: "\e6e7";
+}
+
+.icon-tongxunlu:before {
+  content: "\e6f1";
+}
+
+.icon-wode1:before {
+  content: "\e701";
+}
+
+.icon-dianhua:before {
+  content: "\e708";
+}
+
+.icon-zhuce:before {
+  content: "\e71c";
+}
+
+.icon-shanchu1:before {
+  content: "\e666";
+}
+
+.icon-shanchu:before {
+  content: "\e8b6";
+}
+
+.icon-bianji:before {
+  content: "\e604";
+}
+
+.icon-rili:before {
+  content: "\e602";
+}
+
+.icon-bianji1:before {
+  content: "\e614";
+}
+
+.icon-sousuo:before {
+  content: "\e61c";
+}
+
+.icon-sousuoxiao:before {
+  content: "\e8d6";
+}
+
+.icon-bigclose:before {
+  content: "\e665";
+}
+
+.icon-close:before {
+  content: "\e903";
+}
+
+.icon-shouye:before {
+  content: "\e618";
+}
+
+.icon-wode:before {
+  content: "\e6b2";
+}
+
+.icon-dingdan:before {
+  content: "\e8ae";
+}
+
+.icon-goumai:before {
+  content: "\e664";
+}
+
+.icon-jian:before {
+  content: "\e621";
+}
+
+.icon-tianjia:before {
+  content: "\e624";
+}
+
+.icon-jine:before {
+  content: "\e6c3";
+}
+
+.icon-tongzhi:before {
+  content: "\e611";
+}
+
+.icon-acceptance:before {
+  content: "\e798";
+}
+
+.icon-scrap:before {
+  content: "\e7da";
+}
+
+.icon-kefu:before {
+  content: "\e65d";
+}
+
+.icon-shenfenzheng:before {
+  content: "\e660";
+}
+
+.icon-shuoming:before {
+  content: "\e661";
+}
+
+.icon-plus:before {
+  content: "\e662";
+}
+
+.icon-up:before {
+  content: "\e650";
+}
+
+.icon-right:before {
+  content: "\e65e";
+}
+
+.icon-down:before {
+  content: "\e65f";
 }
 
 .icon-project:before {
@@ -25,7 +181,7 @@
   content: "\eb63";
 }
 
-.icon-tubiao-zhexiantu:before {
+.icon-report:before {
   content: "\eb96";
 }
 

@@ -3,9 +3,9 @@ import request from '@/utils/system/request'
 // 登录api
 export function loginApi(data: object) {
   return request({
-    url: '/user/login',
+    url: '/g/login/login_with_admin',
     method: 'post',
-    baseURL: '/mock',
+    // baseURL: '/mock',
     data
   })
 }
@@ -13,9 +13,9 @@ export function loginApi(data: object) {
 // 获取用户信息Api
 export function getInfoApi(data: object) {
   return request({
-    url: '/user/info',
+    url: '/g/login/fetch_current_user',
     method: 'post',
-    baseURL: '/mock',
+    // baseURL: '/mock',
     data
   })
 }
@@ -23,18 +23,37 @@ export function getInfoApi(data: object) {
 // 退出登录Api
 export function loginOutApi() {
   return request({
-    url: '/user/out',
+    url: '/g/login/logout',
     method: 'post',
-    baseURL: '/mock'
+    // baseURL: '/mock'
+  })
+}
+
+// 获取验证码
+export function sendPhoneCode(data: object) {
+  return request({
+    url: '/g/login/test_reset_phone_code',
+    method: 'post',
+    // baseURL: '/mock',
+    data
   })
 }
 
 // 获取用户信息Api
 export function passwordChange(data: object) {
   return request({
-    url: '/user/passwordChange',
+    url: '/g/login/pass_reset',
     method: 'post',
-    baseURL: '/mock',
+    // baseURL: '/mock',
+    data
+  })
+}
+
+export function resetMail(data: object) {
+  return request({
+    url: '/g/login/reset_mail',
+    method: 'post',
+    // baseURL: '/mock',
     data
   })
 }
