@@ -62,4 +62,5 @@ export const getData = (shouldKey:object,params:object)=>{
         });
         dataParams[index] = indexMap;
     }
+    return dataParams
 }

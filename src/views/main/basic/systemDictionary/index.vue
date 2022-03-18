@@ -1,79 +1,58 @@
 <template>
   <div class="layout-container">
-    <div class="layout-container-form flex space-between">
-      <div class="layout-container-form-handle">
-        <el-input v-model="query.like.dict_name" placeholder="请输入字典中文名" @change="getTableData(true)"></el-input>
-        <el-input v-model="query.like.dict_key" placeholder="请输入字典英文名" @change="getTableData(true)"></el-input>
-        <el-button :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
-        <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
-      </div>
-    </div>
-    <div class="layout-container-table">
-      <Table
-        ref="table"
-        v-model:page="page"
-        v-loading="loading"
-        :showIndex="true"
-        :showSelection="true"
-        :data="tableData"
-        @getTableData="getTableData"
-        @selection-change="handleSelectionChange"
-      >
-      <!-- 字典名称 字典路径 -->
-        <el-table-column prop="dict_val_str" label="字典名称" align="center" />
-        <el-table-column prop="dict_group" label="字典类型" align="center" />
-        <el-table-column prop="dict_type_desc" label="字典类型" align="center" />
-        <el-table-column prop="dict_remark" label="备注" align="center" />
-        <el-table-column prop="c_create_time" label="创建时间" align="center" />
-        <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
-          <template #default="scope">
-            <el-button @click="handleEdit(scope.row)">查看</el-button>
-            <!-- <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel(scope.row)">
-              <template #reference>
-                <el-button type="danger">{{ $t('message.common.del') }}</el-button>
-              </template>
-            </el-popconfirm> -->
-          </template>
-        </el-table-column>
-      </Table>
-      <!-- <Drawer :layer="layer" v-if="layer.show" @getTableData="getTableData" /> -->
-      <layer :layer="layer" v-if="layer.show" @getTableData="getTableData" />
-    </div>
+    <form-handle 
+      :condition="condition" 
+      :query="query"
+      @getTableData="getTableData"
+      @handleAdd="handleAdd"  
+    />
+    <table-normal 
+      :columnArr="columnArr" 
+      :tableData="tableData"
+      :page="page"
+      :loading="loading"
+      @getTableData="getTableData"
+      @handleSelectionChange="handleSelectionChange"
+      @handleEdit="handleEdit"
+      @handleDel="handleDel"
+      @tableHandle="tableHandle"
+    />
+    <layer-normal 
+      :layer = "layer" 
+      :rules = "rules"
+      :itemArr="itemArr"
+      v-if="layer.show"
+      @addForm="addForm"
+      @updateForm="updateForm"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
-import Table from '@/components/table/index.vue'
 import { Page } from '@/components/table/type'
 import { ElMessage } from 'element-plus'
-import { Plus, Search, Delete } from '@element-plus/icons'
-import Layer from './layer.vue';
+import LayerNormal from '@/components/layer/normal.vue';
 import type { LayerInterface } from '@/components/layer/index.vue'
 import { dictQuery,dictDelete, dictInsert,dictFetch,dictValid,dictUpdate } from '@/api/system/dictionary'
-import { dict_type_data } from './enum';
+import { valTypeData,condition,columnArr,itemArr,searchData } from './enum';
+import FormHandle from '@/components/Form/handle.vue';
+import TableNormal from '@/components/table/normal.vue';
+import { getData } from '@/utils/transform/httpConfig';
 export default defineComponent({
   name: 'orderRules',
   components: {
-    Table,
-    Layer
+    TableNormal,
+    LayerNormal,
+    FormHandle
   },
   setup() {
     // 存储搜索用的数据
     const query = ref({
-      // like:{
-      //   dict_val_str:"",
-      //   dict_group:""
-      // }
-      eq:{
-        //1：字符串类型，2：整数类型，3：布尔类型，4：数组类型，5：对象类型，6：对象数组类型。
-         "dict_val_type":5
-      },
-      like:{
-         "dict_group":"",////可选，组名
-         "dict_key":"store_status", ////必填，字典键名，英文
-         "dict_name":"门店状态" ////必填，字典中文名
-      }
+      "dict_val_type":null,//1：字符串类型，2：整数类型，3：布尔类型，4：数组类型，5：对象类型，6：对象数组类型。
+      "dict_group":"",////可选，组名
+      "dict_key":"", ////必填，字典键名，英文
+      "dict_name":"" ////必填，字典中文名
     })
     // 弹窗控制器
     const layer: LayerInterface = reactive({
@@ -94,6 +73,12 @@ export default defineComponent({
     const handleSelectionChange = (val: []) => {
       chooseData.value = val
     }
+    const rules = {
+      dict_val_type: [{ required: true, message: '请选择字典类型', trigger: 'blur' }],
+      dict_key: [{ required: true, message: '请填写字典英文名称', trigger: 'blur' }],
+      dict_name: [{ required: true, message: '请填写字典名称', trigger: 'blur' }],
+      dict_val: [{ required: true, message: '请填写字典值', trigger: 'blur' }],
+    }
     // 获取表格数据
     // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
     const getTableData = (init: boolean) => {
@@ -101,10 +86,11 @@ export default defineComponent({
       if (init) {
         page.index = 1
       }
+      const queryData = getData(searchData,query.value)
       let params = {
         start: <number>page.index-1,
         size: page.size,
-        ...query.value
+        ...queryData
       }
       dictQuery(params)
       .then(res => {
@@ -112,8 +98,8 @@ export default defineComponent({
         let data = res.data
         if (Array.isArray(data)) {
           data.forEach(d => {
-            const dict_type = dict_type_data.find(item => item.value === d.dict_type)
-            d.dict_type_desc = dict_type ?  dict_type.label : d.dict_type
+            const dict_val_type = valTypeData.find(item => item.value === d.dict_val_type)
+            d.dict_val_type_desc = dict_val_type ?  dict_val_type.label : d.dict_val_type
           })
         }
         tableData.value = data
@@ -140,6 +126,17 @@ export default defineComponent({
         getTableData(tableData.value.length === 1 ? true : false)
       })
     }
+    const tableHandle = ({ type,row}) => {
+      if( type =='valid'){
+          const params = getData({"eq":["_id"],"set":["c_valid"]},row)
+          dictValid(params).then(res=>{
+            ElMessage({
+              type: 'success',
+              message: '切换成功'
+            })
+          })
+      }
+    }
     // 新增弹窗功能
     const handleAdd = () => {
       layer.title = '新增字典'
@@ -150,13 +147,12 @@ export default defineComponent({
     const handleEdit = (row: object) => {
       layer.title='编辑字典'
       layer.show = true
+      console.log(row)
+      row.dict_val = row.dict_val.toString()
       layer.row = row
     }
     getTableData(true)
     return {
-      Plus,
-      Search,
-      Delete,
       query,
       tableData,
       chooseData,
@@ -168,6 +164,97 @@ export default defineComponent({
       handleDel,
       getTableData,
       layer,
+      condition,
+      columnArr,
+      rules,
+      itemArr,
+      tableHandle
+    }
+  },
+  methods:{
+    // 新增提交事件
+   async addForm(params: object) {
+      let newP = await this.validateVal(params)
+      newP.dict_type=1
+      dictInsert(newP)
+      .then(res => {
+        this.$message({
+          type: 'success',
+          message: '新增成功'
+        })
+        this.getTableData(true)
+        this.layer.show = false
+      })
+    },
+    // 编辑提交事件
+    async updateForm(params: object) {
+      let newP = await this.validateVal(params)
+      const data = getData({
+        "eq":["_id"],
+        "set":["dict_group","dict_key","store_status","dict_name","dict_val_type","dict_val"]
+        },newP)
+      dictUpdate(data)
+      .then(res => {
+        this.$message({
+          type: 'success',
+          message: '编辑成功'
+        })
+        this.getTableData(true)
+        this.layer.show = false
+      })
+    },
+    validateVal(params:Object) {
+      return new Promise((resolve,reject)=>{
+        
+        try{
+          const { dict_val_type,dict_val } = params
+          const valType = valTypeData.find(item=>item.value == dict_val_type)
+          let newVal:any
+          if(valType){
+            if(valType.type=='Number'){
+              const reg = /^-?[1-9]\d*$/g
+              if(reg.test(dict_val)){
+                newVal = parseInt(dict_val)
+              }
+            }else if(valType.type=='Boolean'){
+              newVal = dict_val ? true : false
+            }else if(valType.type=='Array'){
+              const obj = dict_val.split(",")
+              if(obj.constructor === Array){
+                newVal = obj
+              }
+            }else if(valType.type=='Object'){
+              // newVal = <Boolean>dict_val
+              const obj = JSON.parse(dict_val)
+              if(obj.constructor === Object){
+                newVal = obj
+              }
+            }else if(valType.type=='Array<Object>'){
+              newVal = dict_val.split(",").map(item => JSON.parse(item))
+            }else{
+              newVal = dict_val
+            }
+          }
+          console.log(newVal)
+          if((newVal??'') !== ''){
+            const newParams = {...params,dict_val:newVal}
+            resolve(newParams)
+          }else{
+            this.$message({
+              type: 'error',
+              message: '请填写正确的字典值格式'
+            })
+            reject()
+          }
+        }catch(e){
+          this.$message({
+            type: 'error',
+            message: '请填写正确的字典值格式'
+          })
+          reject()
+        }
+      })
+
     }
   }
 })
