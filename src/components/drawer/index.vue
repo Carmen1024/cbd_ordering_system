@@ -9,11 +9,14 @@
           :with-header="drawer.title"
           :size="drawer.width || '30%'"
         >
-            <div class="drawer_main"><slot></slot></div>
-            <div class="demo-drawer__footer" v-if="drawer.showButton">
-              <el-button type="primary" :loading="loading" @click="confirm">确认</el-button>
-              <el-button @click="close">取消</el-button>
-            </div>
+          <div class="drawer_main"><slot></slot></div>
+          <!-- <div class="demo-drawer__footer" v-if="drawer.showButton">
+            <el-button type="primary" :loading="loading" @click="confirm">确认</el-button>
+            <el-button @click="close">取消</el-button>
+          </div>
+          <div class="demo-drawer__footer" v-else>
+            <el-button @click="close">关闭</el-button>
+          </div> -->
         </el-drawer>
    </div>
 </template>
@@ -79,7 +82,7 @@ export default defineComponent({
     flex-direction: column;
     .drawer_main{
       overflow-y: scroll;
-      height: calc(100% - 50px);
+      height: 100%;
     }
     .demo-drawer__footer{
       border-top: solid 1px #ddd;

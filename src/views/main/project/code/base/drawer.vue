@@ -4,13 +4,13 @@
       <Form>
         <el-form :model="form" :rules="rules" ref="ruleForm" label-width="150px" class="form-item-jv">
           <el-form-item label="接口名称：" prop="f_name">
-            <el-input v-model="form.f_name" placeholder="请输入接口名称"></el-input>
+            <el-input v-model="form.f_name" placeholder="请填写接口名称"></el-input>
           </el-form-item>
           <el-form-item label="接口路径：" prop="f_path">
             <el-input v-model="form.f_path" placeholder="只能输入字母，下划线，数字，斜杠"></el-input>
           </el-form-item>
           <el-form-item label="接口描述：" prop="c_desc">
-            <el-input v-model="form.c_desc" placeholder="请输入"></el-input>
+            <el-input v-model="form.c_desc" placeholder="请填写"></el-input>
           </el-form-item>
           <el-form-item label="是否验证必填项：" prop="f_must_enable">
             <el-switch v-model="form.f_must_enable" active-text="验证" inactive-text="不验证" />
@@ -126,8 +126,8 @@ export default defineComponent({
   setup(props){
     const ruleForm: Ref<ElFormItemContext|null> = ref(null)
     const rules = {
-      f_name: [{ required: true, message: '请输入接口名称', trigger: 'blur' }],
-      f_path: [{ required: true, message: '请输入接口路径', trigger: 'blur' }]
+      f_name: [{ required: true, message: '请填写接口名称', trigger: 'blur' }],
+      f_path: [{ required: true, message: '请填写接口路径', trigger: 'blur' }]
     }
     let form = ref({
       "f_name": "",

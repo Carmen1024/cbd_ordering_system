@@ -52,13 +52,15 @@ export const getData = (shouldKey:object,params:object)=>{
         const item = shouldKey[index];
         let indexMap = {};
         item.map((n) => {
+            let vValue = null
             if(index === '#gte' && n.match(/_time$/ig)){
-                indexMap[n] = params["createTime"];
+                vValue = params["createTime"];
             }else if(index === '#lte' && n.match(/_time$/ig)){
-                indexMap[n] = params["endTime"];
+                vValue = params["endTime"];
             }else{
-                indexMap[n] = params[n];
+                vValue = params[n];
             }
+            if((vValue??'')!=='') indexMap[n] = vValue
         });
         dataParams[index] = indexMap;
     }

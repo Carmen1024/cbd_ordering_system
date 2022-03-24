@@ -6,7 +6,7 @@
           v-model="form.m_s_desc"
           :rows="2"
           type="textarea"
-          placeholder="请输入物料描述"
+          placeholder="请填写物料描述"
         />
       </el-form-item>
       <el-form-item label="品牌" style="width:33%;" prop="m_s_brand">

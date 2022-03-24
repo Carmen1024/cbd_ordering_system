@@ -57,7 +57,7 @@
         <el-input v-model="form.m_tax_code"></el-input>
       </el-form-item>
       <el-form-item label="三级单位" style="width:25%" prop="m_u_count_purchase">
-      <el-input v-model="form.m_u_count_purchase" placeholder="请输入订购单位" ></el-input>
+      <el-input v-model="form.m_u_count_purchase" placeholder="请填写订购单位" ></el-input>
       </el-form-item>
       <el-form-item label="" style="width:15%" label-width="10px" prop="m_u_unit_purchase">
         <el-select v-model="form.m_u_unit_purchase" clearable placeholder="请选择订购单位">
@@ -71,7 +71,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="" style="width:15%" label-width="10px" prop="m_u_count_stock">
-        <el-input v-model="form.m_u_count_stock" placeholder="请输入库存单位"></el-input>
+        <el-input v-model="form.m_u_count_stock" placeholder="请填写库存单位"></el-input>
       </el-form-item>
       <el-form-item label="" style="width:15%" label-width="10px" prop="m_u_unit_stock">
         <el-select v-model="form.m_u_unit_stock" clearable placeholder="请选择库存单位">
@@ -85,7 +85,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="" style="width:15%" label-width="10px" prop="m_u_count_bom">
-        <el-input v-model="form.m_u_count_bom" placeholder="请输入BOM单位" ></el-input>
+        <el-input v-model="form.m_u_count_bom" placeholder="请填写BOM单位" ></el-input>
       </el-form-item>
       <el-form-item label="" style="width:15%" label-width="10px" prop="m_u_unit_bom">
         <el-select v-model="form.m_u_unit_bom" clearable placeholder="请选择BOM单位">
@@ -99,7 +99,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="物流单位" style="width:35%" prop="m_u_count_trans">
-        <el-input v-model="form.m_u_count_trans" placeholder="请输入物流单位数" ></el-input>
+        <el-input v-model="form.m_u_count_trans" placeholder="请填写物流单位数" ></el-input>
       </el-form-item>
       <el-form-item label="" style="width:15%" label-width="10px" prop="m_u_unit_trans">
         <el-select v-model="form.m_u_unit_trans" clearable placeholder="请选择物流单位">
@@ -149,10 +149,10 @@
         <el-input v-model="form.m_save_store"></el-input>
       </el-form-item>
       <el-form-item label="订购限制" style="width:30%" prop="m_order_lower">
-        <el-input v-model="form.m_order_lower" placeholder="请输入订购下限"></el-input>
+        <el-input v-model="form.m_order_lower" placeholder="请填写订购下限"></el-input>
       </el-form-item>     
       <el-form-item label="" style="width:20%" label-width="10px" prop="m_order_upper">
-        <el-input v-model="form.m_order_upper" placeholder="请输入订购上限"></el-input>
+        <el-input v-model="form.m_order_upper" placeholder="请填写订购上限"></el-input>
       </el-form-item>
       <el-form-item>
         <el-checkbox v-model="form.m_order_window_ctrl" label="订货窗口控制"></el-checkbox>

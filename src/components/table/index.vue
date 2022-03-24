@@ -117,7 +117,8 @@ export default defineComponent({
     height: 100%;
     .system-table {
       flex: 1;
-      height: 100%;
+      // height: 100%;
+      min-height: 300px;
     }
     
     .system-page {

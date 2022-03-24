@@ -2,7 +2,7 @@
   <div class="layout-container">
     <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
-        <el-input v-model="filterText" placeholder="请输入分类名" />
+        <el-input v-model="filterText" placeholder="请填写分类名" />
         <el-button :icon="Search" class="search-btn" @click="getTree">{{ $t('message.common.search') }}</el-button>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增分类</el-button>
       </div>

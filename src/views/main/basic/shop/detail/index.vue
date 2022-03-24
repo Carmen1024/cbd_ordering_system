@@ -1,39 +1,48 @@
 <!-- 物料编辑单项 -->
 <template >
-  <Drawer :drawer="drawer" @confirm="submit">
+  <Drawer :drawer="drawer">
     <div class="detail-container">
-      <p>客户基本信息</p>
-      <div class="layout-basic">
-        <basic-information />
+      <div>
+        <!-- <p>客户基本信息</p> -->
+        <basic-information :form="form" />
       </div>
-      <p>财务结算信息</p>
+      <!-- <p>财务结算信息</p>
       <div class="layout-basic">
         <financial-settlement />
-      </div>
-      <p>配置信息</p>
-      <div class="layout-full">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="员工信息" name="first"><staff /></el-tab-pane>
-          <el-tab-pane label="订购信息" name="second"><ordering-information /></el-tab-pane>
-          <el-tab-pane label="优惠券" name="third"><coupon /></el-tab-pane>
-          <el-tab-pane label="门店设备" name="fourth"><store-equipment /></el-tab-pane>
-          <el-tab-pane label="变更记录" name="fifth"><change-log /></el-tab-pane>
-        </el-tabs>
+      </div> -->
+      <div v-if="form.row">
+        <p>配置信息</p>
+        <div class="layout-full">
+          <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane label="员工信息" name="first"><staff :father="form" /></el-tab-pane>
+            <el-tab-pane label="收货地址" name="second"><address1 :father="form" /></el-tab-pane>
+            <!-- <el-tab-pane label="订购信息" name="second"><ordering-information :father="form" /></el-tab-pane> -->
+            <!-- <el-tab-pane label="优惠券" name="third"><coupon /></el-tab-pane> -->
+            <!-- <el-tab-pane label="门店设备" name="fourth"><store-equipment /></el-tab-pane> -->
+            <!-- <el-tab-pane label="变更记录" name="fifth"><change-log /></el-tab-pane> -->
+          </el-tabs>
+        </div>
       </div>
     </div>
   </Drawer>
 </template>
 
 <script lang='ts'>
-import { defineComponent,ref } from 'vue'
-import basicInformation from './components/basicInformation.vue'
-import financialSettlement from './components/financialSettlement.vue'
-import staff from './components/staff/index.vue'
-import orderingInformation from './components/orderingInformation.vue';
-import coupon from './components/coupon/index.vue';
-import storeEquipment from './components/storeEquipment/index.vue';
-import ChangeLog from './components/changeLog.vue';
+import { defineComponent,ref,reactive } from 'vue'
+import basicInformation from './components/basicInformation/basicInformation.vue'
+import financialSettlement from './components/financialSettlement/financialSettlement.vue'
+import staff from './../staff/index.vue'
+import Address1 from './../address/index.vue'
+
+// import orderingInformation from './components/orderingInformation/orderingInformation.vue';
+// import coupon from './components/coupon/index.vue';
+// import storeEquipment from './components/storeEquipment/index.vue';
+// import ChangeLog from './components/changeLog/changeLog.vue';
 import Drawer from '@/components/drawer/index.vue';
+import { formInterface } from '@/components/Form/main.vue';
+export interface storeInterface {
+  [propName: string]: any;
+}
 export default defineComponent({
   name: 'materialDetail',
   props:{
@@ -43,7 +52,7 @@ export default defineComponent({
           return {
               show: false,
               title:'',
-              showButton:true
+              showButton:false
           }
       }
     }
@@ -52,45 +61,38 @@ export default defineComponent({
     basicInformation,
     financialSettlement,
     staff,
-    orderingInformation,
-    coupon,
-    storeEquipment,
+    Address1,
+    // orderingInformation,
+    // coupon,
+    // storeEquipment,
     Drawer,
-    ChangeLog
+    // ChangeLog
   },
   setup(props){
     const activeName = ref('first')    
-    let form = ref({
-      id:'',
-      name: ''
-    })
-    const rules = {
-      label: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+
+    const handleClick = (tab: string, event: Event) => {
+      console.log(tab, event)
     }
+
+    const form:formInterface = reactive({
+      title:props.drawer.title,
+      showButton:true
+    })
     init()
     function init() { // 用于判断新增还是编辑功能
       if (props.drawer.row) {
-        form.value = JSON.parse(JSON.stringify(props.drawer.row)) // 数量量少的直接使用这个转
+        let row = JSON.parse(JSON.stringify(props.drawer.row));
+        form.row = row
       } else {
-
+        
       }
     }
-    const handleClick = (tab: string, event: Event) => {
-    console.log(tab, event)
-    }
-    // import { useRoute } from 'vue-router'
-    // const route = useRoute();
-    // username = ref(<string>route.query.username)
-    // 打印
-    const submit = ()=>{
-      console.log("confirm");
-      props.drawer.show = false;
-    }
+
     return{
       activeName,
       handleClick,
-      form,
-      submit
+      form
     }
   },
 })

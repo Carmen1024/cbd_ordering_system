@@ -2,7 +2,7 @@
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
       <el-form-item label="编号：" prop="name">
-        <el-input v-model="form.name" placeholder="请输入名称" disabled></el-input>
+        <el-input v-model="form.name" placeholder="请填写名称" disabled></el-input>
       </el-form-item>
       <el-form-item label="价格带名称：" prop="number">
         <el-input v-model="form.number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>
@@ -11,14 +11,14 @@
 			  <el-input v-model="form.number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>
 			</el-form-item>
       <el-form-item label="生效区域：" prop="date">
-        <el-input v-model="form.name" placeholder="请输入生效区域"></el-input>
+        <el-input v-model="form.name" placeholder="请填写生效区域"></el-input>
       </el-form-item>
       <el-form-item label="价格带说明：" prop="date">
 			  <el-input
           v-model="textarea"
           :rows="2"
           type="textarea"
-          placeholder="请输入"
+          placeholder="请填写"
         />
       </el-form-item>
       <el-form-item label="启动状态：" prop="date">
@@ -65,8 +65,8 @@ export default defineComponent({
       date:[]
     })
     const rules = {
-      name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-      number: [{ required: true, message: '请输入数字', trigger: 'blur' }],
+      name: [{ required: true, message: '请填写姓名', trigger: 'blur' }],
+      number: [{ required: true, message: '请填写数字', trigger: 'blur' }],
       choose: [{ required: true, message: '请选择', trigger: 'blur' }],
       date: [{ required: true, message: '请选择', trigger: 'blur' }]
     }

@@ -5,10 +5,10 @@
         管理员
       </el-form-item>
       <el-form-item label="原密码：" prop="old">
-        <el-input v-model="form.old" placeholder="请输入原密码" show-password></el-input>
+        <el-input v-model="form.old" placeholder="请填写原密码" show-password></el-input>
       </el-form-item>
 			<el-form-item label="新密码：" prop="new">
-			  <el-input v-model="form.new" placeholder="请输入新密码" show-password></el-input>
+			  <el-input v-model="form.new" placeholder="请填写新密码" show-password></el-input>
 			</el-form-item>
     </el-form>
   </Layer>
@@ -50,8 +50,8 @@ export default defineComponent({
       new: ''
     })
     const rules = {
-      old: [{ required: true, message: '请输入原密码', trigger: 'blur' }],
-      new: [{ required: true, message: '请输入新密码', trigger: 'blur' }],
+      old: [{ required: true, message: '请填写原密码', trigger: 'blur' }],
+      new: [{ required: true, message: '请填写新密码', trigger: 'blur' }],
     }
     function submit() {
       if (ruleForm.value) {

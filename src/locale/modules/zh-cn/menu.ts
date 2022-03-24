@@ -26,10 +26,7 @@ export default {
     },
     basic:{
       name:"基础管理",
-      customer:{
-        name:"客户管理",
-        list:"客户列表"
-      },
+      customer:"客户管理",
       shop:{
         name:"门店管理",
         list:"门店列表",//包含当前门店：员工 订购 优惠券 设备 信息变更记录
@@ -55,7 +52,7 @@ export default {
         orderWindow:"订货窗口",
         priceLevel:"价格等级",
         storeHouse:"仓库管理",
-        transferRelationship:"调拨关系",
+        transferRelationship:"调拨规则",
         scrapReason:"报废原因",
         freightTemplate:{
           name:"运费管理",
@@ -85,14 +82,14 @@ export default {
       },
     },
     charge:{
-      name:'费用收取',
+      name:'费用管理',
       service:{
         name:'服务费收取'
       },
       expense:{
         name:"费用管理",
         expenseType:"费用类型",
-        refundReason:"退款原因"
+        // refundReason:"退款原因"
       },
       chargeManagement:{
         name:"收费管理",

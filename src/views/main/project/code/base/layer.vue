@@ -62,7 +62,7 @@ export default defineComponent({
       }
     }
     const rules = {
-      path: [{ required: true, message: '请输入路径', trigger: 'blur' }],
+      path: [{ required: true, message: '请填写路径', trigger: 'blur' }],
       data_str: [{ required: true,validator: validateData, trigger: 'change' }],
     }
     // const dfs = (n, path) => {

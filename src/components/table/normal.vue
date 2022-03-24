@@ -23,14 +23,24 @@
             />
           </template>
         </el-table-column>
-        <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
+        <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" :width="handles.length * 100">
           <template #default="scope">
-            <el-button @click="handleEdit(scope.row)">编辑</el-button>
-            <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel(scope.row)">
-              <template #reference>
-                <el-button type="danger">{{ $t('message.common.del') }}</el-button>
-              </template>
-            </el-popconfirm>
+            <span v-for="(handle,index) in handles" :key="index" class="handle-span">
+              <el-button v-if="handle.value=='edit'" @click="handleEdit(scope.row)">
+                {{handle.label || '编辑'}}
+              </el-button>
+              <el-popconfirm v-else-if="handle.value=='delete'"
+                :title="$t('message.common.delTip')" 
+                @confirm="handleDel(scope.row)">
+                <template #reference>
+                  <el-button type="danger">{{ handle.label || $t('message.common.del') }}</el-button>
+                </template>
+              </el-popconfirm>
+              <!-- 其他的 -->
+              <el-button v-else @click="tableHandle(handle.value,scope.row)">
+                {{handle.label}}
+              </el-button> 
+            </span>
           </template>
         </el-table-column>
       </Table>
@@ -70,7 +80,16 @@ export default defineComponent({
         default(){
             return true
         } 
-      }
+      },
+      handles:{
+          type:Array,
+          default(){
+            return [
+              { value: "edit", label: '编辑'},
+              { value: "delete", label: '删除'}
+            ]
+          }
+      },
   },
   setup(props,cxt){
         // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
@@ -94,11 +113,13 @@ export default defineComponent({
       handleSelectionChange,
       handleEdit,
       handleDel,
-      tableHandle
+      tableHandle,
     }
   },
 })
 </script>
 <style lang='scss' scoped>
- 
+  .handle-span + .handle-span{
+    padding-left:10px;
+  }
 </style>

@@ -11,17 +11,17 @@ export const condition = [
   {
     type:'input',
     prop:'dict_group',
-    placeholder:'请输入组名'
+    placeholder:'请填写组名'
   },
   {
     type:'input',
     prop:'dict_name',
-    placeholder:'请输入字典中文名'
+    placeholder:'请填写字典中文名'
   },
   {
     type:'input',
     prop:'dict_key',
-    placeholder:'请输入字典英文名'
+    placeholder:'请填写字典英文名'
   },
   {
     type:'select',
@@ -60,19 +60,19 @@ export const itemArr = [
     label:"组名：",
     type:'input',
     prop:'dict_group',
-    placeholder:'请输入组名'
+    placeholder:'请填写组名'
   },
   {
     label:"字典中文名：",
     type:'input',
     prop:'dict_name',
-    placeholder:'请输入字典中文名'
+    placeholder:'请填写字典中文名'
   },
   {
     label:"字典英文名：",
     type:'input',
     prop:'dict_key',
-    placeholder:'请输入字典英文名'
+    placeholder:'请填写字典英文名'
   },
   {
     label:"字典类型：",
@@ -85,11 +85,25 @@ export const itemArr = [
     label:"字典值：",
     type:'textarea',
     prop:'dict_val',
+    width:'100%',
+    row:"6",
     placeholder:'请按照选择类型输入'
   },
 ]
 
-export const searchData = {
+export const searchFormat = {
   "eq":["dict_val_type"],
   "like":["dict_group","dict_key","dict_name"]
+}
+
+export const updateFormat = {
+  "eq":["_id"],
+  "set":["dict_group","dict_key","store_status","dict_name","dict_val_type","dict_val"]
+}
+
+export const rules = {
+  dict_val_type: [{ required: true, message: '请选择字典类型', trigger: 'blur' }],
+  dict_key: [{ required: true, message: '请填写字典英文名称', trigger: 'blur' }],
+  dict_name: [{ required: true, message: '请填写字典名称', trigger: 'blur' }],
+  dict_val: [{ required: true, message: '请填写字典值', trigger: 'blur' }],
 }

@@ -5,14 +5,14 @@
         {{form.phone}}
       </el-form-item>
       <el-form-item label="验证码：" prop="old">
-        <el-input v-model="form.code" placeholder="请输入验证码">
+        <el-input v-model="form.code" placeholder="请填写验证码">
         </el-input>
         <el-button @click="sendCode" :disabled="sendDisabled" type="primary" style="margin-left:10px;" >
           {{sendMsg}}
         </el-button>
       </el-form-item>
 			<el-form-item label="新密码：" prop="new">
-			  <el-input v-model="form.pass" placeholder="请输入新密码" :type="passwordType?'password':''">
+			  <el-input v-model="form.pass" placeholder="请填写新密码" :type="passwordType?'password':''">
           <template #append>
             <i class="iconfont" :class="passwordType ? 'icon-closeeye': 'icon-eye'" @click="passwordTypeChange"></i>
           </template>
@@ -58,8 +58,8 @@ export default defineComponent({
       pass: ''
     })
     const rules = {
-      code: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
-      pass: [{ required: true, message: '请输入新密码', trigger: 'blur' }],
+      code: [{ required: true, message: '请填写验证码', trigger: 'blur' }],
+      pass: [{ required: true, message: '请填写新密码', trigger: 'blur' }],
     }
 
     const passwordType = ref(true)

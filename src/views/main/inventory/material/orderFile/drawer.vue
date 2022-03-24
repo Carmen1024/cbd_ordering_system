@@ -4,7 +4,7 @@
      <Form>
        <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px">
         <el-form-item label="档案编号：" prop="name" style="width:33%;">
-          <el-input v-model="form.name" placeholder="请输入名称" disabled></el-input>
+          <el-input v-model="form.name" placeholder="请填写名称" disabled></el-input>
         </el-form-item>
         <el-form-item label="档案名称：" prop="number" style="width:33%;">
           <el-input v-model="form.number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>

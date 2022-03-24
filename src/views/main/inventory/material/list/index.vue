@@ -2,9 +2,9 @@
   <div class="layout-container">
     <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
-        <el-input v-model="query.like.clf_name" placeholder="请输入物料分类" @change="getTableData(true)"></el-input>
-        <el-input v-model="query.like.m_code" placeholder="请输入物料编码" @change="getTableData(true)"></el-input>
-        <el-input v-model="query.like.m_name" placeholder="请输入物料名称" @change="getTableData(true)"></el-input>
+        <el-input v-model="query.like.clf_name" placeholder="请填写物料分类" @change="getTableData(true)"></el-input>
+        <el-input v-model="query.like.m_code" placeholder="请填写物料编码" @change="getTableData(true)"></el-input>
+        <el-input v-model="query.like.m_name" placeholder="请填写物料名称" @change="getTableData(true)"></el-input>
         <el-button :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
         <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
       </div>

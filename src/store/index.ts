@@ -4,6 +4,7 @@ import {userState} from "@/store/modules/user";
 import {keepAliveState} from "@/store/modules/keepAlive";
 import {appState} from "@/store/modules/app";
 import {enumState} from '@/store/modules/enum';
+import { areaState } from '@/store/modules/area';
 const debug = import.meta.env.MODE !== 'production'
 const files= import.meta.globEager('./modules/*.ts')
 
@@ -11,7 +12,8 @@ export interface RootState {
   user: userState,
   keepAlive: keepAliveState,
   app: appState,
-  enum:enumState
+  enum:enumState,
+  area:areaState
 }
 
 let modules: any = {}

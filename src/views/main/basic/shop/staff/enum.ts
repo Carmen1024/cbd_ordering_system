@@ -1,21 +1,105 @@
-export const selectData = [
-  { value: 1, label: '成都' },
-  { value: 2, label: '杭州' },
-  { value: 3, label: '上海' },
-  { value: 4, label: '北京' }
+import { isEmpty,isPhone } from '@/utils/system/validate';
+
+export const tableHandles = [
+  { value: "edit", label: '编辑'},
+  { value: "delete", label: '删除'},
+  { value: "editPass", label: '重置密码'},
 ]
 
-export const radioData = [
-  { value: 1, label: '今天' },
-  { value: 2, label: '明天' },
-  { value: 3, label: '后天' },
+export const valTypeData = [
+  { value: 1, label: '字符串类型', type:'采购'},
+  { value: 2, label: '整数类型', type:'仓管' },
+  { value: 3, label: '布尔类型', type:'财务' },
 ]
-export const dateData = [
-  { value: 1, label: '周一' },
-  { value: 2, label: '周二' },
-  { value: 3, label: '周三' },
-  { value: 4, label: '周四' },
-  { value: 5, label: '周五' },
-  { value: 6, label: '周六' },
-  { value: 7, label: '周日' },
+export const roleData = [
+  { value: 1, label: '角色1'},
+  { value: 2, label: '角色2'},
+  { value: 3, label: '角色3'},
+  { value: 4, label: '角色4'},
 ]
+
+//员工编码 姓名 联系电话 所属门店
+export const condition = [
+  {
+    prop:'_id',
+    type:'input',
+    placeholder:"请填写员工ID",
+  },
+  {
+    type:'input',
+    prop:'user_name',
+    placeholder:'请填写员工姓名'
+  },
+  {
+    type:'input',
+    placeholder:"输入员工手机号",
+    prop:'user_phone',
+  },
+]
+
+export const columnArr = [
+  {
+    label:"员工ID",
+    prop:'_id',
+  },
+  {
+    label:"员工姓名",
+    prop:'user_name',
+  },
+  {
+    label:"手机号",
+    prop:'user_phone',
+  },
+  {
+    label:"邮箱",
+    prop:'user_email',
+  },
+  {
+    label:"状态",
+    prop:'c_valid',
+    type:'handle'
+  },
+]
+
+export const itemArr = [
+  {
+    label:"员工姓名：",
+    type:'input',
+    prop:'user_name',
+    placeholder:'请填写员工姓名'
+  },
+  {
+    label:"手机号：",
+    type:'input',
+    prop:'user_phone',
+    placeholder:'请填写手机号'
+  },
+  {
+    label:"邮箱：",
+    type:'input',
+    prop:'user_email',
+    placeholder:'请填写邮箱',
+    width:'100%'
+  }
+]
+
+export const searchFormat = {
+  "eq":["_id","s_id"],
+  "like":["user_name","user_phone"]
+}
+
+export const updateFormat = {
+  "eq":["_id"],
+  "set":[
+    "user_phone",
+    "user_name",
+    "user_pass",
+    "user_email"
+  ]
+}
+
+
+export const rules = {
+  user_name: isEmpty('请填写姓名'),
+  user_phone: isPhone(),
+}

@@ -2,10 +2,10 @@
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
       <!-- <el-form-item label="分类编号：" prop="id">
-        <el-input v-model="form.id" placeholder="请输入编号" disabled></el-input>
+        <el-input v-model="form.id" placeholder="请填写编号" disabled></el-input>
       </el-form-item> -->
       <el-form-item label="分类名称：" prop="label">
-        <el-input v-model="form.clf_name" placeholder="请输入分类名称"></el-input>
+        <el-input v-model="form.clf_name" placeholder="请填写分类名称"></el-input>
       </el-form-item>
     </el-form>
   </Layer>
@@ -42,7 +42,7 @@ export default defineComponent({
       "clf_name": "", //分类名称
     })
     const rules = {
-      clf_name: [{ required: true, message: '请输入物料分类名称', trigger: 'blur' }],
+      clf_name: [{ required: true, message: '请填写物料分类名称', trigger: 'blur' }],
     }
     init()
     function init() { // 用于判断新增还是编辑功能

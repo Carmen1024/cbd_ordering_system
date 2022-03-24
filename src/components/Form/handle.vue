@@ -7,7 +7,7 @@
                 v-model="query[item.prop]"
                 @change="getTableData"
                 :placeholder="item.placeholder || '请选择'">
-                <el-option label="全部" :value="null" />
+                <el-option :label="item.placeholder || '全部'" :value="null" />
                 <el-option
                     v-for="option in item.options"
                     :key="option.value"
@@ -17,9 +17,14 @@
             </el-select>
             <el-input v-if="item.type == 'input'"
                 v-model="query[item.prop]"
-                :placeholder="item.placeholder || '请输入'" 
+                :placeholder="item.placeholder || '请填写'" 
                 @change="getTableData">
             </el-input>
+             <el-date-picker v-if="item.type == 'dataTime'"
+                v-model="query[item.prop]"
+                type="datetime"
+                :placeholder="item.placeholder || '请选择时间'"
+              />
         </div>
         <div v-for="item in handles" :key="item" class="handle">
             <el-button v-if="item=='search'" :icon="Search" class="search-btn" @click="getTableData">
@@ -80,11 +85,16 @@ export default defineComponent({
 </script>
 <style lang='scss' scoped>
   .layout-container-form-handle{
-    max-width: 1000px;
+    // max-width: 1000px;
     display: flex;
-
-    .condition,.handle{
-      margin-right: 10px;
+    flex-wrap: wrap;
+    .condition{
+      margin: 0 10px 10px 0;
+      min-width: 200px;
+    }
+    .handle{
+      margin: 0 10px 10px 0;
+      // margin-right: 10px;
     }
 
   }

@@ -1,69 +1,65 @@
 <template>
   <div class="layout-container">
-    <div class="layout-container-form flex space-between">
-      <div class="layout-container-form-handle">
-        <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
-      </div>
-      <div class="layout-container-form-search">
-        <el-input v-model="query.input" :placeholder="$t('message.common.searchTip')" @change="getTableData(true)"></el-input>
-        <el-button type="primary" :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
-      </div>
-    </div>
-    <div class="layout-container-table">
-      <Table
-        ref="table"
-        v-model:page="page"
-        v-loading="loading"
-        :showIndex="true"
-        :showSelection="true"
-        :data="tableData"
-        :columnData="columnData"
-        @getTableData="getTableData"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
-          <template #default="scope">
-            <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
-            <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([scope.row])">
-              <template #reference>
-                <el-button type="danger">{{ $t('message.common.del') }}</el-button>
-              </template>
-            </el-popconfirm>
-          </template>
-        </el-table-column>
-      </Table>
-      <Detail :drawer="drawer" v-if="drawer.show" />
-    </div>
+    <form-handle 
+      :condition="condition" 
+      :query="query"
+      @getTableData="getTableData"
+      @handleAdd="handleAdd"  
+    />
+    <table-normal 
+      :columnArr="columnArr" 
+      :tableData="tableData"
+      :page="page"
+      :loading="loading"
+      @getTableData="getTableData"
+      @handleSelectionChange="handleSelectionChange"
+      @handleEdit="handleEdit"
+      @handleDel="handleDel"
+      @tableHandle="tableHandle"
+    />
+    <Detail :drawer="drawer" v-if="drawer.show" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
-import Table from '@/components/table/index.vue'
+import TableNormal from '@/components/table/normal.vue'
+import FormHandle from '@/components/Form/handle.vue';
 import { Page } from '@/components/table/type'
-import { getData, del } from '@/api/table'
-import { storeQuery,storeValid } from '@/api/shop/shop';
+import { getData } from '@/utils/transform/httpConfig';
+import { storeQuery,storeDelete,storeValid } from '@/api/shop/shop'
 import { ElMessage } from 'element-plus'
 import type { DrawerInterface } from '@/components/drawer/index.vue'
-import { typeData, statusData } from './enum'
+import { typeData, statusData,condition,columnArr,searchData } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
 import Detail from './../detail/index.vue';
 export default defineComponent({
-  name: 'crudTable',
+  name: 'StoreList',
   components: {
-    Table,
-    Detail
+    TableNormal,
+    Detail,
+    FormHandle
   },
   setup() {
     // 存储搜索用的数据
     const query = reactive({
-      input: ''
+      "s_type":null, //门店类型，1:直营店,2:加盟店,3:经销商,4:社会客户
+      "a_id":"",  //门店归属区域
+      "g_id":"", //门店归属分组
+      "s_status":null,   //门店状态，1:正常营业2:暂停营业3:永久关闭
+      "wh_id":"",  //门店归属大仓
+      "deliver_type":null, //发货类型。1:公司物流（收运费）,2:三方物流,3:自提,4:快递
+      "s_charge_name":"", //门店负责人
+      "s_charge_phone_num":"",//门店负责人电话
+      "s_code":"", //门店编号
+      "s_name":"", //门店名称
+      "s_addr":""  //门店地址
     })
     // 弹窗控制器
     const drawer: DrawerInterface = reactive({
       show:false,
       title:"编辑规则",
-      showButton:true,
+      showButton:false,
       width:'70%'
     })
     // 分页参数, 供table使用
@@ -78,17 +74,6 @@ export default defineComponent({
     const handleSelectionChange = (val: []) => {
       chooseData.value = val
     }
-    const columnData = ref([
-      {prop:'s_code',label:'门店编码'},
-      {prop:'s_name',label:'门店名称'},
-      // {prop:'name',label:'归属组织'},
-      // {prop:'name',label:'归属客户'},
-      {prop:'s_type_desc',label:'门店类型'}, //门店类型，1:直营店,2:加盟店,3:经销商,4:社会客户。
-      {prop:'s_charge_name',label:'联系人'},
-      {prop:'s_charge_phone_num',label:'联系电话'},
-      {prop:'s_addr',label:'门店地址'},
-      {prop:'s_status_desc',label:'门店状态'}, //门店状态，1:正常营业2:暂停营业3:永久关闭。
-    ])
     // 获取表格数据
     // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
     const getTableData = (init: boolean) => {
@@ -96,10 +81,11 @@ export default defineComponent({
       if (init) {
         page.index = 1
       }
+      const dq = getData(searchData,query)
       let params = {
-        page: page.index,
-        pageSize: page.size,
-        ...query
+        start: <number>page.index-1,
+        size: page.size,
+        ...dq
       }
       storeQuery(params)
       .then(res => {
@@ -110,6 +96,7 @@ export default defineComponent({
             d.s_type_desc = type ? type.label :  d.s_type
             const status = statusData.find(select => select.value === d.s_status)
             d.s_status_desc = status ? status.label :  d.s_status
+            d.c_valid = d.c_valid ? true:false
           })
         }
         tableData.value = res.data
@@ -131,7 +118,7 @@ export default defineComponent({
           return e.id
         }).join(',')
       }
-      del(params)
+      storeDelete(params)
       .then(res => {
         ElMessage({
           type: 'success',
@@ -139,6 +126,17 @@ export default defineComponent({
         })
         getTableData(tableData.value.length === 1 ? true : false)
       })
+    }
+    const tableHandle = ({ type,row}) => {
+      if( type =='valid'){
+          const params = getData({"eq":["_id"],"set":["c_valid"]},row)
+          storeValid(params).then(res=>{
+            ElMessage({
+              type: 'success',
+              message: '切换成功'
+            })
+          })
+      }
     }
     // 新增弹窗功能
     const handleAdd = () => {
@@ -168,7 +166,10 @@ export default defineComponent({
       handleEdit,
       handleDel,
       getTableData,
-      columnData
+      condition,
+      columnArr,
+      searchData,
+      tableHandle
     }
   }
 })

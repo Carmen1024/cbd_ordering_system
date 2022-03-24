@@ -2,7 +2,7 @@
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
 			<el-form-item label="邮箱：" prop="new">
-			  <el-input v-model="form.mail" placeholder="请输入邮箱地址"></el-input>
+			  <el-input v-model="form.mail" placeholder="请填写邮箱地址"></el-input>
 			</el-form-item>
     </el-form>
   </Layer>
@@ -41,7 +41,7 @@ export default defineComponent({
       mail: "",
     })
     const rules = {
-      mail: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' }],
+      mail: [{ required: true, message: '请填写邮箱地址', trigger: 'blur' }],
     }
 
     function submit() {

@@ -2,8 +2,8 @@
   <div class="layout-container">
     <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
-        <el-input v-model="query.like.dict_group" placeholder="请输入字典名称" @change="getTableData(true)"></el-input>
-        <el-input v-model="query.like.dict_val_str" placeholder="请输入字典类型" @change="getTableData(true)"></el-input>
+        <el-input v-model="query.like.dict_group" placeholder="请填写字典名称" @change="getTableData(true)"></el-input>
+        <el-input v-model="query.like.dict_val_str" placeholder="请填写字典类型" @change="getTableData(true)"></el-input>
         <el-button :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
         <!-- <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button> -->
       </div>

@@ -25,29 +25,34 @@ const route: Route[] = [
             component: createNameComponent(() => import('@/views/main/charge/expense/expenseType/index.vue')),
             meta: { title: 'message.menu.charge.expense.expenseType', icon: 'iconfont icon-expenseType' },
           },
-          {
-            path: 'refundReason',
-            component: createNameComponent(() => import('@/views/main/charge/expense/refundReason/index.vue')),
-            meta: { title: 'message.menu.charge.expense.refundReason', icon: 'iconfont icon-refundReason' },
-          },
+          // {
+          //   path: 'refundReason',
+          //   component: createNameComponent(() => import('@/views/main/charge/expense/refundReason/index.vue')),
+          //   meta: { title: 'message.menu.charge.expense.refundReason', icon: 'iconfont icon-refundReason' },
+          // },
         ]
       },
       {
         path: 'chargeManagement',
         component: createNameComponent(() => (import('@/components/menu/index.vue'))),
-        redirect: '/charge/chargeManagement/chargeBill',
+        redirect: '/charge/chargeManagement/list',
         meta: { title: 'message.menu.charge.chargeManagement.name', icon: 'iconfont icon-chargeManagement' },
         children: [
           {
             path: 'chargeBill',
-            component: createNameComponent(() => import('@/views/main/charge/chargeManagement/chargeBill/index.vue')),
-            meta: { title: 'message.menu.charge.chargeManagement.chargeBill', icon: 'iconfont icon-chargeBill' },
+            component: createNameComponent(() => import('@/views/main/charge/chargeManagement/list/index.vue')),
+            meta: { title: 'message.menu.charge.chargeManagement.name', icon: 'iconfont icon-chargeManagement' },
           },
-          {
-            path: 'refundBill',
-            component: createNameComponent(() => import('@/views/main/charge/chargeManagement/refundBill/index.vue')),
-            meta: { title: 'message.menu.charge.chargeManagement.refundBill', icon: 'iconfont icon-refundBill' },
-          },
+          // {
+          //   path: 'chargeBill',
+          //   component: createNameComponent(() => import('@/views/main/charge/chargeManagement/chargeBill/index.vue')),
+          //   meta: { title: 'message.menu.charge.chargeManagement.chargeBill', icon: 'iconfont icon-chargeBill' },
+          // },
+          // {
+          //   path: 'refundBill',
+          //   component: createNameComponent(() => import('@/views/main/charge/chargeManagement/refundBill/index.vue')),
+          //   meta: { title: 'message.menu.charge.chargeManagement.refundBill', icon: 'iconfont icon-refundBill' },
+          // },
         ]
       },
     ]

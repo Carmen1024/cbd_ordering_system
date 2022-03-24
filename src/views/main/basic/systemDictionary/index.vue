@@ -35,7 +35,7 @@ import { ElMessage } from 'element-plus'
 import LayerNormal from '@/components/layer/normal.vue';
 import type { LayerInterface } from '@/components/layer/index.vue'
 import { dictQuery,dictDelete, dictInsert,dictFetch,dictValid,dictUpdate } from '@/api/system/dictionary'
-import { valTypeData,condition,columnArr,itemArr,searchData } from './enum';
+import { valTypeData,condition,columnArr,itemArr,searchFormat,updateFormat,rules } from './enum';
 import FormHandle from '@/components/Form/handle.vue';
 import TableNormal from '@/components/table/normal.vue';
 import { getData } from '@/utils/transform/httpConfig';
@@ -59,7 +59,7 @@ export default defineComponent({
       show: false,
       title: '新增',
       showButton: true,
-      width:'30%'
+      width:'50%'
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
@@ -73,12 +73,7 @@ export default defineComponent({
     const handleSelectionChange = (val: []) => {
       chooseData.value = val
     }
-    const rules = {
-      dict_val_type: [{ required: true, message: '请选择字典类型', trigger: 'blur' }],
-      dict_key: [{ required: true, message: '请填写字典英文名称', trigger: 'blur' }],
-      dict_name: [{ required: true, message: '请填写字典名称', trigger: 'blur' }],
-      dict_val: [{ required: true, message: '请填写字典值', trigger: 'blur' }],
-    }
+   
     // 获取表格数据
     // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
     const getTableData = (init: boolean) => {
@@ -86,7 +81,7 @@ export default defineComponent({
       if (init) {
         page.index = 1
       }
-      const queryData = getData(searchData,query.value)
+      const queryData = getData(searchFormat,query.value)
       let params = {
         start: <number>page.index-1,
         size: page.size,
@@ -137,6 +132,24 @@ export default defineComponent({
           })
       }
     }
+    const toStr = row=>{
+      const valType = valTypeData.find(item=>item.value == row.dict_val_type) || null
+      let newVal:any
+      const val = row.dict_val
+      if(typeof val === 'string'){
+        newVal = val
+      }else if(valType.type=='Array'){
+        newVal = `[${val.join(",")}]`
+      }else if(valType.type=='Object'){
+        newVal = JSON.stringify(val)
+      }else if(valType.type=='Array<Object>'){
+        const arr = val.map(item=>JSON.stringify(item))
+        newVal = `[${arr.join(",")}]`
+      }else{
+        newVal = val
+      }
+      return newVal
+    }
     // 新增弹窗功能
     const handleAdd = () => {
       layer.title = '新增字典'
@@ -148,7 +161,7 @@ export default defineComponent({
       layer.title='编辑字典'
       layer.show = true
       console.log(row)
-      row.dict_val = row.dict_val.toString()
+      row.dict_val = toStr(row)
       layer.row = row
     }
     getTableData(true)
@@ -168,12 +181,12 @@ export default defineComponent({
       columnArr,
       rules,
       itemArr,
-      tableHandle
+      tableHandle,
     }
   },
   methods:{
     // 新增提交事件
-   async addForm(params: object) {
+    async addForm(params: object) {
       let newP = await this.validateVal(params)
       newP.dict_type=1
       dictInsert(newP)
@@ -189,10 +202,7 @@ export default defineComponent({
     // 编辑提交事件
     async updateForm(params: object) {
       let newP = await this.validateVal(params)
-      const data = getData({
-        "eq":["_id"],
-        "set":["dict_group","dict_key","store_status","dict_name","dict_val_type","dict_val"]
-        },newP)
+      const data = getData(updateFormat,newP)
       dictUpdate(data)
       .then(res => {
         this.$message({
@@ -230,7 +240,7 @@ export default defineComponent({
                 newVal = obj
               }
             }else if(valType.type=='Array<Object>'){
-              newVal = dict_val.split(",").map(item => JSON.parse(item))
+              newVal = JSON.parse(dict_val)
             }else{
               newVal = dict_val
             }
@@ -242,20 +252,21 @@ export default defineComponent({
           }else{
             this.$message({
               type: 'error',
-              message: '请填写正确的字典值格式'
+              message: '请根据类型填写正确的字典值格式'
             })
             reject()
           }
         }catch(e){
           this.$message({
             type: 'error',
-            message: '请填写正确的字典值格式'
+            message: '请根据类型填写正确的字典值格式'
           })
           reject()
         }
       })
 
     }
+    
   }
 })
 </script>

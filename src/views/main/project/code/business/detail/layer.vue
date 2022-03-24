@@ -2,10 +2,10 @@
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
       <el-form-item label="分类编号：" prop="id">
-        <el-input v-model="form.id" placeholder="请输入编号" disabled></el-input>
+        <el-input v-model="form.id" placeholder="请填写编号" disabled></el-input>
       </el-form-item>
       <el-form-item label="分类名称：" prop="label">
-        <el-input v-model="form.label" placeholder="请输入分类名称"></el-input>
+        <el-input v-model="form.label" placeholder="请填写分类名称"></el-input>
       </el-form-item>
     </el-form>
   </Layer>
@@ -50,7 +50,7 @@ export default defineComponent({
         "dict_key": "",
     })
     const rules = {
-      label: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+      label: [{ required: true, message: '请填写姓名', trigger: 'blur' }],
     }
     init()
     function init() { // 用于判断新增还是编辑功能

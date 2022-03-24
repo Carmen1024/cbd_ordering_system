@@ -1,69 +1,64 @@
+
 <template>
   <div class="layout-container">
-    <div class="layout-container-form flex space-between">
-      <div class="layout-container-form-handle">
-        <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
-        <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel(chooseData)">
-          <template #reference>
-            <el-button type="danger" :icon="Delete" :disabled="chooseData.length === 0">{{ $t('message.common.delBat') }}</el-button>
-          </template>
-        </el-popconfirm>
-      </div>
-      <div class="layout-container-form-search">
-        <el-input v-model="query.input" :placeholder="$t('message.common.searchTip')" @change="getTableData(true)"></el-input>
-        <el-button type="primary" :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
-      </div>
-    </div>
-    <div class="layout-container-table">
-      <Table
-        ref="table"
-        v-model:page="page"
-        v-loading="loading"
-        :showIndex="true"
-        :showSelection="true"
-        :data="tableData"
-        :columnData="columnData"
-        @getTableData="getTableData"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="300">
-          <template #default="scope">
-            <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
-            <el-button @click="handleRole(scope.row)">权限管理</el-button>
-            <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([scope.row])">
-              <template #reference>
-                <el-button type="danger">{{ $t('message.common.del') }}</el-button>
-              </template>
-            </el-popconfirm>
-          </template>
-        </el-table-column>
-      </Table>
-      <Layer :layer="layer" @getTableData="getTableData" v-if="layer.show" />
-    </div>
+    <form-handle 
+      :condition="condition" 
+      :query="query"
+      :handles="['add']"
+      @getTableData="getTableData"
+      @handleAdd="handleAdd"  
+    />
+    <table-normal 
+      :columnArr="columnArr" 
+      :tableData="tableData"
+      :page="page"
+      :loading="loading"
+      @getTableData="getTableData"
+      @handleSelectionChange="handleSelectionChange"
+      @handleEdit="handleEdit"
+      @handleDel="handleDel"
+      @tableHandle="tableHandle"
+    />
+    <layer-normal 
+      :layer = "layer" 
+      :rules = "rules"
+      :itemArr="itemArr"
+      v-if="layer.show"
+      @addForm="addForm"
+      @updateForm="updateForm"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
-import Table from '@/components/table/index.vue'
 import { Page } from '@/components/table/type'
-import { getData, del } from '@/api/table'
-import Layer from './layer.vue'
 import { ElMessage } from 'element-plus'
+import LayerNormal from '@/components/layer/normal.vue';
 import type { LayerInterface } from '@/components/layer/index.vue'
-import { selectData, radioData } from './enum'
-import { Plus, Search, Delete } from '@element-plus/icons'
+import { roleQuery,roleDelete, roleInsert,roleFetch,roleValid,roleUpdate } from '@/api/shop/role'
+import { valTypeData,condition,columnArr,itemArr,searchData,rules } from './enum';
+import FormHandle from '@/components/Form/handle.vue';
+import TableNormal from '@/components/table/normal.vue';
+import { getData } from '@/utils/transform/httpConfig';
 export default defineComponent({
-  name: 'crudTable',
+  name: 'orderRules',
   components: {
-    Table,
-    Layer
+    TableNormal,
+    LayerNormal,
+    FormHandle
   },
-  setup() {
+  props:{
+    father:{
+      type: Object,
+      default: () => {
+          return {}
+      }
+    }
+  },
+  setup(props) {
     // 存储搜索用的数据
-    const query = reactive({
-      input: ''
-    })
+    const query = ref({})
     // 弹窗控制器
     const layer: LayerInterface = reactive({
       show: false,
@@ -74,7 +69,7 @@ export default defineComponent({
     // 分页参数, 供table使用
     const page: Page = reactive({
       index: 1,
-      size: 20,
+      size: 10,
       total: 0
     })
     const loading = ref(true)
@@ -83,15 +78,7 @@ export default defineComponent({
     const handleSelectionChange = (val: []) => {
       chooseData.value = val
     }
-    const columnData=ref([
-      {prop:"name",label:"角色ID"},
-      {prop:"name",label:"角色名称"},
-      {prop:"name",label:"角色说明"},
-      {prop:"name",label:"状态"},
-      {prop:"name",label:"更新时间"},
-      {prop:"name",label:"创建人"},
-      {prop:"name",label:"备注"},
-    ])
+   
     // 获取表格数据
     // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
     const getTableData = (init: boolean) => {
@@ -99,24 +86,29 @@ export default defineComponent({
       if (init) {
         page.index = 1
       }
-      let params = {
-        page: page.index,
-        pageSize: page.size,
-        ...query
+      if(props.father.row){
+        query.value._id = props.father.row._id
       }
-      getData(params)
+      const queryData = getData(searchData,query.value)
+      let params = {
+        start: <number>page.index-1,
+        size: page.size,
+        ...queryData
+      }
+      console.log(props.father)
+
+      roleQuery(params)
       .then(res => {
-        let data = res.data.list
+        console.log(res);
+        let data = res.data
         if (Array.isArray(data)) {
           data.forEach(d => {
-            const select = selectData.find(select => select.value === d.choose)
-            select ? d.chooseName = select.label : d.chooseName = d.choose
-            const radio = radioData.find(select => select.value === d.radio)
-            radio ? d.radioName = radio.label : d.radio
+            const role_val_type = valTypeData.find(item => item.value === d.role_val_type)
+            d.role_val_type_desc = role_val_type ?  role_val_type.label : d.role_val_type
           })
         }
-        tableData.value = res.data.list
-        page.total = Number(res.data.pager.total)
+        tableData.value = data
+        page.total = res.total
       })
       .catch(error => {
         tableData.value = []
@@ -128,13 +120,9 @@ export default defineComponent({
       })
     }
     // 删除功能
-    const handleDel = (data: object[]) => {
-      let params = {
-        ids: data.map((e:any)=> {
-          return e.id
-        }).join(',')
-      }
-      del(params)
+    const handleDel = (row: object) => {
+      let params = {"eq": {"_id": row._id}};
+      roleDelete(params)
       .then(res => {
         ElMessage({
           type: 'success',
@@ -143,44 +131,83 @@ export default defineComponent({
         getTableData(tableData.value.length === 1 ? true : false)
       })
     }
+    const tableHandle = ({ type,row}) => {
+      if( type =='valid'){
+          const params = getData({"eq":["_id"],"set":["c_valid"]},row)
+          roleValid(params).then(res=>{
+            ElMessage({
+              type: 'success',
+              message: '切换成功'
+            })
+          })
+      }
+    }
     // 新增弹窗功能
     const handleAdd = () => {
-      layer.title = '新增数据'
+      layer.title = '新增角色'
       layer.show = true
       delete layer.row
     }
     // 编辑弹窗功能
     const handleEdit = (row: object) => {
-      layer.title = '编辑数据'
-      layer.row = row
+      layer.title='编辑角色'
       layer.show = true
-    }
-    const handleRole = (row: object) => {
-      
+      console.log(row)
+      layer.row = row
     }
     getTableData(true)
     return {
-      Plus,
-      Search,
-      Delete,
       query,
       tableData,
       chooseData,
       loading,
       page,
-      layer,
       handleSelectionChange,
       handleAdd,
       handleEdit,
-      handleRole,
       handleDel,
       getTableData,
-      columnData
+      layer,
+      condition,
+      columnArr,
+      rules,
+      itemArr,
+      tableHandle
     }
+  },
+  methods:{
+    // 新增提交事件
+   async addForm(params: object) {
+      roleInsert(params)
+      .then(res => {
+        this.$message({
+          type: 'success',
+          message: '新增成功'
+        })
+        this.getTableData(true)
+        this.layer.show = false
+      })
+    },
+    // 编辑提交事件
+    async updateForm(params: object) {
+      const data = getData({
+        "eq":["_id"],
+        "set":["role_group","role_key","store_status","role_name","role_val_type","role_val"]
+        },params)
+      roleUpdate(data)
+      .then(res => {
+        this.$message({
+          type: 'success',
+          message: '编辑成功'
+        })
+        this.getTableData(true)
+        this.layer.show = false
+      })
+    },
   }
 })
 </script>
 
 <style lang="scss" scoped>
-  
+
 </style>

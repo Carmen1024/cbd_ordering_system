@@ -39,16 +39,8 @@ const route: Route[] = [
       },
       {
         path: 'customer',
-        redirect: '/basic/customer/list',
-        component: createNameComponent(() => (import('@/components/menu/index.vue'))),
-        meta: { title: 'message.menu.basic.customer.name', icon: 'iconfont icon-customer' },
-        children: [
-          {
-            path: 'list',
-            component: createNameComponent(() => import('@/views/main/basic/customer/list/index.vue')),
-            meta: { title: 'message.menu.basic.customer.list', icon: 'iconfont icon-customer' },
-          },
-        ]
+        component: createNameComponent(() => import('@/views/main/basic/customer/index.vue')),
+        meta: { title: 'message.menu.basic.customer', icon: 'iconfont icon-customer' }
       },
       //systemDictionary
       {
