@@ -1,58 +1,57 @@
-import { bizDictRow } from '@/api/project/bizDict';
-import {reactive} from 'vue';
+import { ActionContext } from 'vuex'
+import { orderRulesQuery } from '@/api/shop/shop'
 
-interface Option<T>  {
-  name: keyof optionKey<T>
-  value: optionValue<T>
-}
 
-type optionKey<T> = {
-  [name in keyof T]: string
-}
-
-type optionValue<T> = {
-  value: T[keyof T]
-}
 export interface enumState {
-  // options: Object
+  orderRules : object
 }
-const state = () => reactive({
-  // options:{}
+const state = (): enumState => ({
+  orderRules:{}
 })
 
-const getOptions = (state:object, key:string)=>{
- 
-  const params = {
-    "eq": {
-      "dict_type": 1,
-      "dict_group": key
-    }
-  }
-  console.log("============");
-  bizDictRow(params).then(res=>{
-    //dict_val_int dict_val_str
-    const data = res.data.map(item=>{
-      return item.dict_val_int && {value:item.dict_val_int,label:item.dict_val_str}
-    })
-    // console.log(data);
-    // state[key] = data
-    // Vue.set(state.options, key, data);
-    // state.options.push({[key]:data})
-    console.log(state,key,data);
-    Object.defineProperty(state,key,data)
-    // Promise.resolve(data)
-  })
-}
 // mutations
 const mutations = {
-  setOption(state: object, key:string) {
-    getOptions(state,key)
+  orderRulesChange(state: enumState, orderRules: Array<any>) {
+    state.orderRules = orderRules
   }
 }
 
 // actions
 const actions = {
+  // login by login.vue
+  
+  // get user info after user logined
+  getOrderRules({ commit }: ActionContext<enumState, enumState>) {
+    return new Promise((resolve, reject) => {
+      orderRulesQuery()
+      .then(res => {
+        let orderRules:object = {}
+        orderRules.freight = res.data.rule_freight.map(item=>{
+          return {value:item.r_f_code,label:item.r_f_name}
+        })
+        orderRules.orderPeriod = res.data.rule_order_period.map(item=>{
+          return {value:item.r_o_p_code,label:item.r_o_p_name}
+        })
 
+        orderRules.warehouse = res.data.warehouse.map(item=>{
+          return {value:item.wh_code,label:item.wh_name}
+        })
+
+        orderRules.price = res.data.rule_price.map(item=>{
+          return {value:item.r_p_code,label:item.r_p_name}
+        })
+
+        orderRules.cycleOrder = res.data.rule_cycle_order.map(item=>{
+          return {value:item.r_c_o_code,label:item.r_c_o_name}
+        })
+        console.log(orderRules)
+        commit('orderRulesChange', orderRules)
+        resolve(orderRules)
+      },rej=>{
+        reject("不存在")
+      })
+    })
+  },
 }
 
 export default {

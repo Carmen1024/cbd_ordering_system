@@ -23,6 +23,7 @@
              <el-date-picker v-if="item.type == 'dataTime'"
                 v-model="query[item.prop]"
                 type="datetime"
+                value-format="YYYY-MM-DD hh:mm:ss"
                 :placeholder="item.placeholder || '请选择时间'"
               />
         </div>

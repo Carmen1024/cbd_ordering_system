@@ -53,9 +53,9 @@ export const getData = (shouldKey:object,params:object)=>{
         let indexMap = {};
         item.map((n) => {
             let vValue = null
-            if(index === '#gte' && n.match(/_time$/ig)){
+            if(index === 'gte' && n.match(/_time$/ig)){
                 vValue = params["createTime"];
-            }else if(index === '#lte' && n.match(/_time$/ig)){
+            }else if(index === 'lte' && n.match(/_time$/ig)){
                 vValue = params["endTime"];
             }else{
                 vValue = params[n];
@@ -64,5 +64,13 @@ export const getData = (shouldKey:object,params:object)=>{
         });
         dataParams[index] = indexMap;
     }
+    return dataParams
+}
+
+export const getFields = (shouldKey:Array<string>,params:object)=>{
+    let dataParams = {};
+    shouldKey.map(i=>{
+        if((params[i]??'')!=='') dataParams[i] = params[i]
+    })
     return dataParams
 }

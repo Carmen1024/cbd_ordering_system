@@ -48,8 +48,7 @@ export function storeFetch(data: object) {
     })
   }
 
-  ///admin_rule/query_rule
-  export function orderRulesQuery(data: object) {
+  export function orderRulesQuery(data: object={}) {
     return request({
       url: '/g/admin_rule/query_rule',
       method: 'post',

@@ -1,11 +1,3 @@
-export const valTypeData = [
-  { value: 1, label: '字符串类型', type:'String'},
-  { value: 2, label: '整数类型', type:'Number' },
-  { value: 3, label: '布尔类型', type:'Boolean' },
-  { value: 4, label: '数组类型', type:'Array' },
-  { value: 5, label: '对象类型', type:'Object' },
-  { value: 6, label: '对象数组类型', type:'Array<Object>' },
-]
 
 export const condition = [
   {
@@ -26,12 +18,12 @@ export const condition = [
   {
     type:'dataTime',
     prop:'dict_key',
-    placeholder:'更新开始时间'
+    placeholder:'查询开始时间'
   },
   {
     type:'dataTime',
     prop:'dict_val_type',
-    placeholder:'更新结束时间'
+    placeholder:'查询结束时间'
   },
 ]
 
@@ -48,20 +40,16 @@ export const columnArr = [
     label:"客户",
     prop:'dict_key',
   },
-  {
-    label:"单据类型",
-    prop:'dict_val_type_desc',
-  },
+  // {
+  //   label:"单据类型",
+  //   prop:'dict_val_type_desc',
+  // },
   {
     label:"单据金额",
     prop:'dict_val_type_desc',
   },
   {
     label:"付款状态",
-    prop:'dict_val_type_desc',
-  },
-  {
-    label:"单据状态",
     prop:'dict_val_type_desc',
   },
   {
@@ -72,23 +60,29 @@ export const columnArr = [
     label:"所属部门",
     prop:'dict_val_type_desc',
   },
+  {
+    label:"单据状态",
+    prop:'c_valid',
+    type:'handle'
+  },
 ]
 
 export const itemArr = [
   {
-    label:"费用编号：",
+    label:"单据编号：",
     type:'input',
     prop:'dict_group',
-    placeholder:'与SAP保持一致'
+    disabled:true,
+    placeholder:'自动生成'
   },
   {
-    label:"费用名称：",
+    label:"单据名称：",
     type:'input',
     prop:'dict_name',
     placeholder:'与SAP保持一致'
   },
   {
-    label:"费用金额：",
+    label:"单据金额：",
     type:'input',
     prop:'dict_key',
     placeholder:'请填写收费金额'
@@ -110,13 +104,13 @@ export const itemArr = [
     placeholder:''
   },
   {
-    label:"费用科目：",
+    label:"单据科目：",
     type:'select',
     prop:'dict_val',
     placeholder:''
   },
   {
-    label:"费用类别：",
+    label:"单据类别：",
     type:'select',
     prop:'dict_val',
     placeholder:''
@@ -128,11 +122,11 @@ export const itemArr = [
     placeholder:''
   },
   {
-    label:"费用类型说明：",
+    label:"单据类型说明：",
     type:'textarea',
     prop:'dict_val',
     width:'100%',
-    placeholder:'请填写费用类型说明'
+    placeholder:'请填写单据类型说明'
   },
   {
     label:"自由金额：",

@@ -35,7 +35,7 @@ import { ElMessage } from 'element-plus'
 import LayerNormal from '@/components/layer/normal.vue';
 import type { LayerInterface } from '@/components/layer/index.vue'
 import { dictQuery,dictDelete, dictInsert,dictFetch,dictValid,dictUpdate } from '@/api/system/dictionary'
-import { valTypeData,condition,columnArr,itemArr,searchData,rules } from './enum';
+import { condition,columnArr,itemArr,searchData,rules } from './enum';
 import FormHandle from '@/components/Form/handle.vue';
 import TableNormal from '@/components/table/normal.vue';
 import { getData } from '@/utils/transform/httpConfig';
@@ -91,12 +91,6 @@ export default defineComponent({
       .then(res => {
         console.log(res);
         let data = res.data
-        if (Array.isArray(data)) {
-          data.forEach(d => {
-            const dict_val_type = valTypeData.find(item => item.value === d.dict_val_type)
-            d.dict_val_type_desc = dict_val_type ?  dict_val_type.label : d.dict_val_type
-          })
-        }
         tableData.value = data
         page.total = res.total
       })

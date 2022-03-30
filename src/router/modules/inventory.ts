@@ -17,9 +17,9 @@ const route: Route[] = [
         alwayShow: false,
         children: [
           {
-            path: 'orderWindow',
-            component: createNameComponent(() => import('@/views/main/inventory/settings/orderWindow/index.vue')),
-            meta: { title: 'message.menu.inventory.settings.orderWindow', icon: 'iconfont icon-orderWindow', cache: false }
+            path: 'priceLevel',
+            component: createNameComponent(() => import('@/views/main/inventory/settings/priceLevel/index.vue')),
+            meta: { title: 'message.menu.inventory.settings.priceLevel', icon: 'iconfont icon-priceLevel', cache: false }
           },
           {
             path: 'orderRules',
@@ -27,30 +27,26 @@ const route: Route[] = [
             meta: { title: 'message.menu.inventory.settings.orderRules', icon: 'iconfont icon-orderRules', cache: false }
           },
           {
-            path: 'priceLevel',
-            component: createNameComponent(() => import('@/views/main/inventory/settings/priceLevel/index.vue')),
-            meta: { title: 'message.menu.inventory.settings.priceLevel', icon: 'iconfont icon-priceLevel', cache: false }
-          },
-          {
-            path: 'storeHouse',
-            component: createNameComponent(() => import('@/views/main/inventory/settings/storeHouse/index.vue')),
-            meta: { title: 'message.menu.inventory.settings.storeHouse', icon: 'iconfont icon-storeHouse', cache: false }
-          },
-          {
-            path: 'transferRelationship',
-            component: createNameComponent(() => import('@/views/main/inventory/settings/transferRelationship/index.vue')),
-            meta: { title: 'message.menu.inventory.settings.transferRelationship', icon: 'iconfont icon-transferRelationship', cache: false }
-          },
-          {
-            path: 'scrapReason',
-            component: createNameComponent(() => import('@/views/main/inventory/settings/scrapReason/index.vue')),
-            meta: { title: 'message.menu.inventory.settings.scrapReason', icon: 'iconfont icon-scrapReason', cache: false }
-          },
-          {
             path: 'freightTemplate',
             component: createNameComponent(() => import('@/views/main/inventory/settings/freightTemplate/list/index.vue')),
             meta: { title: 'message.menu.inventory.settings.freightTemplate.list', icon: 'iconfont icon-freightTemplate', cache: false }
           },
+          {
+            path: 'orderWindow',
+            component: createNameComponent(() => import('@/views/main/inventory/settings/orderWindow/index.vue')),
+            meta: { title: 'message.menu.inventory.settings.orderWindow', icon: 'iconfont icon-orderWindow', cache: false }
+          },
+          // {
+          //   path: 'storeHouse',
+          //   component: createNameComponent(() => import('@/views/main/inventory/settings/storeHouse/index.vue')),
+          //   meta: { title: 'message.menu.inventory.settings.storeHouse', icon: 'iconfont icon-storeHouse', cache: false }
+          // },
+          // {
+          //   path: 'transferRelationship',
+          //   component: createNameComponent(() => import('@/views/main/inventory/settings/transferRelationship/index.vue')),
+          //   meta: { title: 'message.menu.inventory.settings.transferRelationship', icon: 'iconfont icon-transferRelationship', cache: false }
+          // },
+
         ]
       },
       {

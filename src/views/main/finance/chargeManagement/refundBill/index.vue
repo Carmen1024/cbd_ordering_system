@@ -34,7 +34,7 @@ import { Page } from '@/components/table/type'
 import { ElMessage } from 'element-plus'
 import LayerNormal from '@/components/layer/normal.vue';
 import type { LayerInterface } from '@/components/layer/index.vue'
-import {  priceLevelQuery, priceLevelDelete,  priceLevelInsert, priceLevelFetch, priceLevelValid, priceLevelUpdate } from '@/api/inventory/priceLevel'
+import { dictQuery,dictDelete, dictInsert,dictFetch,dictValid,dictUpdate } from '@/api/system/dictionary'
 import { condition,columnArr,itemArr,searchData,rules } from './enum';
 import FormHandle from '@/components/Form/handle.vue';
 import TableNormal from '@/components/table/normal.vue';
@@ -49,17 +49,17 @@ export default defineComponent({
   setup() {
     // 存储搜索用的数据
     const query = ref({
-      " priceLevel_val_type":null,//1：字符串类型，2：整数类型，3：布尔类型，4：数组类型，5：对象类型，6：对象数组类型。
-      " priceLevel_group":"",////可选，组名
-      " priceLevel_key":"", ////必填，字典键名，英文
-      " priceLevel_name":"" ////必填，字典中文名
+      "dict_val_type":null,//1：字符串类型，2：整数类型，3：布尔类型，4：数组类型，5：对象类型，6：对象数组类型。
+      "dict_group":"",////可选，组名
+      "dict_key":"", ////必填，字典键名，英文
+      "dict_name":"" ////必填，字典中文名
     })
     // 弹窗控制器
     const layer: LayerInterface = reactive({
       show: false,
       title: '新增',
       showButton: true,
-      width:'30%'
+      width:'50%'
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
@@ -87,7 +87,7 @@ export default defineComponent({
         size: page.size,
         ...queryData
       }
-       priceLevelQuery(params)
+      dictQuery(params)
       .then(res => {
         console.log(res);
         let data = res.data
@@ -106,7 +106,7 @@ export default defineComponent({
     // 删除功能
     const handleDel = (row: object) => {
       let params = {"eq": {"_id": row._id}};
-       priceLevelDelete(params)
+      dictDelete(params)
       .then(res => {
         ElMessage({
           type: 'success',
@@ -118,7 +118,7 @@ export default defineComponent({
     const tableHandle = ({ type,row}) => {
       if( type =='valid'){
           const params = getData({"eq":["_id"],"set":["c_valid"]},row)
-           priceLevelValid(params).then(res=>{
+          dictValid(params).then(res=>{
             ElMessage({
               type: 'success',
               message: '切换成功'
@@ -162,7 +162,7 @@ export default defineComponent({
   methods:{
     // 新增提交事件
    async addForm(params: object) {
-       priceLevelInsert(params)
+      dictInsert(params)
       .then(res => {
         this.$message({
           type: 'success',
@@ -176,9 +176,9 @@ export default defineComponent({
     async updateForm(params: object) {
       const data = getData({
         "eq":["_id"],
-        "set":[" priceLevel_group"," priceLevel_key","store_status"," priceLevel_name"," priceLevel_val_type"," priceLevel_val"]
+        "set":["dict_group","dict_key","store_status","dict_name","dict_val_type","dict_val"]
         },params)
-       priceLevelUpdate(data)
+      dictUpdate(data)
       .then(res => {
         this.$message({
           type: 'success',

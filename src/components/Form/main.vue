@@ -31,7 +31,7 @@
           v-model="model[item.prop]"
           :rows="item.row || 2"
           type="textarea"
-          :placeholder="item.placeholder"
+          :placeholder="item.placeholder || '请填写' + item.label.replace('：','') "
         />
         <!-- 开关 -->
         <el-switch
@@ -45,7 +45,7 @@
         <el-select 
           v-if="item.type == 'select'" 
           v-model="model[item.prop]"
-          :placeholder="item.placeholder || '请选择'">
+          :placeholder="item.placeholder || '请选择'+item.label.replace('：','')">
           <el-option
               v-for="option in item.options"
               :key="option.value"
@@ -55,7 +55,7 @@
         </el-select>
         <!-- checkbox -->
         <el-checkbox-group 
-          v-model="model[item.prop]" 
+          v-model="checkboxGroup" 
           v-if="item.type == 'checkboxButton'"
         >
           <el-checkbox-button v-for="(boxOption,index) in item.options" :key="index" :label="boxOption.value">
@@ -67,6 +67,13 @@
           v-if="item.type=='area'"  
           :area-group="model[item.prop]"
           @change="changeArea"
+        />
+        <el-date-picker 
+          v-if="item.type == 'dataTime'"
+          v-model="model[item.prop]"
+          type="datetime"
+          value-format="YYYY-MM-DD hh:mm:ss"
+          :placeholder="item.placeholder || '请选择'+item.label"
         />
         <!-- 图片 -->
         <upload-list v-if="item.type=='UploadList'" />
@@ -133,6 +140,7 @@ export default defineComponent({
     const ruleForm: Ref<ElFormItemContext|null> = ref(null)
 
     const model=ref({})
+    const checkboxGroup = ref([])
 
     init()
     function init() { // 用于判断新增还是编辑功能
@@ -142,16 +150,16 @@ export default defineComponent({
       } else {
         // 默认值
         props.itemArr.map(item=>{
-          model.value[item.prop] = item.default
+          model.value[item.prop] = item.default ? item.default : null
         })
       }
 
     }
-    const checkboxGroup1 = ref([])
+   
     return {
       model,
       ruleForm,
-      checkboxGroup1
+      checkboxGroup
     }
   },
   methods:{
@@ -181,7 +189,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .form-main{
     .el-form{
       display: flex;
@@ -194,6 +202,9 @@ export default defineComponent({
         border-bottom: solid 1px #ddd;
         font-size: 16px;
         color:#272727;
+      }
+      .el-date-editor.el-input, .el-date-editor.el-input__inner{
+        width: 100%;
       }
     }
     .btns{

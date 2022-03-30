@@ -178,7 +178,7 @@ export const itemArr = [
     placeholder:''
   },
   {
-    label:"运费策略",
+    label:"运费规则",
     type:'select',
     prop:'r_f_id',
     placeholder:''
@@ -186,13 +186,13 @@ export const itemArr = [
   {
     label:"发货仓库",
     type:'select',
-    prop:'s_settle_pay_type',
+    prop:'wh_id',
     placeholder:''
   },
   {
     label:"调拨规则",
     type:'select',
-    prop:'s_settle_pay_type',
+    prop:'r_t_id',
     placeholder:''
   },
   {

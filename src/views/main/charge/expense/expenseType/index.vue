@@ -34,11 +34,13 @@ import { Page } from '@/components/table/type'
 import { ElMessage } from 'element-plus'
 import LayerNormal from '@/components/layer/normal.vue';
 import type { LayerInterface } from '@/components/layer/index.vue'
-import { dictQuery,dictDelete, dictInsert,dictFetch,dictValid,dictUpdate } from '@/api/system/dictionary'
-import { valTypeData,condition,columnArr,itemArr,searchData,rules } from './enum';
+import { expenseTypeQuery,expenseTypeDelete, 
+         expenseTypeInsert,expenseTypeFetch,expenseTypeValid,expenseTypeUpdate
+       } from '@/api/charge/expenseType'
+import { condition,columnArr,itemArr,rules,searchData, updateData } from './enum';
 import FormHandle from '@/components/Form/handle.vue';
 import TableNormal from '@/components/table/normal.vue';
-import { getData } from '@/utils/transform/httpConfig';
+import { getData,getFields } from '@/utils/transform/httpConfig';
 export default defineComponent({
   name: 'orderRules',
   components: {
@@ -49,17 +51,17 @@ export default defineComponent({
   setup() {
     // 存储搜索用的数据
     const query = ref({
-      "dict_val_type":null,//1：字符串类型，2：整数类型，3：布尔类型，4：数组类型，5：对象类型，6：对象数组类型。
-      "dict_group":"",////可选，组名
-      "dict_key":"", ////必填，字典键名，英文
-      "dict_name":"" ////必填，字典中文名
+      "cost_name":"", //费用类型名称（支持模糊查询）
+      "c_create_user":"", //当前记录创建人（支持模糊查询）
+      "createTime":"", //开始时间
+      "endTime":"" //截止时间
     })
     // 弹窗控制器
     const layer: LayerInterface = reactive({
       show: false,
       title: '新增',
       showButton: true,
-      width:'30%'
+      width:'50%'
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
@@ -82,19 +84,19 @@ export default defineComponent({
         page.index = 1
       }
       const queryData = getData(searchData,query.value)
+      console.log(query.value,queryData)
       let params = {
         start: <number>page.index-1,
         size: page.size,
         ...queryData
       }
-      dictQuery(params)
+      expenseTypeQuery(params)
       .then(res => {
         console.log(res);
         let data = res.data
         if (Array.isArray(data)) {
           data.forEach(d => {
-            const dict_val_type = valTypeData.find(item => item.value === d.dict_val_type)
-            d.dict_val_type_desc = dict_val_type ?  dict_val_type.label : d.dict_val_type
+            d.c_valid = d.c_valid==1 ? true : false
           })
         }
         tableData.value = data
@@ -111,8 +113,8 @@ export default defineComponent({
     }
     // 删除功能
     const handleDel = (row: object) => {
-      let params = {"eq": {"_id": row._id}};
-      dictDelete(params)
+      let params = {"cost_code": row.cost_code};
+      expenseTypeDelete(params)
       .then(res => {
         ElMessage({
           type: 'success',
@@ -124,7 +126,7 @@ export default defineComponent({
     const tableHandle = ({ type,row}) => {
       if( type =='valid'){
           const params = getData({"eq":["_id"],"set":["c_valid"]},row)
-          dictValid(params).then(res=>{
+          expenseTypeValid(params).then(res=>{
             ElMessage({
               type: 'success',
               message: '切换成功'
@@ -140,10 +142,13 @@ export default defineComponent({
     }
     // 编辑弹窗功能
     const handleEdit = (row: object) => {
-      layer.title='编辑费用类型'
-      layer.show = true
-      console.log(row)
-      layer.row = row
+      // const {cost_code} = row
+      // expenseTypeFetch({cost_code}).then(res=>{
+        layer.title='编辑费用类型'
+        layer.show = true
+        console.log(row)
+        layer.row = row
+      // })
     }
     getTableData(true)
     return {
@@ -168,7 +173,7 @@ export default defineComponent({
   methods:{
     // 新增提交事件
    async addForm(params: object) {
-      dictInsert(params)
+      expenseTypeInsert(params)
       .then(res => {
         this.$message({
           type: 'success',
@@ -180,11 +185,8 @@ export default defineComponent({
     },
     // 编辑提交事件
     async updateForm(params: object) {
-      const data = getData({
-        "eq":["_id"],
-        "set":["dict_group","dict_key","store_status","dict_name","dict_val_type","dict_val"]
-        },params)
-      dictUpdate(data)
+      const fields = getFields(updateData , params)
+      expenseTypeUpdate(fields)
       .then(res => {
         this.$message({
           type: 'success',

@@ -1,154 +1,73 @@
-export const valTypeData = [
-  { value: 1, label: '字符串类型', type:'String'},
-  { value: 2, label: '整数类型', type:'Number' },
-  { value: 3, label: '布尔类型', type:'Boolean' },
-  { value: 4, label: '数组类型', type:'Array' },
-  { value: 5, label: '对象类型', type:'Object' },
-  { value: 6, label: '对象数组类型', type:'Array<Object>' },
-]
 
+import {isEmpty} from '@/utils/system/validate';
 export const condition = [
   {
     type:'input',
-    prop:'dict_group',
-    placeholder:'单据编号'
+    prop:'_id',
+    placeholder:'ID'
+  },
+  {
+    type:'input',
+    prop:'r_p_code',
+    placeholder:'规则代号'
   },
   {
     type:'select',
-    prop:'dict_name',
-    placeholder:'客户'
-  },
-  {
-    type:'select',
-    prop:'dict_name',
-    placeholder:'所属部门'
-  },
-  {
-    type:'dataTime',
-    prop:'dict_key',
-    placeholder:'更新开始时间'
-  },
-  {
-    type:'dataTime',
-    prop:'dict_val_type',
-    placeholder:'更新结束时间'
+    prop:'r_p_name',
+    placeholder:'规则名称'
   },
 ]
 
 export const columnArr = [
   {
-    label:"单据日期",
-    prop:'dict_group',
+    label:"编号",
+    prop:'_id',
   },
   {
-    label:"单据编号",
-    prop:'dict_name',
+    label:"规则代号",
+    prop:'r_p_code',
   },
   {
-    label:"客户",
-    prop:'dict_key',
+    label:"规则名称",
+    prop:'r_p_name',
   },
   {
-    label:"单据类型",
-    prop:'dict_val_type_desc',
-  },
-  {
-    label:"单据金额",
-    prop:'dict_val_type_desc',
-  },
-  {
-    label:"付款状态",
-    prop:'dict_val_type_desc',
-  },
-  {
-    label:"单据状态",
-    prop:'dict_val_type_desc',
-  },
-  {
-    label:"制单人",
-    prop:'dict_val_type_desc',
-  },
-  {
-    label:"所属部门",
-    prop:'dict_val_type_desc',
-  },
+    label:"优惠等级",
+    prop:'r_p_discount',
+  }
 ]
 
 export const itemArr = [
   {
-    label:"费用编号：",
+    label:"规则代号：",
     type:'input',
-    prop:'dict_group',
-    placeholder:'与SAP保持一致'
+    prop:'r_p_code',
   },
   {
-    label:"费用名称：",
+    label:"规则名称：",
     type:'input',
-    prop:'dict_name',
-    placeholder:'与SAP保持一致'
+    prop:'r_p_name',
   },
   {
-    label:"费用金额：",
+    label:"优惠等级：",
     type:'input',
-    prop:'dict_key',
-    placeholder:'请填写收费金额'
+    prop:'r_p_discount',
   },
   {
-    label:"自由金额：",
+    label:"是否启用：",
     type:'switch',
-    prop:'dict_val_type',
-  },
-  {
-    label:"审核控制：",
-    type:'switch',
-    prop:'dict_val',
-  },
-  {
-    label:"收款公司：",
-    type:'select',
-    prop:'dict_val',
-    placeholder:''
-  },
-  {
-    label:"费用科目：",
-    type:'select',
-    prop:'dict_val',
-    placeholder:''
-  },
-  {
-    label:"费用类别：",
-    type:'select',
-    prop:'dict_val',
-    placeholder:''
-  },
-  {
-    label:"缴费周期：",
-    type:'select',
-    prop:'dict_val',
-    placeholder:''
-  },
-  {
-    label:"费用类型说明：",
-    type:'textarea',
-    prop:'dict_val',
-    width:'100%',
-    placeholder:'请填写费用类型说明'
-  },
-  {
-    label:"自由金额：",
-    type:'switch',
-    prop:'dict_val_type',
+    default:false,
+    prop:'c_valid',
   },
 ]
 
 export const searchData = {
-  "eq":["dict_val_type"],
-  "like":["dict_group","dict_key","dict_name"]
+  "eq":["_id"],
+  "like":["r_p_code","r_p_name"]
 }
 
 export const rules = {
-  dict_val_type: [{ required: true, message: '请选择字典类型', trigger: 'blur' }],
-  dict_key: [{ required: true, message: '请填写字典英文名称', trigger: 'blur' }],
-  dict_name: [{ required: true, message: '请填写字典名称', trigger: 'blur' }],
-  dict_val: [{ required: true, message: '请填写字典值', trigger: 'blur' }],
+  r_p_code: isEmpty("请填写规则编号"),
+  r_p_name: isEmpty("请填写规则名称"),
+  r_p_discount: isEmpty("请填写优惠等级"),
 }

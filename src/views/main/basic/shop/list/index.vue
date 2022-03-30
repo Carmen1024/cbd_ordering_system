@@ -23,6 +23,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
+import { useStore } from 'vuex';
 import TableNormal from '@/components/table/normal.vue'
 import FormHandle from '@/components/Form/handle.vue';
 import { Page } from '@/components/table/type'
@@ -41,6 +42,7 @@ export default defineComponent({
     FormHandle
   },
   setup() {
+    const store = useStore()
     // 存储搜索用的数据
     const query = reactive({
       "s_type":null, //门店类型，1:直营店,2:加盟店,3:经销商,4:社会客户
@@ -150,7 +152,20 @@ export default defineComponent({
       drawer.row = row
       drawer.show = true
     }
-    getTableData(true)
+    
+    const getOrderRulesQuery=()=>{
+      store.dispatch('enum/getOrderRules').then(() => {
+        
+      })
+    }
+        
+    init()
+    async function init(){
+      await getTableData(true)
+      const orderRules = store.state.enum.orderRules
+      console.log(orderRules)
+      !orderRules && getOrderRulesQuery()
+    }
     return {
       Plus,
       Search,

@@ -6,138 +6,105 @@ export const valTypeData = [
   { value: 5, label: '对象类型', type:'Object' },
   { value: 6, label: '对象数组类型', type:'Array<Object>' },
 ]
+export const vaildData = [
+  { value: true, label: '有效'},
+  { value: false, label: '无效'},
+]
 
 export const condition = [
   {
+    type:'select',
+    prop:'r_c_o_code',
+    placeholder:'请填写规则编码'
+  },
+  {
     type:'input',
-    prop:'dict_group',
-    placeholder:'单据编号'
+    prop:'r_c_o_name',
+    placeholder:'请填写规则名称'
   },
   {
     type:'select',
-    prop:'dict_name',
-    placeholder:'客户'
-  },
-  {
-    type:'select',
-    prop:'dict_name',
-    placeholder:'所属部门'
-  },
-  {
-    type:'dataTime',
-    prop:'dict_key',
-    placeholder:'更新开始时间'
-  },
-  {
-    type:'dataTime',
-    prop:'dict_val_type',
-    placeholder:'更新结束时间'
+    prop:'c_valid',
+    options:vaildData,
+    placeholder:'状态'
   },
 ]
 
 export const columnArr = [
   {
-    label:"单据日期",
-    prop:'dict_group',
+    label:"规则编码",
+    prop:'r_c_o_code',
   },
   {
-    label:"单据编号",
-    prop:'dict_name',
+    label:"规则名称",
+    prop:'r_c_o_name',
+  },
+  // {
+  //   label:"规则描述",
+  //   prop:'dict_name',
+  // },
+  {
+    label:"开始时间",
+    prop:'r_c_o_valid_start',
   },
   {
-    label:"客户",
-    prop:'dict_key',
+    label:"结束时间",
+    prop:'r_c_o_valid_end',
   },
   {
-    label:"单据类型",
+    label:"更新时间",
     prop:'dict_val_type_desc',
   },
   {
-    label:"单据金额",
+    label:"操作人",
     prop:'dict_val_type_desc',
   },
   {
-    label:"付款状态",
-    prop:'dict_val_type_desc',
-  },
-  {
-    label:"单据状态",
-    prop:'dict_val_type_desc',
-  },
-  {
-    label:"制单人",
-    prop:'dict_val_type_desc',
-  },
-  {
-    label:"所属部门",
-    prop:'dict_val_type_desc',
+    label:"状态",
+    prop:'c_valid',
   },
 ]
 
 export const itemArr = [
   {
-    label:"费用编号：",
+    label:"规则编号：",
     type:'input',
-    prop:'dict_group',
-    placeholder:'与SAP保持一致'
+    prop:'r_c_o_code',
+    placeholder:'请填写规则编码'
   },
   {
-    label:"费用名称：",
+    label:"规则名称：",
     type:'input',
-    prop:'dict_name',
-    placeholder:'与SAP保持一致'
+    prop:'r_c_o_name',
+    placeholder:'请填写规则名称'
+  },
+  // {
+  //   label:"规则描述：",
+  //   type:'textarea',
+  //   prop:'dict_val_type',
+  //   width:'100%'
+  // },
+  {
+    label:"开始时间：",
+    type:'dataTime',
+    prop:'r_c_o_valid_start',
   },
   {
-    label:"费用金额：",
-    type:'input',
-    prop:'dict_key',
-    placeholder:'请填写收费金额'
+    label:"结束时间：",
+    type:'dataTime',
+    prop:'r_c_o_valid_end',
   },
   {
-    label:"自由金额：",
+    label:"启用状态：",
     type:'switch',
-    prop:'dict_val_type',
-  },
-  {
-    label:"审核控制：",
-    type:'switch',
-    prop:'dict_val',
-  },
-  {
-    label:"收款公司：",
-    type:'select',
-    prop:'dict_val',
+    prop:'c_valid',
     placeholder:''
   },
   {
-    label:"费用科目：",
-    type:'select',
-    prop:'dict_val',
-    placeholder:''
-  },
-  {
-    label:"费用类别：",
-    type:'select',
-    prop:'dict_val',
-    placeholder:''
-  },
-  {
-    label:"缴费周期：",
-    type:'select',
-    prop:'dict_val',
-    placeholder:''
-  },
-  {
-    label:"费用类型说明：",
-    type:'textarea',
-    prop:'dict_val',
-    width:'100%',
-    placeholder:'请填写费用类型说明'
-  },
-  {
-    label:"自由金额：",
-    type:'switch',
-    prop:'dict_val_type',
+    label:"物料规则：",
+    type:'materialRule',
+    prop:'rule_cycle_order_detail',
+    width:"100%"
   },
 ]
 
@@ -147,8 +114,5 @@ export const searchData = {
 }
 
 export const rules = {
-  dict_val_type: [{ required: true, message: '请选择字典类型', trigger: 'blur' }],
-  dict_key: [{ required: true, message: '请填写字典英文名称', trigger: 'blur' }],
-  dict_name: [{ required: true, message: '请填写字典名称', trigger: 'blur' }],
-  dict_val: [{ required: true, message: '请填写字典值', trigger: 'blur' }],
+  
 }

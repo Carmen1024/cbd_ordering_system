@@ -29,7 +29,7 @@ export default {
       customer:"客户管理",
       shop:{
         name:"门店管理",
-        list:"门店列表",//包含当前门店：员工 订购 优惠券 设备 信息变更记录
+        list:"门店列表",
         staff:"员工列表",
         coupon:"优惠券列表",
         device:"设备列表",
@@ -48,12 +48,11 @@ export default {
     inventory:{
       name:"库存管理",
       settings:{
-        name:"库存设置",
+        name:"规则设置",
         orderWindow:"订货窗口",
         priceLevel:"价格等级",
         storeHouse:"仓库管理",
         transferRelationship:"调拨规则",
-        scrapReason:"报废原因",
         freightTemplate:{
           name:"运费管理",
           list:"运费模板",
@@ -87,20 +86,28 @@ export default {
         name:'服务费收取'
       },
       expense:{
-        name:"费用管理",
+        name:"费用设置",
         expenseType:"费用类型",
         // refundReason:"退款原因"
       },
-      chargeManagement:{
-        name:"收费管理",
-        chargeBill:"收款单",
-        refundBill:"退款单"
-      }
+      // chargeManagement:{
+      //   name:"收费管理",
+      //   chargeBill:"收款单管理",
+      //   refundBill:"退款单管理"
+      // }
     },
     finance:{
       name:'财务管理',
-      chargeBill:"收款单",
-      refundBill:"退款单"
+      rebate:"返利管理",
+      credits:"信用额度",
+      feeInquiry:"费用查询",
+      chargeManagement:{
+        name:"单据管理",
+        chargeBill:"收款单",
+        refundBill:"退款单"
+      },
+      orderManagement:"商品单管理",
+      
     },
     project:{
       name:"项目管理",

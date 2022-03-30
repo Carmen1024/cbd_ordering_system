@@ -52,7 +52,6 @@ export default defineComponent({
       row:null
     })
 
-
     init()
     function init() { // 用于判断新增还是编辑功能
       if (props.layer.row) {

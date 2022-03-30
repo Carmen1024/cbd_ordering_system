@@ -1,10 +1,11 @@
-export const valTypeData = [
-  { value: 1, label: '字符串类型', type:'String'},
-  { value: 2, label: '整数类型', type:'Number' },
-  { value: 3, label: '布尔类型', type:'Boolean' },
-  { value: 4, label: '数组类型', type:'Array' },
-  { value: 5, label: '对象类型', type:'Object' },
-  { value: 6, label: '对象数组类型', type:'Array<Object>' },
+export const dayData = [
+  { value: 1, label: '周一'},
+  { value: 2, label: '周二' },
+  { value: 3, label: '周三' },
+  { value: 4, label: '周四' },
+  { value: 5, label: '周五' },
+  { value: 6, label: '周六' },
+  { value: 7, label: '周七' },
 ]
 
 export const condition = [
@@ -14,7 +15,12 @@ export const condition = [
     placeholder:'规则名称'
   },
   {
-    type:'select',
+    type:'input',
+    prop:'dict_name',
+    placeholder:'订货窗口'
+  },
+  {
+    type:'input',
     prop:'dict_name',
     placeholder:'生效区域'
   },
@@ -22,8 +28,8 @@ export const condition = [
 
 export const columnArr = [
   {
-    label:"编号",
-    prop:'dict_group',
+    label:"规则ID",
+    prop:'_id',
   },
   {
     label:"规则名称",
@@ -57,16 +63,16 @@ export const columnArr = [
 
 export const itemArr = [
   {
-    label:"规则ID",
-    type:'input',
-    prop:'dict_group',
-    placeholder:''
-  },
-  {
     label:"规则名称",
     type:'input',
     prop:'dict_name',
     placeholder:''
+  },
+  {
+    label:"启用状态",
+    type:'switch',
+    prop:'c_valid',
+    default:false
   },
   {
     label:"规则说明",
@@ -77,31 +83,35 @@ export const itemArr = [
   },
   {
     label:"生效区域",
-    type:'switch',
+    type:'checkboxButton',
     prop:'dict_val_type',
+    width:'100%',
+    options:dayData,
+    default:[],
   },
   {
     label:"例外门店",
-    type:'switch',
+    type:'textarea',
     prop:'dict_val',
+    width:'100%',
   },
   {
     label:"窗口期设置",
-    type:'select',
+    type:'checkboxButton',
     prop:'dict_val',
+    width:'100%',
+    options:dayData,
+    default:[],
     placeholder:''
   },
   {
     label:"备注",
-    type:'select',
+    type:'textarea',
     prop:'dict_val',
-    placeholder:''
+    placeholder:'',
+    width:'100%',
   },
-  {
-    label:"启用状态",
-    type:'switch',
-    prop:'dict_val_type',
-  },
+
 ]
 
 export const searchData = {
