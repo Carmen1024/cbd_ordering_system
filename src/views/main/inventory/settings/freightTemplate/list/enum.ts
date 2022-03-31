@@ -24,12 +24,12 @@ export const condition = [
     placeholder:'所属部门'
   },
   {
-    type:'dataTime',
+    type:'dateTime',
     prop:'dict_key',
     placeholder:'更新开始时间'
   },
   {
-    type:'dataTime',
+    type:'dateTime',
     prop:'dict_val_type',
     placeholder:'更新结束时间'
   },

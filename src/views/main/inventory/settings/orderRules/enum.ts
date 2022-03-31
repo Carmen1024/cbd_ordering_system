@@ -86,12 +86,12 @@ export const itemArr = [
   // },
   {
     label:"开始时间：",
-    type:'dataTime',
+    type:'dateTime',
     prop:'r_c_o_valid_start',
   },
   {
     label:"结束时间：",
-    type:'dataTime',
+    type:'dateTime',
     prop:'r_c_o_valid_end',
   },
   {

@@ -1,0 +1,152 @@
+import { isEmpty } from '@/utils/system/validate'
+
+export const condition = [
+  {
+    type:'input',
+    prop:'dict_group',
+    placeholder:'仓库编号'
+  },
+  {
+    type:'input',
+    prop:'dict_name',
+    placeholder:'仓库名称'
+  },
+  {
+    type:'input',
+    prop:'dict_name',
+    placeholder:'仓库联系人'
+  },
+  {
+    type:'input',
+    prop:'dict_key',
+    placeholder:'仓库联系方式'
+  },
+]
+
+export const columnArr = [
+  {
+    label:"仓库编号",
+    prop:'dict_group',
+  },
+  {
+    label:"仓库名称",
+    prop:'dict_name',
+  },
+  {
+    label:"仓库联系人",
+    prop:'dict_key',
+  },
+  {
+    label:"仓库联系方式",
+    prop:'dict_val_type_desc',
+  },
+  {
+    label:"配送区域",
+    prop:'dict_val_type_desc',
+  },
+  {
+    label:"操作时间",
+    prop:'dict_val_type_desc',
+  },
+  {
+    label:"状态",
+    prop:'dict_val_type_desc',
+    type:'handle'
+  },
+]
+
+export const itemArr = [
+  {
+    label:"仓库编号：",
+    type:'input',
+    prop:'dict_group',
+  },
+  {
+    label:"仓库名称：",
+    type:'input',
+    prop:'dict_name',
+  },
+  {
+    label:"仓库联系人：",
+    type:'input',
+    prop:'dict_key',
+    placeholder:'请填写收费金额'
+  },
+  {
+    label:"仓库联系方式：",
+    type:'input',
+    prop:'dict_val_type',
+  },
+  {
+    label:"到货周期：",
+    type:'input',
+    prop:'dict_val',
+    placeholder:'以天为单位'
+  },
+  {
+    label:"自动收货：",
+    type:'input',
+    prop:'dict_val',
+    placeholder:'以小时为单位'
+  },
+  {
+    label:"配送区域：",
+    type:'input',
+    prop:'dict_val',
+  },
+  {
+    label:"启用状态：",
+    type:'switch',
+    prop:'dict_val_type',
+    default:true,
+  },
+  {
+    label:"费用类型说明：",
+    type:'textarea',
+    prop:'dict_val',
+    width:'100%',
+    placeholder:'请填写费用类型说明'
+  },
+  {
+    label:"订货开始时间：",
+    type:'time',
+    prop:'dict_val',
+    placeholder:'请选择时分秒'
+  },
+  {
+    label:"订货结束时间：",
+    type:'time',
+    prop:'dict_val',
+    placeholder:'请选择时分秒'
+  },
+  {
+    label:"停止订货：",
+    type:'switch',
+    prop:'dict_val_type',
+    width:'30%',
+    default:false,
+  },
+  {
+    label:"开始时间：",
+    type:'dateTime',
+    prop:'dict_val',
+    placeholder:'',
+    width:'35%',
+  },
+  {
+    label:"结束时间：",
+    type:'dateTime',
+    prop:'dict_val',
+    placeholder:'',
+    width:'35%',
+  },
+]
+
+export const searchData = {
+  "eq":["dict_val_type"],
+  "like":["dict_group","dict_key","dict_name"]
+}
+
+export const rules = {
+  
+}

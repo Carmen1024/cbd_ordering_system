@@ -11,6 +11,15 @@ export const validatePhone = (rule: any, value: any, callback: any) => {
     callback()
   }
 }
+export const validateEmail = (rule: any, value: any, callback: any) => {
+  if (value!="") {
+    var reg = new RegExp("^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$");
+    if(!reg.test(value)){
+      callback(new Error('请填写正确的邮箱'))
+    }
+    callback()
+  }
+}
 
 //
 export const isEmptyObj=(msg:string="不能为空")=>{
@@ -24,5 +33,10 @@ export const isPhone=(msg:string="请填写手机号")=>{
   return [
     { required: true, message: msg, trigger: 'blur' },
     { validator: validatePhone, trigger: 'blur' }
+  ]
+}
+export const isEmail=()=>{
+  return [
+    { validator: validateEmail, trigger: 'blur' }
   ]
 }

@@ -33,12 +33,12 @@ export const condition = [
     placeholder:'创建人'
   },
   {
-    type:'dataTime',
+    type:'dateTime',
     prop:'createTime',
     placeholder:'开始时间'
   },
   {
-    type:'dataTime',
+    type:'dateTime',
     prop:'endTime',
     placeholder:'截止时间'
   },

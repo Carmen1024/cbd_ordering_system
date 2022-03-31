@@ -4,7 +4,8 @@
       :condition="condition" 
       :query="query"
       @getTableData="getTableData"
-      @handleAdd="handleAdd"  
+      @handleAdd="handleAdd"
+      @handleClear="handleClear"  
     />
     <table-normal 
       :columnArr="columnArr" 
@@ -44,19 +45,7 @@ export default defineComponent({
   setup() {
     const store = useStore()
     // 存储搜索用的数据
-    const query = reactive({
-      "s_type":null, //门店类型，1:直营店,2:加盟店,3:经销商,4:社会客户
-      "a_id":"",  //门店归属区域
-      "g_id":"", //门店归属分组
-      "s_status":null,   //门店状态，1:正常营业2:暂停营业3:永久关闭
-      "wh_id":"",  //门店归属大仓
-      "deliver_type":null, //发货类型。1:公司物流（收运费）,2:三方物流,3:自提,4:快递
-      "s_charge_name":"", //门店负责人
-      "s_charge_phone_num":"",//门店负责人电话
-      "s_code":"", //门店编号
-      "s_name":"", //门店名称
-      "s_addr":""  //门店地址
-    })
+    const query:any = ref({})
     // 弹窗控制器
     const drawer: DrawerInterface = reactive({
       show:false,
@@ -83,7 +72,7 @@ export default defineComponent({
       if (init) {
         page.index = 1
       }
-      const dq = getData(searchData,query)
+      const dq = getData(searchData,query.value)
       let params = {
         start: <number>page.index-1,
         size: page.size,
@@ -152,6 +141,10 @@ export default defineComponent({
       drawer.row = row
       drawer.show = true
     }
+    const handleClear = ()=>{
+      query.value = {}
+      getTableData(true)
+    }
     
     const getOrderRulesQuery=()=>{
       store.dispatch('enum/getOrderRules').then(() => {
@@ -164,7 +157,7 @@ export default defineComponent({
       await getTableData(true)
       const orderRules = store.state.enum.orderRules
       console.log(orderRules)
-      !orderRules && getOrderRulesQuery()
+      getOrderRulesQuery()
     }
     return {
       Plus,
@@ -184,7 +177,8 @@ export default defineComponent({
       condition,
       columnArr,
       searchData,
-      tableHandle
+      tableHandle,
+      handleClear
     }
   }
 })

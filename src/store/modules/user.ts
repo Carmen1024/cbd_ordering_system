@@ -7,7 +7,7 @@ export interface userState {
   loginInfo:object
 }
 const state = (): userState => ({
-  token: '', // 登录token
+  token: '3fc5b1426e7b8da60fc85016e463b7ca', // 登录token
   info: {},  // 用户信息
   loginInfo:{}
 })

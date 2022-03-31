@@ -3,7 +3,7 @@
    <div class="upload">
        <el-upload
           class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          action="http://113.125.84.255:10000/g/fileManager/file/upload"
           :on-change="handleChange"
           :file-list="fileList"
           list-type="picture"

@@ -69,15 +69,24 @@
           @change="changeArea"
         />
         <el-date-picker 
-          v-if="item.type == 'dataTime'"
+          v-if="item.type == 'dateTime'"
           v-model="model[item.prop]"
           type="datetime"
           value-format="YYYY-MM-DD hh:mm:ss"
-          :placeholder="item.placeholder || '请选择'+item.label"
+          :placeholder="item.placeholder || '请选择'+item.label.replace('：','')"
+        />
+        <el-time-picker 
+          v-if="item.type == 'time'"
+          v-model="model[item.prop]" 
+          value-format="hh:mm:ss"
+          :placeholder="item.placeholder || '请选择时间'"
         />
         <!-- 图片 -->
+        <picture-card 
+          v-if="item.type=='pictureCard'" 
+          @change="changePictureCard"
+        />
         <upload-list v-if="item.type=='UploadList'" />
-        <picture-card v-if="item.type=='pictureCard'" />
       </el-form-item>
     </el-form>
     <div class="btns" v-if="form.showButton">
@@ -184,6 +193,9 @@ export default defineComponent({
     },
     changeArea(areaGroup:any){
       this.model.areaGroup = areaGroup
+    },
+    changePictureCard(pictureCard:any){
+      this.model.pictureCard = pictureCard
     },
   }
 })

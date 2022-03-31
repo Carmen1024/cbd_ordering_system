@@ -1,4 +1,4 @@
-import { isEmpty,isPhone } from '@/utils/system/validate';
+import { isEmpty,isPhone,isEmail } from '@/utils/system/validate';
 
 export const tableHandles = [
   { value: "edit", label: '编辑'},
@@ -102,4 +102,5 @@ export const updateFormat = {
 export const rules = {
   user_name: isEmpty('请填写姓名'),
   user_phone: isPhone(),
+  user_email: isEmail()
 }

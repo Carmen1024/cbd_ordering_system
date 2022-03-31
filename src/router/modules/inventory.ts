@@ -50,6 +50,11 @@ const route: Route[] = [
         ]
       },
       {
+        path: 'storeHouse',
+        component: createNameComponent(() => import('@/views/main/inventory/storeHouse/index.vue')),
+        meta: { title: 'message.menu.inventory.storeHouse', icon: 'iconfont icon-storeHouse' },
+      },
+      {
         path: 'material',
         component: createNameComponent(() => (import('@/components/menu/index.vue'))),
         redirect: '/inventory/material/list',

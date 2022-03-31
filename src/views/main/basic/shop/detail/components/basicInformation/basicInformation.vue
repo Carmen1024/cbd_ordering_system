@@ -42,13 +42,14 @@ setup(props){
   }
   const getOrderRulesQuery=()=>{
     return new Promise((resolve,reject)=>{
-      orderRulesQuery().then(res=>{
+      // orderRulesQuery().then(res=>{
         //运费规则 rule_freight        r_f_id  
         //订货窗口 rule_order_period   r_o_p_id
         //发货仓库 warehouse           r_t_id
         //价格等级 rule_price          r_p_id
         //订货规则 rule_cycle_order    r_c_o_id
         const orderRules = store.state.enum.orderRules
+        console.log(orderRules)
         const freight = itemArr.find(item=>item.prop == 'r_f_id')
         freight.options = orderRules.freight
 
@@ -66,7 +67,7 @@ setup(props){
 
         resolve(true)
       })
-    })
+    // })
   }
 
   init()

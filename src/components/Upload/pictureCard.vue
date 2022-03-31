@@ -2,7 +2,7 @@
 <template>
    <div class="upload">
         <el-upload
-          action="https://jsonplaceholder.typicode.com/posts/"
+          action="http://113.125.84.255:10000/g/fileManager/file/upload"
           list-type="picture-card"
           :on-preview="handlePictureCardPreview"
           :on-remove="handleRemove"
@@ -20,6 +20,7 @@
 import { defineComponent,ref,reactive } from 'vue'
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 import { Plus } from '@element-plus/icons-vue'
+import { fileUpload } from '@/api/system/upload';
 
 export default defineComponent({
   name: 'name',

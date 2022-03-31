@@ -15,7 +15,7 @@ service.interceptors.request.use(
     if (store.getters['user/token']) {
       config.headers['token'] = store.state.user.token
     }
-    config.data = getConfigData(config.data)
+    config.data = getConfigData(config)
     // console.log(config);
     
     return config

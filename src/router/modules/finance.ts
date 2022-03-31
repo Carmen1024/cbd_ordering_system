@@ -31,7 +31,12 @@ const route: Route[] = [
         path: 'orderManagement',
         component: createNameComponent(() => import('@/views/main/finance/orderManagement/index.vue')),
         meta: { title: 'message.menu.finance.orderManagement', icon: 'iconfont icon-dingdan' },
-      }
+      },
+      {
+        path: 'feeInquiry',
+        component: createNameComponent(() => import('@/views/main/finance/feeInquiry/index.vue')),
+        meta: { title: 'message.menu.finance.feeInquiry', icon: 'iconfont icon-expense' },
+      },
     ]
   }
 ]

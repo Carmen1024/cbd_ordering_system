@@ -35,7 +35,7 @@ import { ElMessage } from 'element-plus'
 import LayerNormal from '@/components/layer/normal.vue';
 import type { LayerInterface } from '@/components/layer/index.vue'
 import { dictQuery,dictDelete, dictInsert,dictFetch,dictValid,dictUpdate } from '@/api/system/dictionary'
-import { valTypeData,condition,columnArr,itemArr,searchData,rules } from './enum';
+import { condition,columnArr,itemArr,searchData,rules } from './enum';
 import FormHandle from '@/components/Form/handle.vue';
 import TableNormal from '@/components/table/normal.vue';
 import { getData } from '@/utils/transform/httpConfig';
@@ -59,7 +59,7 @@ export default defineComponent({
       show: false,
       title: '新增',
       showButton: true,
-      width:'30%'
+      width:'50%'
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
@@ -91,12 +91,6 @@ export default defineComponent({
       .then(res => {
         console.log(res);
         let data = res.data
-        if (Array.isArray(data)) {
-          data.forEach(d => {
-            const dict_val_type = valTypeData.find(item => item.value === d.dict_val_type)
-            d.dict_val_type_desc = dict_val_type ?  dict_val_type.label : d.dict_val_type
-          })
-        }
         tableData.value = data
         page.total = res.total
       })
@@ -134,13 +128,13 @@ export default defineComponent({
     }
     // 新增弹窗功能
     const handleAdd = () => {
-      layer.title = '新增费用类型'
+      layer.title = '新增仓库'
       layer.show = true
       delete layer.row
     }
     // 编辑弹窗功能
     const handleEdit = (row: object) => {
-      layer.title='编辑费用类型'
+      layer.title='编辑仓库'
       layer.show = true
       console.log(row)
       layer.row = row

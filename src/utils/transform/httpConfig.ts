@@ -15,11 +15,12 @@
 //     "data":{}  //业务数据内容
 // }
 import store from '@/store'
-import exp from 'constants';
 interface requestInterface{
     token:string,
     platform?:string,
-    data:object
+    data:object,
+    // params?:object,
+    [propName: string]: any
 }
 interface responseInterface{
     code:string,
@@ -28,7 +29,8 @@ interface responseInterface{
     count?:number,
     total?:number,
     ext?:object,
-    is_list?:boolean
+    is_list?:boolean,
+    [propName: string]: any
 }
 
 // 获取全部返回值
@@ -37,10 +39,18 @@ export const getResContent = (response:responseInterface)=>{
 }
 
 //拼接请求config data
-export const getConfigData = (data:object)=>{
+export const getConfigData = (config:object)=>{
     let configData:requestInterface = {
-        data :( data ? data : {}),
-        token : store.state.user.token
+        data :( config?.data ? config.data : {})
+    }
+    // if(config?.url.indexOf("login/login")<0){
+        configData.token = store.state.user.token
+    // }
+    if(config?.params){
+       const params = config.params
+       Object.keys(params).map(i=>{
+        configData[i] = params[i]
+       })
     }
     return configData;
 }
@@ -48,7 +58,7 @@ export const getConfigData = (data:object)=>{
 // 拼接data
 export const getData = (shouldKey:object,params:object)=>{
     let dataParams = {};
-    for(let index in shouldKey){
+    Object.keys(shouldKey).map(index=>{
         const item = shouldKey[index];
         let indexMap = {};
         item.map((n) => {
@@ -63,7 +73,7 @@ export const getData = (shouldKey:object,params:object)=>{
             if((vValue??'')!=='') indexMap[n] = vValue
         });
         dataParams[index] = indexMap;
-    }
+    })
     return dataParams
 }
 

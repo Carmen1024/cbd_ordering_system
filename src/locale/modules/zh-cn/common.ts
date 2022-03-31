@@ -10,6 +10,7 @@ export default {
     delTip: '确定删除选中的数据吗？',
     handle: '操作',
     exportExcel:'导出Excel',
-    exportExcelTip:'请填写导出文件名'
+    exportExcelTip:'请填写导出文件名',
+    clear:"清空"
   },
 }

@@ -51,7 +51,6 @@ export default {
         name:"规则设置",
         orderWindow:"订货窗口",
         priceLevel:"价格等级",
-        storeHouse:"仓库管理",
         transferRelationship:"调拨规则",
         freightTemplate:{
           name:"运费管理",
@@ -60,6 +59,7 @@ export default {
         },
         orderRules:"订货规则",
       },
+      storeHouse:"仓库管理",
       material:{
         name:"物料管理",
         classify:"物料分类",
@@ -97,17 +97,16 @@ export default {
       // }
     },
     finance:{
-      name:'财务管理',
-      rebate:"返利管理",
-      credits:"信用额度",
-      feeInquiry:"费用查询",
       chargeManagement:{
-        name:"单据管理",
+        name:"收费单管理",
         chargeBill:"收款单",
         refundBill:"退款单"
       },
-      orderManagement:"商品单管理",
-      
+      orderManagement:"商品订单管理",
+      feeInquiry:"门店缴费记录",
+      name:'财务管理',
+      rebate:"返利管理",
+      credits:"信用额度",
     },
     project:{
       name:"项目管理",

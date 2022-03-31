@@ -3,27 +3,21 @@
     <form-handle 
       :condition="condition" 
       :query="query"
+      :handles="['search']"
       @getTableData="getTableData"
-      @handleAdd="handleAdd"  
+      @handleClear="handleClear"
     />
+    <!--  -->
+    <!-- <tab :tabs="tabs" :tabValue="tabValue" @change="changeTab" /> -->
     <table-normal 
       :columnArr="columnArr" 
       :tableData="tableData"
       :page="page"
       :loading="loading"
+      :handles="tableHandles"
       @getTableData="getTableData"
       @handleSelectionChange="handleSelectionChange"
-      @handleEdit="handleEdit"
-      @handleDel="handleDel"
       @tableHandle="tableHandle"
-    />
-    <layer-normal 
-      :layer = "layer" 
-      :rules = "rules"
-      :itemArr="itemArr"
-      v-if="layer.show"
-      @addForm="addForm"
-      @updateForm="updateForm"
     />
   </div>
 </template>
@@ -34,26 +28,23 @@ import { Page } from '@/components/table/type'
 import { ElMessage } from 'element-plus'
 import LayerNormal from '@/components/layer/normal.vue';
 import type { LayerInterface } from '@/components/layer/index.vue'
-import { dictQuery,dictDelete, dictInsert,dictFetch,dictValid,dictUpdate } from '@/api/system/dictionary'
-import { condition,columnArr,itemArr,searchData,rules } from './enum';
+import { dictQuery,dictValid } from '@/api/system/dictionary'
+import { condition,columnArr,searchData,tabs } from './enum';
 import FormHandle from '@/components/Form/handle.vue';
 import TableNormal from '@/components/table/normal.vue';
 import { getData } from '@/utils/transform/httpConfig';
+import Tab from '@/components/tab/index.vue';
 export default defineComponent({
   name: 'orderRules',
   components: {
     TableNormal,
     LayerNormal,
-    FormHandle
+    FormHandle,
+    Tab,
   },
   setup() {
     // 存储搜索用的数据
-    const query = ref({
-      "dict_val_type":null,//1：字符串类型，2：整数类型，3：布尔类型，4：数组类型，5：对象类型，6：对象数组类型。
-      "dict_group":"",////可选，组名
-      "dict_key":"", ////必填，字典键名，英文
-      "dict_name":"" ////必填，字典中文名
-    })
+    const query = ref({})
     // 弹窗控制器
     const layer: LayerInterface = reactive({
       show: false,
@@ -70,6 +61,11 @@ export default defineComponent({
     const loading = ref(true)
     const tableData = ref([])
     const chooseData = ref([])
+    const tabValue = ref(-1)
+    const tableHandles = [
+      { value: "detail", label: '查看'}
+    ]
+    
     const handleSelectionChange = (val: []) => {
       chooseData.value = val
     }
@@ -103,18 +99,7 @@ export default defineComponent({
         loading.value = false
       })
     }
-    // 删除功能
-    const handleDel = (row: object) => {
-      let params = {"eq": {"_id": row._id}};
-      dictDelete(params)
-      .then(res => {
-        ElMessage({
-          type: 'success',
-          message: '删除成功'
-        })
-        getTableData(tableData.value.length === 1 ? true : false)
-      })
-    }
+    
     const tableHandle = ({ type,row}) => {
       if( type =='valid'){
           const params = getData({"eq":["_id"],"set":["c_valid"]},row)
@@ -124,20 +109,14 @@ export default defineComponent({
               message: '切换成功'
             })
           })
+      }else if(type=="detail"){
+        
       }
     }
-    // 新增弹窗功能
-    const handleAdd = () => {
-      layer.title = '新增费用类型'
-      layer.show = true
-      delete layer.row
-    }
-    // 编辑弹窗功能
-    const handleEdit = (row: object) => {
-      layer.title='编辑费用类型'
-      layer.show = true
-      console.log(row)
-      layer.row = row
+    
+    const handleClear = ()=>{
+      query.value = {}
+      getTableData(true)
     }
     getTableData(true)
     return {
@@ -147,16 +126,15 @@ export default defineComponent({
       loading,
       page,
       handleSelectionChange,
-      handleAdd,
-      handleEdit,
-      handleDel,
       getTableData,
       layer,
       condition,
       columnArr,
-      rules,
-      itemArr,
-      tableHandle
+      tableHandle,
+      tabs,
+      tabValue,
+      handleClear,
+      tableHandles
     }
   },
   methods:{
@@ -188,6 +166,9 @@ export default defineComponent({
         this.layer.show = false
       })
     },
+    changeTab(item:object){
+      this.tabValue = item.value
+    }
   }
 })
 </script>

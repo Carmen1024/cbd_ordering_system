@@ -20,7 +20,7 @@
                 :placeholder="item.placeholder || '请填写'" 
                 @change="getTableData">
             </el-input>
-             <el-date-picker v-if="item.type == 'dataTime'"
+             <el-date-picker v-if="item.type == 'dateTime'"
                 v-model="query[item.prop]"
                 type="datetime"
                 value-format="YYYY-MM-DD hh:mm:ss"
@@ -35,13 +35,18 @@
                 {{ $t('message.common.add') }}
             </el-button>
         </div>
+        <div v-if="condition.length>0" class="handle">
+          <el-button type="primary" plain :icon="RefreshLeft" @click="handleClear">
+              {{ $t('message.common.clear') }}
+          </el-button>
+        </div>
       </div>
     </div>
 </template>
 
 <script lang='ts'>
 import { defineComponent } from 'vue'
-import { Plus, Search, Delete } from '@element-plus/icons'
+import { Plus, Search, Delete, RefreshLeft } from '@element-plus/icons'
 
 export default defineComponent({
   name: 'name',
@@ -68,10 +73,13 @@ export default defineComponent({
   setup(props,cxt){
     
     const getTableData=()=>{
-        cxt.emit("getTableData",true)
+      cxt.emit("getTableData",true)
     }
     const handleAdd=()=>{
-        cxt.emit("handleAdd")
+      cxt.emit("handleAdd")
+    }
+    const handleClear=()=>{
+      cxt.emit("handleClear")
     }
 
     return{
@@ -79,7 +87,9 @@ export default defineComponent({
       Search,
       Delete,
       getTableData,
-      handleAdd
+      handleAdd,
+      RefreshLeft,
+      handleClear
     }
   },
 })

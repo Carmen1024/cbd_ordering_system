@@ -92,19 +92,19 @@ export const itemArr = [
     placeholder:'请填写门店标签，用逗号隔开'
   },
   {
-    label:"证照",
+    label:"营业执照",
     type:'pictureCard',
-    prop:'dict_name',
+    prop:'pictureCard', //s_license_pic
     placeholder:'',
     width:'100%'
   },
-  {
-    label:"附件",
-    type:'UploadList',
-    prop:'dict_name',
-    placeholder:'',
-    width:'100%'
-  },
+  // {
+  //   label:"附件",
+  //   type:'UploadList',
+  //   prop:'pictureList',
+  //   placeholder:'',
+  //   width:'100%'
+  // },
   // ---------------------------------------------
   {
     type:'title',
@@ -112,13 +112,13 @@ export const itemArr = [
     width:'100%'
   },
   {
-    label:"归属客户:",
+    label:"归属客户：",
     type:'select',
     prop:'company_id',
     placeholder:''
   },
   {
-    label:"客户编码",
+    label:"客户编码：",
     type:'input',
     prop:'dict_name',
     placeholder:''
@@ -230,9 +230,11 @@ export const rules = {
 export const updateFormat = {
   "eq":["_id"],
   "set":[
-    "s_name","s_charge_name","s_addr","s_longitude","s_latitude","s_tags","m_b_id",
-    "rg_id","a_id","g_id","s_status","r_p_id","r_f_id","wh_id","r_t_id","r_o_p_id","r_c_o_id",
-    "deliver_type","company_id","s_recept_type","s_receipt_head","s_settle_pay_type",
-    "s_settle_is_audit","s_settle_main_no","s_license_no","s_license_pic"
+    "s_type","s_code","s_name","s_charge_name","s_charge_phone_num","s_addr",
+    "s_longitude","s_latitude","s_tags","m_b_id",
+    "rg_id","a_id","g_id","s_status","r_p_id",
+    "r_f_id","wh_id","r_t_id","r_o_p_id","r_c_o_id","deliver_type",
+    "company_id","s_recept_type","s_receipt_head","s_settle_refund_money",
+    "s_settle_pay_type","s_settle_is_audit","s_settle_main_no","s_license_no","s_license_pic"
   ]
 }

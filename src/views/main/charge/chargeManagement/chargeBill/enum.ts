@@ -16,12 +16,12 @@ export const condition = [
     placeholder:'所属部门'
   },
   {
-    type:'dataTime',
+    type:'dateTime',
     prop:'dict_key',
     placeholder:'查询开始时间'
   },
   {
-    type:'dataTime',
+    type:'dateTime',
     prop:'dict_val_type',
     placeholder:'查询结束时间'
   },
