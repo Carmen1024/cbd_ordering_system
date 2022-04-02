@@ -52,17 +52,12 @@ export const condition = [
   {
     type:'input',
     prop:'s_charge_name',
-    placeholder:'请填写门店负责人'
+    placeholder:'请填写联系人'
   },
   {
     type:'input',
     prop:'s_charge_phone_num',
-    placeholder:'请填写负责人电话'
-  },
-  {
-    type:'input',
-    prop:'s_code',
-    placeholder:'请填写门店编号'
+    placeholder:'请填写联系人电话'
   },
   {
     type:'input',
@@ -75,7 +70,7 @@ export const columnArr = [
   {prop:'s_name',label:'门店名称'},
   {prop:'s_type_desc',label:'门店类型'}, //门店类型，1:直营店,2:加盟店,3:经销商,4:社会客户。
   {prop:'s_charge_name',label:'联系人'},
-  {prop:'s_charge_phone_num',label:'联系电话'},
+  {prop:'s_charge_phone_num',label:'联系人电话'},
   {prop:'s_addr',label:'门店地址'},
   {prop:'s_status_desc',label:'门店状态'}, //门店状态，1:正常营业2:暂停营业3:永久关闭。
   {

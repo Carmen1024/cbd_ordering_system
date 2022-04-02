@@ -63,9 +63,7 @@ export default defineComponent({
   },
   setup() {
     // 存储搜索用的数据
-    const query = reactive({
-      input: ''
-    })
+    const query = reactive({})
     // 弹窗控制器
     const layer: LayerInterface = reactive({
       show: false,

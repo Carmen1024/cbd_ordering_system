@@ -82,7 +82,12 @@
           :placeholder="item.placeholder || '请选择时间'"
         />
         <!-- 图片 -->
-        <picture-card 
+        <upload-image 
+          v-if="item.type=='image'" 
+          :image="model[item.prop]"
+        />
+        <!-- 图片卡片 -->
+        <picture-card
           v-if="item.type=='pictureCard'" 
           @change="changePictureCard"
         />
@@ -90,7 +95,7 @@
       </el-form-item>
     </el-form>
     <div class="btns" v-if="form.showButton">
-      <el-button type="primary" @click="submit">确定</el-button>
+      <el-button type="primary" @click="submit">保存</el-button>
       <!-- <el-button>取消</el-button>
       <el-popconfirm :title="'取消后数据将丢失'" @confirm="cancel">
         <template #reference>
@@ -109,6 +114,7 @@ import FormNormal from '@/components/Form/normal.vue';
 import UploadList from '@/components/Upload/list.vue';
 import PictureCard from '@/components/Upload/pictureCard.vue';
 import areaModule from '@/components/area/index.vue';
+import UploadImage from '@/components/Upload/image.vue';
 
 export interface formInterface {
   title:string;
@@ -120,7 +126,8 @@ export default defineComponent({
     FormNormal,
     UploadList,
     PictureCard,
-    areaModule
+    areaModule,
+    UploadImage
   },
   props: {
     form: {

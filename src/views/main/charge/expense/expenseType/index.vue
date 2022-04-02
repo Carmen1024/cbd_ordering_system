@@ -50,12 +50,7 @@ export default defineComponent({
   },
   setup() {
     // 存储搜索用的数据
-    const query = ref({
-      "cost_name":"", //费用类型名称（支持模糊查询）
-      "c_create_user":"", //当前记录创建人（支持模糊查询）
-      "createTime":"", //开始时间
-      "endTime":"" //截止时间
-    })
+    const query = ref({})
     // 弹窗控制器
     const layer: LayerInterface = reactive({
       show: false,

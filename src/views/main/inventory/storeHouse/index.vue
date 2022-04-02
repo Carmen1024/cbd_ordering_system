@@ -48,12 +48,7 @@ export default defineComponent({
   },
   setup() {
     // 存储搜索用的数据
-    const query = ref({
-      "wareHouse_val_type":null,//1：字符串类型，2：整数类型，3：布尔类型，4：数组类型，5：对象类型，6：对象数组类型。
-      "wareHouse_group":"",////可选，组名
-      "wareHouse_key":"", ////必填，字典键名，英文
-      "wareHouse_name":"" ////必填，字典中文名
-    })
+    const query = ref({})
     // 弹窗控制器
     const layer: LayerInterface = reactive({
       show: false,

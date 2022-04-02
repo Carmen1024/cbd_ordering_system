@@ -94,7 +94,7 @@ export const itemArr = [
   {
     label:"营业执照",
     type:'pictureCard',
-    prop:'pictureCard', //s_license_pic
+    prop:'s_license_pic',
     placeholder:'',
     width:'100%'
   },
@@ -111,18 +111,18 @@ export const itemArr = [
     placeholder:'财务结算信息',
     width:'100%'
   },
-  {
-    label:"归属客户：",
-    type:'select',
-    prop:'company_id',
-    placeholder:''
-  },
-  {
-    label:"客户编码：",
-    type:'input',
-    prop:'dict_name',
-    placeholder:''
-  },
+  // {
+  //   label:"归属客户：",
+  //   type:'input',
+  //   prop:'company_id',
+  //   placeholder:''
+  // },
+  // {
+  //   label:"客户编码：",
+  //   type:'input',
+  //   prop:'dict_name',
+  //   placeholder:''
+  // },
   {
     label:"财务主题编码",
     type:'input',

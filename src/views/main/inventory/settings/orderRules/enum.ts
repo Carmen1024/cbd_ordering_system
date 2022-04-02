@@ -95,16 +95,15 @@ export const itemArr = [
     prop:'r_c_o_valid_end',
   },
   {
+    label:"物料规则：",
+    type:'input',
+    prop:'rule_cycle_order_detail',
+  },
+  {
     label:"启用状态：",
     type:'switch',
     prop:'c_valid',
     placeholder:''
-  },
-  {
-    label:"物料规则：",
-    type:'materialRule',
-    prop:'rule_cycle_order_detail',
-    width:"100%"
   },
 ]
 

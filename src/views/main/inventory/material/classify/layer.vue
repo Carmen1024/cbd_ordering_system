@@ -16,7 +16,7 @@ import type { LayerType } from '@/components/layer/index.vue'
 import type { Ref } from 'vue'
 import type { ElFormItemContext } from 'element-plus/lib/el-form/src/token'
 import { defineComponent, ref } from 'vue'
-import { selectData, radioData } from './enum'
+import {  } from './enum'
 import { classifyInsert,classifyUpdate } from '@/api/material/classify';
 import Layer from '@/components/layer/index.vue'
 export default defineComponent({
@@ -59,8 +59,6 @@ export default defineComponent({
       rules,
       layerDom,
       ruleForm,
-      selectData,
-      radioData
     }
   },
   methods: {

@@ -73,9 +73,7 @@ export default defineComponent({
   setup() {
     // 存储搜索用的数据
     const { t } = useI18n()
-    const query = reactive({
-      input: '',
-    })
+    const query = reactive({})
     const fileName = ref('')
 
     const page: Page = reactive({

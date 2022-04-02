@@ -1,12 +1,11 @@
 <template>
   <div class="layout-container">
-    <div class="layout-container-form flex space-between">
-      <div class="layout-container-form-handle">
-        <el-input v-model="filterText.like.clf_name" @change="initClassify" placeholder="请填写分类名" />
-        <el-button :icon="Search" @click="initClassify">{{ $t('message.common.search') }}</el-button>
-        <el-button type="primary" :icon="Plus" @click="handleAdd">新增分类</el-button>
-      </div>
-    </div>
+    <form-handle 
+      :condition="condition" 
+      :query="query"
+      @getTableData="getTableData"
+      @handleAdd="handleAdd"  
+    />
     <div class="layout-container-tree">
       <div class="block">
         <el-tree
@@ -48,22 +47,26 @@ import type { LayerInterface } from '@/components/layer/index.vue'
 import { Plus,Search } from '@element-plus/icons'
 import { ElMessage } from 'element-plus'
 import { classifyQuery,classifyDelete } from '@/api/material/classify'
+import FormHandle from '@/components/Form/handle.vue'
+import { condition,searchData } from './enum';
+import { getData } from '@/utils/transform/httpConfig'
 
 export default defineComponent({
   name: 'materialSort',
   components: {
-    Layer
+    Layer,
+    FormHandle
   },
   setup() {
     interface Tree {
-      id?:string
+      id?: string
       _id: string
       clf_type?: number //1:物料,2:半成品,3:销售成品。
       clf_name_link?: string //层级结构名称，如：/水果/苹果/湖南苹果
       clf_lay?: number //分类层级：1-一级分类 2-二级分类 3-三级分类
       clf_name?: string //分类名称
-      clf_su_id?:string //上级分类名称。 一级不必传
-      leaf?:boolean //是否还有子节点
+      clf_su_id?: string //上级分类名称。 一级不必传
+      leaf?: boolean //是否还有子节点
       children?: Tree[]
     }
     const props = {
@@ -72,14 +75,7 @@ export default defineComponent({
       isLeaf: 'leaf',
     }
     const dataSource = ref<Tree[]>([])
-    const filterText = ref({
-      like:{
-        clf_name:""
-      },
-      eq:{
-        clf_su_id:""
-      }
-    })
+    const query = ref({})
     const openKeys=ref([])
     const getClassifyChildren = (data: Tree,node: Node)=>{
       // if(data.children && data.children.length>0){
@@ -87,7 +83,7 @@ export default defineComponent({
       // }
       handleNode = node
       handleData = data
-      filterText.value.eq.clf_su_id = data._id;
+      query.clf_su_id = data._id;
       openKeys.value = [data._id]
       console.log(openKeys.value)
       getClassify().then(data=>{
@@ -104,7 +100,8 @@ export default defineComponent({
     }
     // 获取子节点
     const getClassify = ()=>{
-      return classifyQuery(filterText.value).then(res=>{
+      const params = getData(searchData,query)
+      return classifyQuery(params).then(res=>{
         return Promise.resolve(res.data);
       })
     }
@@ -195,8 +192,9 @@ export default defineComponent({
       type ? (handleIndex ? initClassify() : append(form)) : edit(form);
     }
     const initClassify=()=>{
-      filterText.value.eq.clf_su_id="";
-      getClassify(filterText.value).then(data=>{
+      delete query.clf_su_id;
+      const params = getData(searchData,query)
+      getClassify(params).then(data=>{
         console.log(data);
         data = data.map(item => {
           item.level = 1;
@@ -222,13 +220,13 @@ export default defineComponent({
       Plus,
       Search,
       handleAdd,
-      filterText,
       props,
       // loadNode,
       getClassify,
       getClassifyChildren,
       initClassify,
-      openKeys
+      openKeys,
+      condition
     }
   }
 })

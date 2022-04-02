@@ -43,7 +43,8 @@ const state = () => ({
       menuType: 'side'
     }
   },
-  menuList: []
+  menuList: [],
+  uploadUrl : 'http://113.125.84.255:10007/fileManager/file/upload'
 })
 
 // mutations

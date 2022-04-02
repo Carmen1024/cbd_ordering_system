@@ -12,13 +12,13 @@ export const validatePhone = (rule: any, value: any, callback: any) => {
   }
 }
 export const validateEmail = (rule: any, value: any, callback: any) => {
-  if (value!="") {
-    var reg = new RegExp("^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$");
-    if(!reg.test(value)){
-      callback(new Error('请填写正确的邮箱'))
-    }
-    callback()
+  console.log(value)
+  if (value??''=='') callback()
+  var reg = new RegExp("^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$");
+  if(!reg.test(value)){
+    callback(new Error('请填写正确的邮箱'))
   }
+  
 }
 
 //

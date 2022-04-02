@@ -143,7 +143,7 @@ export default defineComponent({
     }
     const handleClear = ()=>{
       query.value = {}
-      getTableData(true)
+      // getTableData(true)
     }
     
     const getOrderRulesQuery=()=>{

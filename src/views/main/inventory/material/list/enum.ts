@@ -19,7 +19,6 @@ import exp from 'constants';
 //     // Promise.resolve(data)
 //   })
 // }
-
 export const options = {
   //订货规则
   //"doc_m_order_step_type": "，1:按倍数递增,2:按逐1递增",
@@ -140,7 +139,7 @@ export const materialStateData = [
   { value: 3, label: '冷冻' },
 ]
 
-export const selectData = [
+export const sData = [
   { value: 1, label: '分类一' },
   { value: 2, label: '分类二' },
   { value: 3, label: '分类三' },
@@ -157,5 +156,10 @@ export const radioData = [
   { value: 1, label: '是' },
   { value: 0, label: '否' },
 ]
-
-
+export const selectData = {
+  "like":[
+    "clf_m_code", //物料编码
+    "clf_name", //分类名称
+    "m_name" //分类名称
+  ]
+}

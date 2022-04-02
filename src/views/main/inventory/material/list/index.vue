@@ -48,12 +48,13 @@ import { defineComponent, ref, reactive } from 'vue'
 import Table from '@/components/table/index.vue'
 import { Page } from '@/components/table/type'
 import { ElMessage } from 'element-plus'
-import { options } from './enum'
+import { options,sData } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
 import Detail from './../detail/index.vue';
 import type { DrawerInterface } from '@/components/drawer/index.vue';
 import { materialQuery } from '@/api/material/material';
 import { useStore } from "vuex";
+import { getData } from '@/utils/transform/httpConfig'
 export default defineComponent({
   name: 'crudTable',
   components: {
@@ -64,13 +65,7 @@ export default defineComponent({
     const store = useStore();
     store.commit("enum/setOption", "m_status");
     // 存储搜索用的数据
-    const query = reactive({
-      like:{
-        clf_m_code:"", //物料编码
-        clf_name:"", //分类名称
-        m_name:"" //分类名称
-      }
-    })
+    const query = reactive({})
     // 弹窗控制器
     const drawer: DrawerInterface = reactive({
       show:false,
@@ -97,10 +92,11 @@ export default defineComponent({
       if (init) {
         page.index = 1
       }
+      const nQuery = getData(sData,query)
       let params = {
         start: <number>page.index-1,
         size: page.size,
-        ...query
+        ...nQuery
       }
       materialQuery(params)
       .then(res => {
