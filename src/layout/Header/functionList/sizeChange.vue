@@ -1,7 +1,7 @@
 <template>
   <el-dropdown @command="handleCommand" size="medium">
     <span class="el-dropdown-link">
-      <i class="sfont system-zuixiaohua"></i>
+      <i class="iconfont icon-Word"></i>
     </span>
     <template #dropdown>
       <el-dropdown-menu>
@@ -59,5 +59,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-  
+  .iconfont{
+    cursor: pointer;
+  }
 </style>

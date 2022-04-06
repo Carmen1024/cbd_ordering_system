@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "11734481",
+      "name": "page,分页,多页,多标签",
+      "font_class": "page_icon",
+      "unicode": "e673",
+      "unicode_decimal": 58995
+    },
+    {
+      "icon_id": "11734521",
+      "name": "download,下载,保存,存储",
+      "font_class": "download",
+      "unicode": "e674",
+      "unicode_decimal": 58996
+    },
+    {
+      "icon_id": "11734536",
+      "name": "字号,字体,字体大小,字符大小,Word",
+      "font_class": "Word",
+      "unicode": "e672",
+      "unicode_decimal": 58994
+    },
+    {
       "icon_id": "1722994",
       "name": "门店管理",
       "font_class": "basic2",
