@@ -1,8 +1,8 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 3125514 */
-  src: url('iconfont.woff2?t=1647503225678') format('woff2'),
-       url('iconfont.woff?t=1647503225678') format('woff'),
-       url('iconfont.ttf?t=1647503225678') format('truetype');
+  font-family: "iconfont"; /* Project id 3306750 */
+  src: url('iconfont.woff2?t=1649236992801') format('woff2'),
+       url('iconfont.woff?t=1649236992801') format('woff'),
+       url('iconfont.ttf?t=1649236992801') format('truetype');
 }
 
 .iconfont {
@@ -13,28 +13,200 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-systemDictionary2:before {
-  content: "\e667";
+.icon-basic2:before {
+  content: "\e7bf";
 }
 
-.icon-systemDictionary:before {
-  content: "\e6a8";
+.icon-permission:before {
+  content: "\e671";
 }
 
-.icon-youxiang1:before {
-  content: "\e61d";
+.icon-deploy:before {
+  content: "\e600";
 }
 
-.icon-account:before {
-  content: "\e61b";
+.icon-coupon:before {
+  content: "\e669";
 }
 
-.icon-center:before {
-  content: "\e6a4";
+.icon-interfaceTask:before {
+  content: "\e66a";
 }
 
-.icon-back:before {
-  content: "\e60e";
+.icon-marketing:before {
+  content: "\e7c0";
+}
+
+.icon-salesTurnover:before {
+  content: "\e66b";
+}
+
+.icon-rebate:before {
+  content: "\e609";
+}
+
+.icon-announcement:before {
+  content: "\e66c";
+}
+
+.icon-renwujincheng:before {
+  content: "\ec35";
+}
+
+.icon-credits:before {
+  content: "\e66d";
+}
+
+.icon-marketing2:before {
+  content: "\e66f";
+}
+
+.icon-statistics:before {
+  content: "\e8ac";
+}
+
+.icon-gonggao1:before {
+  content: "\e8c4";
+}
+
+.icon-tongjifenxi-xiangmubiaogetongji:before {
+  content: "\e670";
+}
+
+.icon-bill:before {
+  content: "\e894";
+}
+
+.icon-combo:before {
+  content: "\e668";
+}
+
+.icon-combo2:before {
+  content: "\e67e";
+}
+
+.icon-daimapianduan:before {
+  content: "\e6d6";
+}
+
+.icon-version:before {
+  content: "\e75f";
+}
+
+.icon-Notebook:before {
+  content: "\e81c";
+}
+
+.icon-wwww:before {
+  content: "\e6c5";
+}
+
+.icon-project:before {
+  content: "\e8cf";
+}
+
+.icon-up:before {
+  content: "\e650";
+}
+
+.icon-right:before {
+  content: "\e65e";
+}
+
+.icon-down:before {
+  content: "\e65f";
+}
+
+.icon-kefu:before {
+  content: "\e65d";
+}
+
+.icon-shenfenzheng:before {
+  content: "\e660";
+}
+
+.icon-shuoming:before {
+  content: "\e661";
+}
+
+.icon-plus:before {
+  content: "\e662";
+}
+
+.icon-acceptance:before {
+  content: "\e798";
+}
+
+.icon-scrap:before {
+  content: "\e7da";
+}
+
+.icon-tongzhi:before {
+  content: "\e611";
+}
+
+.icon-jine:before {
+  content: "\e6c3";
+}
+
+.icon-jian:before {
+  content: "\e621";
+}
+
+.icon-tianjia:before {
+  content: "\e624";
+}
+
+.icon-shouye:before {
+  content: "\e618";
+}
+
+.icon-wode:before {
+  content: "\e6b2";
+}
+
+.icon-dingdan:before {
+  content: "\e8ae";
+}
+
+.icon-goumai:before {
+  content: "\e664";
+}
+
+.icon-bigclose:before {
+  content: "\e665";
+}
+
+.icon-close:before {
+  content: "\e903";
+}
+
+.icon-sousuo:before {
+  content: "\e61c";
+}
+
+.icon-sousuoxiao:before {
+  content: "\e8d6";
+}
+
+.icon-bianji:before {
+  content: "\e604";
+}
+
+.icon-rili:before {
+  content: "\e602";
+}
+
+.icon-bianji1:before {
+  content: "\e614";
+}
+
+.icon-shanchu1:before {
+  content: "\e666";
+}
+
+.icon-shanchu:before {
+  content: "\e8b6";
 }
 
 .icon-a-shoujihaoshouji:before {
@@ -45,7 +217,7 @@
   content: "\e6b4";
 }
 
-.icon-yonghuzhucexieyi:before {
+.icon-user:before {
   content: "\e6e7";
 }
 
@@ -65,404 +237,28 @@
   content: "\e71c";
 }
 
-.icon-shanchu1:before {
-  content: "\e666";
+.icon-back:before {
+  content: "\e60e";
 }
 
-.icon-shanchu:before {
-  content: "\e8b6";
+.icon-account:before {
+  content: "\e61b";
 }
 
-.icon-bianji:before {
-  content: "\e604";
+.icon-center:before {
+  content: "\e6a4";
 }
 
-.icon-rili:before {
-  content: "\e602";
+.icon-youxiang1:before {
+  content: "\e61d";
 }
 
-.icon-bianji1:before {
-  content: "\e614";
+.icon-systemDictionary2:before {
+  content: "\e667";
 }
 
-.icon-sousuo:before {
-  content: "\e61c";
-}
-
-.icon-sousuoxiao:before {
-  content: "\e8d6";
-}
-
-.icon-bigclose:before {
-  content: "\e665";
-}
-
-.icon-close:before {
-  content: "\e903";
-}
-
-.icon-shouye:before {
-  content: "\e618";
-}
-
-.icon-wode:before {
-  content: "\e6b2";
-}
-
-.icon-dingdan:before {
-  content: "\e8ae";
-}
-
-.icon-goumai:before {
-  content: "\e664";
-}
-
-.icon-jian:before {
-  content: "\e621";
-}
-
-.icon-tianjia:before {
-  content: "\e624";
-}
-
-.icon-jine:before {
-  content: "\e6c3";
-}
-
-.icon-tongzhi:before {
-  content: "\e611";
-}
-
-.icon-acceptance:before {
-  content: "\e798";
-}
-
-.icon-scrap:before {
-  content: "\e7da";
-}
-
-.icon-kefu:before {
-  content: "\e65d";
-}
-
-.icon-shenfenzheng:before {
-  content: "\e660";
-}
-
-.icon-shuoming:before {
-  content: "\e661";
-}
-
-.icon-plus:before {
-  content: "\e662";
-}
-
-.icon-up:before {
-  content: "\e650";
-}
-
-.icon-right:before {
-  content: "\e65e";
-}
-
-.icon-down:before {
-  content: "\e65f";
-}
-
-.icon-project:before {
-  content: "\e8cf";
-}
-
-.icon-wwww:before {
-  content: "\e6c5";
-}
-
-.icon-service:before {
-  content: "\eb63";
-}
-
-.icon-report:before {
-  content: "\eb96";
-}
-
-.icon-jishufuwu:before {
-  content: "\ebce";
-}
-
-.icon-zuzhiqunzu:before {
-  content: "\ebd8";
-}
-
-.icon-APPkaifa:before {
-  content: "\ec23";
-}
-
-.icon-service1:before {
-  content: "\ec2e";
-}
-
-.icon-business:before {
-  content: "\e603";
-}
-
-.icon-developer:before {
-  content: "\e65c";
-}
-
-.icon-zip:before {
-  content: "\e6b1";
-}
-
-.icon-jiankongqu:before {
-  content: "\e6b6";
-}
-
-.icon-daimapianduan:before {
-  content: "\e6d6";
-}
-
-.icon-version:before {
-  content: "\e75f";
-}
-
-.icon-Notebook:before {
-  content: "\e81c";
-}
-
-.icon-yuangongzhanghaoguanli:before {
-  content: "\e620";
-}
-
-.icon-yuangong:before {
-  content: "\e76f";
-}
-
-.icon-finance:before {
-  content: "\e610";
-}
-
-.icon-shoufeiguanli:before {
-  content: "\e65b";
-}
-
-.icon-charge:before {
-  content: "\e74a";
-}
-
-.icon-chargeService:before {
-  content: "\e61e";
-}
-
-.icon-expense:before {
-  content: "\e659";
-}
-
-.icon-chargeManagement:before {
-  content: "\e65a";
-}
-
-.icon-w:before {
-  content: "\e606";
-}
-
-.icon-expenseType:before {
-  content: "\e60f";
-}
-
-.icon-chargeBill:before {
-  content: "\e652";
-}
-
-.icon-refundBill:before {
-  content: "\e657";
-}
-
-.icon-refundReason:before {
-  content: "\e658";
-}
-
-.icon-materialList:before {
-  content: "\e60a";
-}
-
-.icon-fenlei1:before {
-  content: "\e60d";
-}
-
-.icon-fenlei2:before {
-  content: "\e612";
-}
-
-.icon-bom:before {
-  content: "\e68d";
-}
-
-.icon-banben:before {
-  content: "\e71f";
-}
-
-.icon-fujianwenjianjia:before {
-  content: "\e61f";
-}
-
-.icon-bomVersion:before {
-  content: "\e653";
-}
-
-.icon-guanlishujuji:before {
-  content: "\e654";
-}
-
-.icon-staff:before {
-  content: "\e655";
-}
-
-.icon-jiaose1:before {
-  content: "\e656";
-}
-
-.icon-shujuchuli:before {
-  content: "\e663";
-}
-
-.icon-code:before {
-  content: "\e66e";
-}
-
-.icon-bomList:before {
-  content: "\e6a6";
-}
-
-.icon-bomRelatedProduct:before {
-  content: "\e6ff";
-}
-
-.icon-zuzhiguanli2:before {
-  content: "\e81e";
-}
-
-.icon-a-PullRequest:before {
-  content: "\e823";
-}
-
-.icon-tishi:before {
-  content: "\e651";
-}
-
-.icon-tishi1:before {
-  content: "\e881";
-}
-
-.icon-freightTemplateList:before {
-  content: "\e605";
-}
-
-.icon-jiaoseshezhi:before {
-  content: "\e64c";
-}
-
-.icon-shopList:before {
-  content: "\e64e";
-}
-
-.icon-mendianxinxi1:before {
-  content: "\e64f";
-}
-
-.icon-role:before {
-  content: "\e690";
-}
-
-.icon-jiaose:before {
-  content: "\e68e";
-}
-
-.icon-fenjifenlei:before {
-  content: "\e6e0";
-}
-
-.icon-tuikuanguanli:before {
-  content: "\e644";
-}
-
-.icon-jianhuo:before {
-  content: "\e647";
-}
-
-.icon-wwwww:before {
-  content: "\e648";
-}
-
-.icon-yifahuo:before {
-  content: "\e649";
-}
-
-.icon-daifahuo:before {
-  content: "\e64a";
-}
-
-.icon-freightTemplate:before {
-  content: "\e64b";
-}
-
-.icon-riqi:before {
-  content: "\e64d";
-}
-
-.icon-shop:before {
-  content: "\e736";
-}
-
-.icon-materialSort:before {
-  content: "\e73f";
-}
-
-.icon-shezhi1:before {
-  content: "\e74c";
-}
-
-.icon-home:before {
-  content: "\e751";
-}
-
-.icon-countPrice:before {
-  content: "\e784";
-}
-
-.icon-duozhongzhifu:before {
-  content: "\e7ac";
-}
-
-.icon-others:before {
-  content: "\e7bc";
-}
-
-.icon-eye:before {
-  content: "\e608";
-}
-
-.icon-closeeye:before {
-  content: "\e642";
-}
-
-.icon-inventory:before {
-  content: "\e643";
-}
-
-.icon-userName:before {
-  content: "\e61a";
-}
-
-.icon-verifyCode:before {
-  content: "\e619";
-}
-
-.icon-password:before {
-  content: "\e645";
-}
-
-.icon-countPriceRules:before {
-  content: "\e646";
+.icon-systemDictionary:before {
+  content: "\e6a8";
 }
 
 .icon-caigouguanli:before {
@@ -587,5 +383,281 @@
 
 .icon-xitongrizhi:before {
   content: "\e641";
+}
+
+.icon-shop:before {
+  content: "\e736";
+}
+
+.icon-materialSort:before {
+  content: "\e73f";
+}
+
+.icon-shezhi1:before {
+  content: "\e74c";
+}
+
+.icon-home:before {
+  content: "\e751";
+}
+
+.icon-countPrice:before {
+  content: "\e784";
+}
+
+.icon-duozhongzhifu:before {
+  content: "\e7ac";
+}
+
+.icon-others:before {
+  content: "\e7bc";
+}
+
+.icon-eye:before {
+  content: "\e608";
+}
+
+.icon-closeeye:before {
+  content: "\e642";
+}
+
+.icon-inventory:before {
+  content: "\e643";
+}
+
+.icon-userName:before {
+  content: "\e61a";
+}
+
+.icon-verifyCode:before {
+  content: "\e619";
+}
+
+.icon-password:before {
+  content: "\e645";
+}
+
+.icon-commodity:before {
+  content: "\e646";
+}
+
+.icon-tuikuanguanli:before {
+  content: "\e644";
+}
+
+.icon-jianhuo:before {
+  content: "\e647";
+}
+
+.icon-wwwww:before {
+  content: "\e648";
+}
+
+.icon-yifahuo:before {
+  content: "\e649";
+}
+
+.icon-daifahuo:before {
+  content: "\e64a";
+}
+
+.icon-freightTemplate:before {
+  content: "\e64b";
+}
+
+.icon-riqi:before {
+  content: "\e64d";
+}
+
+.icon-fenjifenlei:before {
+  content: "\e6e0";
+}
+
+.icon-jiaoseshezhi:before {
+  content: "\e64c";
+}
+
+.icon-shopList:before {
+  content: "\e64e";
+}
+
+.icon-mendianxinxi1:before {
+  content: "\e64f";
+}
+
+.icon-role:before {
+  content: "\e690";
+}
+
+.icon-jiaose:before {
+  content: "\e68e";
+}
+
+.icon-freightTemplateList:before {
+  content: "\e605";
+}
+
+.icon-tishi:before {
+  content: "\e651";
+}
+
+.icon-tishi1:before {
+  content: "\e881";
+}
+
+.icon-banben:before {
+  content: "\e71f";
+}
+
+.icon-fujianwenjianjia:before {
+  content: "\e61f";
+}
+
+.icon-bomVersion:before {
+  content: "\e653";
+}
+
+.icon-guanlishujuji:before {
+  content: "\e654";
+}
+
+.icon-staff:before {
+  content: "\e655";
+}
+
+.icon-jiaose1:before {
+  content: "\e656";
+}
+
+.icon-shujuchuli:before {
+  content: "\e663";
+}
+
+.icon-code:before {
+  content: "\e66e";
+}
+
+.icon-bomList:before {
+  content: "\e6a6";
+}
+
+.icon-bomRelatedProduct:before {
+  content: "\e6ff";
+}
+
+.icon-zuzhiguanli2:before {
+  content: "\e81e";
+}
+
+.icon-a-PullRequest:before {
+  content: "\e823";
+}
+
+.icon-materialList:before {
+  content: "\e60a";
+}
+
+.icon-fenlei1:before {
+  content: "\e60d";
+}
+
+.icon-fenlei2:before {
+  content: "\e612";
+}
+
+.icon-bom:before {
+  content: "\e68d";
+}
+
+.icon-w:before {
+  content: "\e606";
+}
+
+.icon-expenseType:before {
+  content: "\e60f";
+}
+
+.icon-chargeBill:before {
+  content: "\e652";
+}
+
+.icon-refundBill:before {
+  content: "\e657";
+}
+
+.icon-refundReason:before {
+  content: "\e658";
+}
+
+.icon-expense:before {
+  content: "\e659";
+}
+
+.icon-chargeManagement:before {
+  content: "\e65a";
+}
+
+.icon-chargeService:before {
+  content: "\e61e";
+}
+
+.icon-finance:before {
+  content: "\e610";
+}
+
+.icon-shoufeiguanli:before {
+  content: "\e65b";
+}
+
+.icon-charge:before {
+  content: "\e74a";
+}
+
+.icon-yuangongzhanghaoguanli:before {
+  content: "\e620";
+}
+
+.icon-yuangong:before {
+  content: "\e76f";
+}
+
+.icon-service:before {
+  content: "\eb63";
+}
+
+.icon-report:before {
+  content: "\eb96";
+}
+
+.icon-jishufuwu:before {
+  content: "\ebce";
+}
+
+.icon-zuzhiqunzu:before {
+  content: "\ebd8";
+}
+
+.icon-APPkaifa:before {
+  content: "\ec23";
+}
+
+.icon-service1:before {
+  content: "\ec2e";
+}
+
+.icon-business:before {
+  content: "\e603";
+}
+
+.icon-developer:before {
+  content: "\e65c";
+}
+
+.icon-zip:before {
+  content: "\e6b1";
+}
+
+.icon-jiankongqu:before {
+  content: "\e6b6";
 }
 

@@ -7,7 +7,7 @@ const route: Route[] = [
     component: Layout,
     redirect: '/basic/shop',
     alwayShow: true,
-    meta: { title: 'message.menu.basic.name', icon: 'iconfont icon-basic' },
+    meta: { title: 'message.menu.basic.name', icon: 'iconfont icon-basic2' },
     children: [
       {
         path: 'shop',
@@ -41,17 +41,6 @@ const route: Route[] = [
         path: 'customer',
         component: createNameComponent(() => import('@/views/main/basic/customer/index.vue')),
         meta: { title: 'message.menu.basic.customer', icon: 'iconfont icon-customer' }
-      },
-      //systemDictionary
-      {
-        path: 'systemDictionary',
-        component: createNameComponent(() => import('@/views/main/basic/systemDictionary/index.vue')),
-        meta: { title: 'message.menu.basic.systemDictionary', icon: 'iconfont icon-systemDictionary' }
-      },
-      {
-        path: 'receipt',
-        component: createNameComponent(() => import('@/views/main/basic/receipt/index.vue')),
-        meta: { title: 'message.menu.basic.receipt', icon: 'iconfont icon-receipt' }
       },
     ]
   }

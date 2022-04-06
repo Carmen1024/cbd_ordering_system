@@ -1,6 +1,6 @@
 const option = {
   title: {
-    text: '物料分类汇总',
+    text: '商品分类汇总',
     left: 'left'
   },
   tooltip: {
@@ -12,7 +12,7 @@ const option = {
   },
   series: [
     {
-      name: '物料',
+      name: '商品',
       type: 'pie',
       radius: ['40%', '70%'],
       avoidLabelOverlap: false,

@@ -43,6 +43,7 @@ export default defineComponent({
     FormHandle
   },
   setup() {
+    
     const store = useStore()
     // 存储搜索用的数据
     const query:any = ref({})
@@ -143,7 +144,6 @@ export default defineComponent({
     }
     const handleClear = ()=>{
       query.value = {}
-      // getTableData(true)
     }
     
     const getOrderRulesQuery=()=>{
@@ -178,7 +178,7 @@ export default defineComponent({
       columnArr,
       searchData,
       tableHandle,
-      handleClear
+      handleClear,
     }
   }
 })

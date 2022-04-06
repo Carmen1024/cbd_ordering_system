@@ -20,11 +20,6 @@ const route: Route[] = [
             component: createNameComponent(() => import('@/views/main/project/code/base/index.vue')),
             meta: { title: 'message.menu.project.code.base', icon: 'iconfont icon-service' },
           },
-          {
-            path: 'business',
-            component: createNameComponent(() => import('@/views/main/project/code/business/index.vue')),
-            meta: { title: 'message.menu.project.code.business', icon: 'iconfont icon-business' },
-          },
         ]
       },
       {

@@ -14,6 +14,16 @@ const route: Route[] = [
         component: createNameComponent(() => import('@/views/main/user/account/index.vue')),
         meta: { title: 'message.menu.user.account.name', icon: 'iconfont icon-account' }
       },
+      {
+        path: 'user',
+        component: createNameComponent(() => import('@/views/main/user/user/index.vue')),
+        meta: { title: 'message.menu.user.user', icon: 'iconfont icon-user' }
+      },
+      {
+        path: 'permission',
+        component: createNameComponent(() => import('@/views/main/user/permission/index.vue')),
+        meta: { title: 'message.menu.user.permission', icon: 'iconfont icon-permission' }
+      },
     ]
   }
 ]

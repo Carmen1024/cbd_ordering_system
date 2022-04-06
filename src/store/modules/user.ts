@@ -1,5 +1,6 @@
 import { loginApi, getInfoApi, loginOutApi } from '@/api/user'
 import { ActionContext } from 'vuex'
+const baseURL: any = import.meta.env.VITE_PAGE_URL
 
 export interface userState {
   token: string,
@@ -7,7 +8,7 @@ export interface userState {
   loginInfo:object
 }
 const state = (): userState => ({
-  token: '3fc5b1426e7b8da60fc85016e463b7ca', // 登录token
+  token: 'admin', // 登录token
   info: {},  // 用户信息
   loginInfo:{}
 })
@@ -70,18 +71,25 @@ const actions = {
 
   // login out the system after user click the loginOut button
   loginOut({ commit }: ActionContext<userState, userState>) {
-    loginOutApi()
-    .then(res => {
-      localStorage.removeItem('tabs')
-      localStorage.removeItem('vuex')
-      sessionStorage.removeItem('vuex')
-      location.reload()
-    })
-    .catch(error => {
+    const _this = this
+    return new Promise((resolve, reject) => {
+      loginOutApi().then(res => {
+        localStorage.removeItem('tabs')
+        localStorage.removeItem('vuex')
+        sessionStorage.removeItem('vuex')
+        // location.reload()
+        // router.push('/login')
+        setTimeout(() => {
+          window.location.href = `${baseURL}login`
+        }, 100);
+        // resolve(res)
+      })
+      .catch(error => {
 
-    })
-    .finally(() => {
+      })
+      .finally(() => {
 
+      })
     })
   }
 }

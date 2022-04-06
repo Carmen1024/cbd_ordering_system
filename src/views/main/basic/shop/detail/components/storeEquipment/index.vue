@@ -17,7 +17,7 @@
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-        <!-- 序号 物料编码 物料名称 物料分类 订购单位 关联数量 操作 -->
+        <!-- 序号 商品编码 商品名称 商品分类 订购单位 关联数量 操作 -->
         <el-table-column prop="name" label="iOT平台" align="center" />
         <el-table-column prop="number" label="设备Key" align="center" />
         <el-table-column prop="chooseName" label="设备SN" align="center" />

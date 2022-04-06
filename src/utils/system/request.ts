@@ -2,7 +2,10 @@ import axios , { AxiosError, AxiosRequestConfig, AxiosResponse, AxiosInstance } 
 import store from '@/store'
 import { ElMessage } from 'element-plus'
 import { getConfigData } from './../transform/httpConfig';
+import { useRouter, useRoute } from 'vue-router'
+
 const baseURL: any = import.meta.env.VITE_BASE_URL
+const router = useRouter()
 
 const service: AxiosInstance = axios.create({
   baseURL: baseURL,
@@ -31,7 +34,7 @@ service.interceptors.response.use(
     const res = response.data
     if (['0000',200].includes(res.code)) {
       return res
-    } else {
+    }else {
       showError(res)
       return Promise.reject(res)
     }
@@ -48,9 +51,16 @@ service.interceptors.response.use(
 // 错误处理
 function showError(error: any) {
   // token过期，清除本地数据，并跳转至登录页面
-  if (error.code === 403) {
+  if (['0052'].includes(error.code)) {
     // to re-login
-    store.dispatch('user/loginOut')
+    ElMessage({
+      message: 'token已失效，正在跳转到登录页面',
+      type: 'error',
+      duration: 3 * 1000
+    })
+    setTimeout(() => {
+      store.dispatch('user/loginOut')
+    }, 2000)
   } else {
     ElMessage({
       message: error.desc || error.message || '服务异常',

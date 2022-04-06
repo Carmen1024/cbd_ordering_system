@@ -1,4 +1,4 @@
-<!-- 物料编辑单项 -->
+<!-- 商品编辑单项 -->
 <template >
   <Drawer :drawer="drawer">
     <div class="detail-container">

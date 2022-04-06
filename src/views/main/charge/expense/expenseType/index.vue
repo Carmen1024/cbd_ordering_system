@@ -5,6 +5,7 @@
       :query="query"
       @getTableData="getTableData"
       @handleAdd="handleAdd"  
+      @handleClear="handleClear"
     />
     <table-normal 
       :columnArr="columnArr" 
@@ -145,6 +146,9 @@ export default defineComponent({
         layer.row = row
       // })
     }
+    const handleClear=()=>{
+      query.value = {}
+    }
     getTableData(true)
     return {
       query,
@@ -162,7 +166,8 @@ export default defineComponent({
       columnArr,
       rules,
       itemArr,
-      tableHandle
+      tableHandle,
+      handleClear
     }
   },
   methods:{

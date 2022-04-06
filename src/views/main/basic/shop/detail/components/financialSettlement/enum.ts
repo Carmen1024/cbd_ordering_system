@@ -1,5 +1,5 @@
 export const materialTypeData = [
-  { value: 1, label: '物料' },
+  { value: 1, label: '商品' },
   { value: 2, label: '物资' },
   { value: 3, label: '设备' },
   { value: 4, label: '半成品' },

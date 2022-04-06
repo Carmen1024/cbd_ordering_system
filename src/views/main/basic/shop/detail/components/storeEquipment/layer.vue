@@ -1,6 +1,6 @@
 <template>
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
-    <!-- 序号 物料编码 物料名称 物料分类 订购单位 关联数量 操作 -->
+    <!-- 序号 商品编码 商品名称 商品分类 订购单位 关联数量 操作 -->
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
       <el-form-item label="设备平台：" prop="name">
         <el-input v-model="form.name" placeholder="请填写名称"></el-input>

@@ -45,7 +45,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue'
+import { defineComponent,ref } from 'vue'
 import { Plus, Search, Delete, RefreshLeft } from '@element-plus/icons'
 
 export default defineComponent({
@@ -72,14 +72,23 @@ export default defineComponent({
   },
   setup(props,cxt){
     
+    const loadingTable = ref(true)
+
+
     const getTableData=()=>{
-      cxt.emit("getTableData",true)
+      setTimeout(() => {
+        loadingTable.value && cxt.emit("getTableData",true)
+      }, 200);
     }
     const handleAdd=()=>{
       cxt.emit("handleAdd")
     }
     const handleClear=()=>{
+      loadingTable.value = false
       cxt.emit("handleClear")
+      setTimeout(() => {
+        loadingTable.value = true
+      }, 1000);
     }
 
     return{
@@ -89,7 +98,7 @@ export default defineComponent({
       getTableData,
       handleAdd,
       RefreshLeft,
-      handleClear
+      handleClear,
     }
   },
 })

@@ -10,13 +10,13 @@
           :size="drawer.width || '30%'"
         >
           <div class="drawer_main"><slot></slot></div>
-          <!-- <div class="demo-drawer__footer" v-if="drawer.showButton">
+          <div class="demo-drawer__footer" v-if="drawer.showButton">
             <el-button type="primary" :loading="loading" @click="confirm">确认</el-button>
             <el-button @click="close">取消</el-button>
           </div>
           <div class="demo-drawer__footer" v-else>
             <el-button @click="close">关闭</el-button>
-          </div> -->
+          </div>
         </el-drawer>
    </div>
 </template>
