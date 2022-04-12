@@ -1,4 +1,4 @@
-import { validatePhone } from '@/utils/system/validate';
+import { isEmpty, isPhone } from '@/utils/system/validate'
 
 export const defaultData = [
   { value: 0, label: '非默认' },
@@ -125,17 +125,8 @@ export const updateFormat = {
 
 
 export const rules = {
-  s_a_phone: [
-    { required: true, message: '请填写手机号', trigger: 'blur' },
-    { validator: validatePhone, trigger: 'blur' }
-  ],
-  s_a_name:[
-    { required: true, message: '请填写手机号', trigger: 'blur' },
-  ],
-  areaGroup:[
-    { required: true, message: '请选择省市区', trigger: 'blur' },
-  ],
-  s_a_detail:[
-    { required: true, message: '请填写地址详情', trigger: 'blur' },
-  ],
+  s_a_phone: isPhone(),
+  s_a_name:isEmpty("请填写收货人"),
+  areaGroup:isEmpty("请选择省市区"),
+  s_a_detail:isEmpty("请选择省市区"),
 }

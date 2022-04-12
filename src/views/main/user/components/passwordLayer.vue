@@ -42,7 +42,7 @@ export default defineComponent({
         return {
           show: false,
           title: '',
-          showButton: true
+          showButtons: true
         }
       }
     }
@@ -91,6 +91,7 @@ export default defineComponent({
       sendPhoneCode(params).then(res=>{
         sendDisabled.value = true
         timeCodeMsg(60)
+        store.commit("user/verificationCodeKeyChange",res.data)
         ElMessage({
           type: 'success',
           message: '验证码发送成功'
@@ -103,14 +104,16 @@ export default defineComponent({
       if (ruleForm.value) {
         ruleForm.value.validate((valid) => {
           if (valid) {
+            const { phone:user_phone , code , pass:user_pass} = form.value
             let params = {
               "eq":{
-                  "user_phone":form.value.phone,
-                  "phone_code":form.value.code
-                },
-                "set":{
-                  "user_pass":form.value.pass
-                }
+                  user_phone
+              },
+              "set":{
+                user_pass
+              },
+              verificationCode:parseInt(code),
+              verificationCodeKey:store.state.user.verificationCodeKey
             }
             passwordChange(params)
             .then(res => {

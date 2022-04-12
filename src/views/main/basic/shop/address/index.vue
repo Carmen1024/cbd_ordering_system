@@ -96,8 +96,7 @@ export default defineComponent({
         ...queryData
       }
 
-      addressQuery(params)
-      .then(res => {
+      addressQuery(params).then(res => {
         console.log(res);
         let data = res.data
         if (Array.isArray(data)) {
@@ -185,8 +184,7 @@ export default defineComponent({
     // 新增提交事件
    async addForm(params: object) {
      const p = this.resetModel(params)
-      addressInsert(p)
-      .then(res => {
+      addressInsert(p).then(res => {
         this.$message({
           type: 'success',
           message: '新增成功'
@@ -197,10 +195,9 @@ export default defineComponent({
     },
     // 编辑提交事件
     async updateForm(params: object) {
-       const p = this.resetModel(params)
+      const p = this.resetModel(params)
       const data = getData(updateFormat,p)
-      addressUpdate(data)
-      .then(res => {
+      addressUpdate(data).then(res => {
         this.$message({
           type: 'success',
           message: '编辑成功'

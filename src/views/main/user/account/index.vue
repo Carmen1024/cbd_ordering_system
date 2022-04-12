@@ -79,7 +79,7 @@ export default defineComponent({
     const roleArr = ['IT管理员', '财务', '出纳']
     const layer = reactive({
       show: false,
-      showButton: true,
+      showButtons: true,
       width:"30%"
     })
     const eLayer = reactive({

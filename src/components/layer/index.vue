@@ -8,12 +8,12 @@
       center
     >
       <slot></slot>
-      <!-- <template #footer v-if="layer.showButton">
+      <template #footer v-if="layer.showButtons">
         <div>
           <el-button type="primary" @click="confirm">确认</el-button>
           <el-button @click="close">取消</el-button>
         </div>
-      </template> -->
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -26,7 +26,7 @@ import { UseDialogProps } from 'element-plus/lib/el-dialog/src/dialog'
 export interface LayerInterface {
   show: boolean;
   title: string;
-  showButton?: boolean;
+  showButtons?: boolean;
   width?: string;
   [propName: string]: any;
 }
@@ -44,7 +44,7 @@ export default defineComponent({
         return {
           show: false,
           title: '',
-          showButton: false
+          showButtons: false
         }
       },
       required: true

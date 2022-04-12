@@ -86,8 +86,14 @@ export default defineComponent({
       wareHouseQuery(params)
       .then(res => {
         console.log(res);
-        let data = res.data
-        tableData.value = data
+        res.data.map(item => {
+          item.wh_o_is_closed_date_desc = item.wh_o_is_closed_date ? '停止订货' : '正常开放'
+          item.s_a_province=""
+          item.s_a_city=""
+          item.s_a_area=""
+          item.areaGroup = [item.s_a_province,item.s_a_city,item.s_a_area]
+        })
+        tableData.value = res.data
         page.total = res.total
       })
       .catch(error => {
@@ -169,7 +175,8 @@ export default defineComponent({
   methods:{
     // 新增提交事件
    async addForm(params: object) {
-     const new_params = getData(addData,params)
+     const p = this.resetModel(params)
+     const new_params = getData(addData,p)
       wareHouseInsert(new_params)
       .then(res => {
         this.$message({
@@ -182,7 +189,8 @@ export default defineComponent({
     },
     // 编辑提交事件
     async updateForm(params: object) {
-      const data = getData(updateData,params)
+      const p = this.resetModel(params)
+      const data = getData(updateData,p)
       const ruleData = getData(updateRule,params)
       ruleData.eq._id = params.wr_id
       wareHouseUpdate({ data,ruleData })
@@ -195,6 +203,10 @@ export default defineComponent({
         this.layer.show = false
       })
     },
+    resetModel(params:object){
+      const [s_a_province,s_a_city,s_a_area] = params.areaGroup || ["","",""]
+      return {...params,s_a_province,s_a_city,s_a_area}
+    }
   }
 })
 </script>

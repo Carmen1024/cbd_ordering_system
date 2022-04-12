@@ -39,6 +39,10 @@ export const columnArr = [
     prop:'c_update_user',
   },
   {
+    label:"状态",
+    prop:'wh_o_is_closed_date_desc',
+  },
+  {
     label:"操作时间",
     prop:'c_update_time',
   },
@@ -51,6 +55,11 @@ export const itemArr = [
     prop:'wh_code',
   },
   {
+    label:"第三方编码",
+    type:'input',
+    prop:'wh_code1',
+  },
+  {
     label:"仓库名称：",
     type:'input',
     prop:'wh_name',
@@ -61,7 +70,12 @@ export const itemArr = [
     prop:'wh_contact',
   },
   {
-    label:"仓库地址：",
+    label:"省市区：",//"s_a_province":"","s_a_city":"","s_a_area":"","s_a_postcode"
+    type:'area',
+    prop:'areaGroup',
+  },
+  {
+    label:"详细地址：",
     type:'input',
     prop:'wh_addr',
   },
@@ -176,5 +190,7 @@ export const rules = {
   "wh_o_start_time":isEmpty("请填写一天内开放开始时间"),//仓库一天内开放时间，起始时间（必填）
   "wh_o_end_time":isEmpty("请填写一天内开放结束时间"),//仓库一天内开放时间，结束时间（必填）
   "wh_o_closed_start_date":isEmpty("请填写仓库关闭开始时间"),//仓库关闭时间，起始日期（必填）
-  "wh_o_closed_end_date":isEmpty("请填写仓库关闭结束时间")//仓库关闭时间，结束日期（必填）
+  "wh_o_closed_end_date":isEmpty("请填写仓库关闭结束时间"),//仓库关闭时间，结束日期（必填）
+  areaGroup:isEmpty("请选择省市区"),
+  wh_addr:isEmpty("请填写详细地址"),
 }
