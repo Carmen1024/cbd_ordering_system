@@ -15,7 +15,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="商品分类" prop="clf_ids">
+      <el-form-item label="商品分组" prop="clf_ids">
         <el-input v-model="form.clf_ids"></el-input>
       </el-form-item>
       <el-form-item label="包装规则" prop="m_package">
@@ -188,7 +188,7 @@
         const form = ref({
           m_type: null, //商品类型
           m_name: "", //商品名称
-          clf_ids:"",//商品分类
+          clf_ids:"",//商品分组
           m_package:"", //包装规则
           m_status:null,//商品状态，1:临时2:正常3:停购4:作废
           m_tax_ratio:"", //税率

@@ -1,6 +1,6 @@
 <template>
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
-    <!-- 序号 商品编码 商品名称 商品分类 订购单位 关联数量 操作 -->
+    <!-- 序号 商品编码 商品名称 商品分组 订购单位 关联数量 操作 -->
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
       <el-form-item label="商品编码：" prop="name">
         <el-input v-model="form.name" placeholder="请填写名称"></el-input>
@@ -8,7 +8,7 @@
       <el-form-item label="商品名称：" prop="number">
         <el-input v-model="form.number" oninput="value=value.replace(/[^\d]/g,'')" placeholder="只能输入正整数"></el-input>
       </el-form-item>
-			<el-form-item label="商品分类：" prop="select">
+			<el-form-item label="商品分组：" prop="select">
 			  <el-select v-model="form.choose" placeholder="请选择" clearable>
 					<el-option v-for="item in selectData" :key="item.value" :label="item.label" :value="item.value"></el-option>
 				</el-select>

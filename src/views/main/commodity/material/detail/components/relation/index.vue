@@ -17,10 +17,10 @@
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-        <!-- 序号 商品编码 商品名称 商品分类 订购单位 关联数量 操作 -->
+        <!-- 序号 商品编码 商品名称 商品分组 订购单位 关联数量 操作 -->
         <el-table-column prop="name" label="商品编码" align="center" />
         <el-table-column prop="number" label="商品名称" align="center" />
-        <el-table-column prop="chooseName" label="商品分类" align="center" />
+        <el-table-column prop="chooseName" label="商品分组" align="center" />
         <el-table-column prop="radioName" label="订购单位" align="center" />
         <el-table-column prop="radioName" label="关联数量" align="center" />
         <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">

@@ -41,7 +41,7 @@ const route: Route[] = [
       },
       {
         path: 'code',
-        component: createNameComponent(() => import('@/views/main/deploy/code/index.vue')),
+        component: createNameComponent(() => import('@/views/main/deploy/code/base/index.vue')),
         meta: { title: 'message.menu.deploy.code', icon: 'iconfont icon-code' }
       },
     ]

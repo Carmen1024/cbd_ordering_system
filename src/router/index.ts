@@ -47,7 +47,7 @@ const { t } = i18n.global
 const routes: any = modules
 
 const router = createRouter({
-  history: createWebHistory('/admintest/'), //createWebHistory createWebHashHistory
+  history: createWebHistory('/admin/'), //createWebHistory createWebHashHistory
   routes
 })
 

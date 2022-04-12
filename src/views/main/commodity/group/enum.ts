@@ -18,7 +18,7 @@ export const columnArr = [
     prop:'wh_name',
   },
   {
-    label:"联系方式",
+    label:"仓库联系方式",
     prop:'wh_contact',
   },
   {

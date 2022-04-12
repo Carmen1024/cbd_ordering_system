@@ -1,28 +1,32 @@
 <template>
-  <div class="layout-container-tab">
+  <div class="layout-container">
     <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
+        <el-input v-model="query.clf_name" placeholder="请填写商品分组" @change="getTableData(true)"></el-input>
+        <el-input v-model="query.like.m_code" placeholder="请填写商品编码" @change="getTableData(true)"></el-input>
+        <el-input v-model="query.like.m_name" placeholder="请填写商品名称" @change="getTableData(true)"></el-input>
+        <el-button :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
         <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
       </div>
-    </div>
+   </div>
     <div class="layout-container-table">
       <Table
         ref="table"
         v-model:page="page"
         v-loading="loading"
         :showIndex="true"
-        :showSelection="false"
         :data="tableData"
-        :showPage="showPage"
         @getTableData="getTableData"
         @selection-change="handleSelectionChange"
       >
-        <!-- 序号 商品编码 商品名称 商品分组 订购单位 关联数量 操作 -->
-        <el-table-column prop="name" label="优惠券名称" align="center" />
-        <el-table-column prop="number" label="券码" align="center" />
-        <el-table-column prop="chooseName" label="金额" align="center" />
-        <el-table-column prop="radioName" label="操作时间" align="center" />
-        <el-table-column prop="radioName" label="状态" align="center" />
+        <el-table-column prop="m_code" label="商品编码" align="center" />
+        <el-table-column prop="m_name" label="商品名称" align="center" />
+        <el-table-column prop="clf_names" label="商品分组" align="center" />
+        <el-table-column prop="m_order_step_type_desc" label="订货规则" align="center" />
+        <el-table-column prop="m_type_desc" label="商品类型" align="center" />
+        <el-table-column prop="m_split_type_desc" label="拆单方式" align="center" />
+        <el-table-column prop="m_sell_type_desc" label="销售类型" align="center" />
+        <el-table-column prop="m_status_desc" label="商品状态" align="center" />
         <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
           <template #default="scope">
             <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
@@ -34,8 +38,8 @@
           </template>
         </el-table-column>
       </Table>
-      <Layer :layer="layer" @getTableData="getTableData" v-if="layer.show" />
     </div>
+    <Detail :drawer="drawer" v-if="drawer.show" /> 
   </div>
 </template>
 
@@ -43,35 +47,38 @@
 import { defineComponent, ref, reactive } from 'vue'
 import Table from '@/components/table/index.vue'
 import { Page } from '@/components/table/type'
-import { getData, del } from '@/api/table'
-import Layer from './layer.vue'
 import { ElMessage } from 'element-plus'
-import type { LayerInterface } from '@/components/layer/index.vue'
-import { selectData, radioData } from './../../enum'
+import { options,sData, } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
+import Detail from '../detail/index.vue';
+import type { DrawerInterface } from '@/components/drawer/index.vue';
+import { materialQuery } from '@/api/material/material';
+import { useStore } from "vuex";
+import { getData } from '@/utils/transform/httpConfig'
 export default defineComponent({
   name: 'crudTable',
   components: {
     Table,
-    Layer
+    Detail,
   },
   setup() {
+    const store = useStore();
+    store.commit("enum/setOption", "m_status");
     // 存储搜索用的数据
-    const query = reactive({})
+    const query = ref({})
     // 弹窗控制器
-    const layer: LayerInterface = reactive({
-      show: false,
-      title: '新增',
-      showButton: true,
-      width:'30%'
+    const drawer: DrawerInterface = reactive({
+      show:false,
+      title:"编辑规则",
+      showButton:false,
+      width:'70%'
     })
     // 分页参数, 供table使用
     const page: Page = reactive({
       index: 1,
-      size: 10,
+      size: 20,
       total: 0
     })
-    const showPage = false;
     const loading = ref(true)
     const tableData = ref([])
     const chooseData = ref([])
@@ -85,24 +92,36 @@ export default defineComponent({
       if (init) {
         page.index = 1
       }
+      const nQuery = getData(sData,query)
       let params = {
-        page: page.index,
-        pageSize: page.size,
-        ...query
+        start: <number>page.index-1,
+        size: page.size,
+        ...nQuery
       }
-      getData(params)
+      materialQuery(params)
       .then(res => {
-        let data = res.data.list
+        let data = res.data
         if (Array.isArray(data)) {
           data.forEach(d => {
-            const select = selectData.find(select => select.value === d.choose)
-            select ? d.chooseName = select.label : d.chooseName = d.choose
-            const radio = radioData.find(select => select.value === d.radio)
-            radio ? d.radioName = radio.label : d.radio
+            const m_order_step_type = options.m_order_step_type_data.find(item => item.value === d.m_order_step_type)
+            d.m_order_step_type_desc = m_order_step_type ?  m_order_step_type.label : d.m_order_step_type
+
+            const m_type = options.m_type_data.find(item => item.value === d.m_type)
+            d.m_type_desc = m_type ?  m_type.label : d.m_type
+
+            const m_split_type = options.m_split_type_data.find(item => item.value === d.m_split_type)
+            d.m_split_type_desc = m_split_type ?  m_split_type.label : d.m_split_type
+
+            const m_sell_type = options.m_sell_type_data.find(item => item.value === d.m_sell_type)
+            d.m_sell_type_desc = m_sell_type ?  m_sell_type.label : d.m_sell_type
+
+            const m_status = options.m_status_data.find(item => item.value === d.m_status)
+            d.m_status_desc = m_status ?  m_status.label : d.m_status
           })
         }
-        tableData.value = res.data.list
-        page.total = Number(res.data.pager.total)
+        console.log(data);
+        tableData.value = data
+        page.total = Number(res.total)
       })
       .catch(error => {
         tableData.value = []
@@ -131,15 +150,16 @@ export default defineComponent({
     }
     // 新增弹窗功能
     const handleAdd = () => {
-      layer.title = '新增数据'
-      layer.show = true
-      delete layer.row
+      drawer.title = '新增商品'
+      drawer.show = true
+      delete drawer.row
     }
     // 编辑弹窗功能
     const handleEdit = (row: object) => {
-      layer.title = '编辑数据'
-      layer.row = row
-      layer.show = true
+      drawer.title='编辑商品'
+      drawer.show = true
+      drawer.row = row;
+      console.log(drawer.value)
     }
     getTableData(true)
     return {
@@ -151,22 +171,17 @@ export default defineComponent({
       chooseData,
       loading,
       page,
-      layer,
       handleSelectionChange,
       handleAdd,
       handleEdit,
       handleDel,
       getTableData,
-      showPage
+      drawer,
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
-  .layout-container{
-    height: auto;
-    padding:0;
-    margin:0;
-  }
+  
 </style>

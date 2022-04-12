@@ -10,6 +10,14 @@ export function loginApi(data: object) {
   })
 }
 
+export function loginByCodeApi(data: object) {
+  return request({
+    url: '/g/login/login_with_admin_code',
+    method: 'post',
+    data
+  })
+}
+
 // 获取用户信息Api
 export function getInfoApi(data: object) {
   return request({

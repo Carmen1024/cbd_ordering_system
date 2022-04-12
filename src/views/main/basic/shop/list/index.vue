@@ -104,12 +104,8 @@ export default defineComponent({
       })
     }
     // 删除功能
-    const handleDel = (data: object[]) => {
-      let params = {
-        ids: data.map((e:any)=> {
-          return e.id
-        }).join(',')
-      }
+    const handleDel = (row) => {
+      const params = getData({"eq":["_id"]},row)
       storeDelete(params)
       .then(res => {
         ElMessage({

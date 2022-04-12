@@ -1,71 +1,52 @@
 <template>
   <div class="layout-container">
-    <div class="layout-container-form flex space-between">
-      <div class="layout-container-form-handle">
-        <el-input v-model="query.like.clf_name" placeholder="请填写商品分类" @change="getTableData(true)"></el-input>
-        <el-input v-model="query.like.m_code" placeholder="请填写商品编码" @change="getTableData(true)"></el-input>
-        <el-input v-model="query.like.m_name" placeholder="请填写商品名称" @change="getTableData(true)"></el-input>
-        <el-button :icon="Search" class="search-btn" @click="getTableData(true)">{{ $t('message.common.search') }}</el-button>
-        <el-button type="primary" :icon="Plus" @click="handleAdd">{{ $t('message.common.add') }}</el-button>
-      </div>
-   </div>
-    <div class="layout-container-table">
-      <Table
-        ref="table"
-        v-model:page="page"
-        v-loading="loading"
-        :showIndex="true"
-        :data="tableData"
-        @getTableData="getTableData"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column prop="m_code" label="商品编码" align="center" />
-        <el-table-column prop="m_name" label="商品名称" align="center" />
-        <el-table-column prop="clf_names" label="商品分类" align="center" />
-        <el-table-column prop="m_order_step_type_desc" label="订货规则" align="center" />
-        <el-table-column prop="m_type_desc" label="商品类型" align="center" />
-        <el-table-column prop="m_split_type_desc" label="拆单方式" align="center" />
-        <el-table-column prop="m_sell_type_desc" label="销售类型" align="center" />
-        <el-table-column prop="m_status_desc" label="商品状态" align="center" />
-        <el-table-column :label="$t('message.common.handle')" align="center" fixed="right" width="200">
-          <template #default="scope">
-            <el-button @click="handleEdit(scope.row)">{{ $t('message.common.update') }}</el-button>
-            <el-popconfirm :title="$t('message.common.delTip')" @confirm="handleDel([scope.row])">
-              <template #reference>
-                <el-button type="danger">{{ $t('message.common.del') }}</el-button>
-              </template>
-            </el-popconfirm>
-          </template>
-        </el-table-column>
-      </Table>
-    </div>
-    <Detail :drawer="drawer" v-if="drawer.show" /> 
+    <form-handle 
+      :condition="condition" 
+      :query="query"
+      @getTableData="getTableData"
+      @handleAdd="handleAdd"
+      @handleClear="handleClear"  
+    />
+    <table-normal 
+      :columnArr="columnArr" 
+      :tableData="tableData"
+      :page="page"
+      :loading="loading"
+      @getTableData="getTableData"
+      @handleSelectionChange="handleSelectionChange"
+      @handleEdit="handleEdit"
+      @handleDel="handleDel"
+      @tableHandle="tableHandle"
+    />
+    <Detail :drawer="drawer" v-if="drawer.show" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue'
-import Table from '@/components/table/index.vue'
+import { useStore } from 'vuex';
+import TableNormal from '@/components/table/normal.vue'
+import FormHandle from '@/components/Form/handle.vue';
 import { Page } from '@/components/table/type'
+import { getData } from '@/utils/transform/httpConfig';
+import { materialQuery,materialDelete,materialValid } from '@/api/material/material'
 import { ElMessage } from 'element-plus'
-import { options,sData } from './enum'
+import type { DrawerInterface } from '@/components/drawer/index.vue'
+import { options,sData,condition,columnArr,searchData } from './enum'
 import { Plus, Search, Delete } from '@element-plus/icons'
 import Detail from './../detail/index.vue';
-import type { DrawerInterface } from '@/components/drawer/index.vue';
-import { materialQuery } from '@/api/material/material';
-import { useStore } from "vuex";
-import { getData } from '@/utils/transform/httpConfig'
 export default defineComponent({
-  name: 'crudTable',
+  name: 'StoreList',
   components: {
-    Table,
-    Detail
+    TableNormal,
+    Detail,
+    FormHandle
   },
   setup() {
-    const store = useStore();
-    store.commit("enum/setOption", "m_status");
+    
+    const material = useStore()
     // 存储搜索用的数据
-    const query = reactive({})
+    const query:any = ref({})
     // 弹窗控制器
     const drawer: DrawerInterface = reactive({
       show:false,
@@ -92,11 +73,11 @@ export default defineComponent({
       if (init) {
         page.index = 1
       }
-      const nQuery = getData(sData,query)
+      const dq = getData(searchData,query.value)
       let params = {
         start: <number>page.index-1,
         size: page.size,
-        ...nQuery
+        ...dq
       }
       materialQuery(params)
       .then(res => {
@@ -119,8 +100,7 @@ export default defineComponent({
             d.m_status_desc = m_status ?  m_status.label : d.m_status
           })
         }
-        console.log(data);
-        tableData.value = data
+        tableData.value = res.data
         page.total = Number(res.total)
       })
       .catch(error => {
@@ -139,7 +119,7 @@ export default defineComponent({
           return e.id
         }).join(',')
       }
-      del(params)
+      materialDelete(params)
       .then(res => {
         ElMessage({
           type: 'success',
@@ -148,20 +128,46 @@ export default defineComponent({
         getTableData(tableData.value.length === 1 ? true : false)
       })
     }
+    const tableHandle = ({ type,row}) => {
+      if( type =='valid'){
+          const params = getData({"eq":["_id"],"set":["c_valid"]},row)
+          materialValid(params).then(res=>{
+            ElMessage({
+              type: 'success',
+              message: '切换成功'
+            })
+          })
+      }
+    }
     // 新增弹窗功能
     const handleAdd = () => {
-      drawer.title = '新增商品'
+      drawer.title = '新增数据'
       drawer.show = true
       delete drawer.row
     }
     // 编辑弹窗功能
     const handleEdit = (row: object) => {
-      drawer.title='编辑商品'
+      drawer.title = '编辑数据'
+      drawer.row = row
       drawer.show = true
-      drawer.row = row;
-      console.log(drawer.value)
     }
-    getTableData(true)
+    const handleClear = ()=>{
+      query.value = {}
+    }
+    
+    const getOrderRulesQuery=()=>{
+      material.dispatch('enum/getOrderRules').then(() => {
+        
+      })
+    }
+        
+    init()
+    async function init(){
+      await getTableData(true)
+      const orderRules = material.state.enum.orderRules
+      console.log(orderRules)
+      getOrderRulesQuery()
+    }
     return {
       Plus,
       Search,
@@ -171,12 +177,17 @@ export default defineComponent({
       chooseData,
       loading,
       page,
+      drawer,
       handleSelectionChange,
       handleAdd,
       handleEdit,
       handleDel,
       getTableData,
-      drawer
+      condition,
+      columnArr,
+      searchData,
+      tableHandle,
+      handleClear,
     }
   }
 })

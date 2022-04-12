@@ -32,6 +32,13 @@ export function materialDelete(data: object) {
     data
   })
 }
+export function materialValid(data: object) {
+  return request({
+    url: '/g/materials/valid',
+    method: 'post',
+    data
+  })
+}
 
 export function materialSupplementQuery(data: object) {
   return request({

@@ -41,7 +41,7 @@ export default ({ command,mode }: ConfigEnv): UserConfigExport => {
       },
     },
     // base:getEnv(mode, "BASE_URL") || '/',
-    base:'/admintest/',
+    base:'/admin/',
     plugins: [
       vue(),
       viteMockServe({

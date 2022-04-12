@@ -1,6 +1,6 @@
 const option = {
   title: {
-    text: '商品分类汇总',
+    text: '商品分组汇总',
     left: 'left'
   },
   tooltip: {

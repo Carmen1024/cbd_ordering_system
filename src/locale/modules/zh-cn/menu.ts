@@ -47,7 +47,7 @@ export default {
       storeHouse:"仓库管理",
       material:{
         name:"商品管理",
-        classify:"商品分类",
+        classify:"商品分组",
         list:"商品列表",
         detail:"商品详情",
         bom:{
@@ -115,7 +115,8 @@ export default {
     },
     commodity:{
       name:"商品管理",
-      classify:"商品分类",
+      group:"商品分组",
+      classify:"商品分类(老)",
       material:"商品列表",
       detail:"商品详情",
       orderFile:"订货档案",
