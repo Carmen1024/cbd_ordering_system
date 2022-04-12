@@ -86,7 +86,7 @@ export default defineComponent({
                         showClose: true,
                         duration: 1000
                     })
-                    await addRoutes()
+                    // await addRoutes() //重新生成权限菜单
                     await router.push(route.query.redirect as RouteLocationRaw || '/')
                 }).finally(() => {
                     loading.value = false

@@ -50,8 +50,7 @@ const actions = {
           user_pass: params.password
         }
       }
-      loginApi(new_params)
-      .then(res => {
+      loginApi(new_params).then(res => {
         commit('tokenChange', res.data.token)
         commit('loginInfoChange', params)
         // resolve(res.data.token)

@@ -100,6 +100,7 @@ export async function addRoutes() {
   // })
 
   // 已验证完成，下面代码添加的可以实时同步至菜单中去，可以添加setTimeout(() => {}) 模拟异步代码的操作
+  // if(modules.length>0) return
   // 利用前端路由表模拟后端数据问题
   asyncRoutes.forEach(item => {
     modules.push(item)

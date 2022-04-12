@@ -115,8 +115,8 @@ export default {
     },
     commodity:{
       name:"商品管理",
-      group:"商品分组",
-      classify:"商品分类(老)",
+      classify:"商品分类",
+      // group:"商品分类",
       material:"商品列表",
       detail:"商品详情",
       orderFile:"订货档案",

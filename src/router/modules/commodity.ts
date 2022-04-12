@@ -14,11 +14,11 @@ const route: Route[] = [
             component: createNameComponent(() => import('@/views/main/commodity/classify/index.vue')),
             meta: { title: 'message.menu.commodity.classify', icon: 'iconfont icon-materialSort', cache: true }
         },
-        {
-            path: 'group',
-            component: createNameComponent(() => import('@/views/main/commodity/group/index.vue')),
-            meta: { title: 'message.menu.commodity.group', icon: 'iconfont icon-materialSort', cache: true }
-        },
+        // {
+        //     path: 'group',
+        //     component: createNameComponent(() => import('@/views/main/commodity/group/index.vue')),
+        //     meta: { title: 'message.menu.commodity.group', icon: 'iconfont icon-materialSort', cache: true }
+        // },
         {
             path: 'material',
             component: createNameComponent(() => import('@/views/main/commodity/material/list/index.vue')),
