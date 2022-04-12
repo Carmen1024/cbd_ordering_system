@@ -86,7 +86,7 @@ export default defineComponent({
       menuType: store.state.app.theme.state.menuType
     })
     const themeColorArr = [
-      { color: '#005bac', textColor: '#fff', tip: 'message.system.setting.primaryColor.blue' },
+      { color: '#0050C8', textColor: '#fff', tip: 'message.system.setting.primaryColor.blue' },
       { color: '#d60f20', textColor: '#fff', tip: 'message.system.setting.primaryColor.red' },
       { color: '#ac25e6', textColor: '#fff', tip: 'message.system.setting.primaryColor.violet' },
       { color: '#4dc86f', textColor: '#fff', tip: 'message.system.setting.primaryColor.green' },

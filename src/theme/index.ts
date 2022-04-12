@@ -81,7 +81,7 @@ export const style: Style = {
       submenuActiveColor: 'var(--system-primary-color)'
     },
     logo: {
-      color: '#005bac',
+      color: '#0050C8',
       background: '#fff'
     },
     header: {

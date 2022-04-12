@@ -26,7 +26,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: '#005bac'
+      default: '#0050C8'
     },
     textColor: {
       type: String,
