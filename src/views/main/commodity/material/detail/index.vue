@@ -18,16 +18,14 @@
   </Drawer>
 </template>
 
-<script lang='ts'>
-import { defineComponent,reactive,ref } from 'vue'
-import BasicInformation from './components/basicInformation.vue'
-import Relation from './components/relation/index.vue';
-import ValidityPeriod from './components/validityPeriod.vue';
-import AdditionalInformation from './components/additionalInformation.vue';
-import Drawer from '@/components/drawer/index.vue';
-export default defineComponent({
-  name: 'materialDetail',
-  props:{
+<script lang='ts' setup>
+  import { defineComponent,reactive,ref } from 'vue'
+  import BasicInformation from './components/basicInformation.vue'
+  import Relation from './components/relation/index.vue'
+  import ValidityPeriod from './components/validityPeriod.vue'
+  import AdditionalInformation from './components/additionalInformation.vue'
+  import Drawer from '@/components/drawer/index.vue'
+  const props = defineProps({
     drawer:{
       type: Object,
       default: () => {
@@ -38,49 +36,33 @@ export default defineComponent({
           }
       }
     }
-  },
-  components:{
-    BasicInformation,
-    Relation,
-    ValidityPeriod,
-    AdditionalInformation,
-    Drawer,
-  },
-  setup(props){
-    const activeName = ref('third')    
-    let form = ref({
-      id:'',
-      name: ''
-    })
+  })
+  const activeName = ref('third')    
+  let form = ref({
+    id:'',
+    name: ''
+  })
 
-    init()
-    function init() { // 用于判断新增还是编辑功能
-      if (props.drawer.row) {
-        form.value = JSON.parse(JSON.stringify(props.drawer.row)) // 数量量少的直接使用这个转
-      } else {
+  init()
+  function init() { // 用于判断新增还是编辑功能
+    if (props.drawer.row) {
+      form.value = JSON.parse(JSON.stringify(props.drawer.row)) // 数量量少的直接使用这个转
+    } else {
 
-      }
     }
-    const handleClick = (tab: string, event: Event) => {
-    console.log(tab, event)
-    }
-    // import { useRoute } from 'vue-router'
-    // const route = useRoute();
-    // username = ref(<string>route.query.username)
-    // 打印
-    const submit = ()=>{
-      console.log("confirm");
-      // props.drawer.show = false;
-      // basicInformationRef.onSubmit();
-    }
-    return{
-      activeName,
-      handleClick,
-      form,
-      submit
-    }
-  },
-})
+  }
+  const handleClick = (tab: string, event: Event) => {
+  console.log(tab, event)
+  }
+  // import { useRoute } from 'vue-router'
+  // const route = useRoute();
+  // username = ref(<string>route.query.username)
+  // 打印
+  const submit = ()=>{
+    console.log("confirm");
+    // props.drawer.show = false;
+    // basicInformationRef.onSubmit();
+  }
 </script>
 <style lang='scss' scoped>
     .detail-container{

@@ -11,7 +11,7 @@ const route: Route[] = [
     children: [
         {
             path: 'classify',
-            component: createNameComponent(() => import('@/views/main/commodity/classify/index.vue')),
+            component: createNameComponent(() => import('@/views/main/commodity/classifyNew/index.vue')),
             meta: { title: 'message.menu.commodity.classify', icon: 'iconfont icon-materialSort', cache: true }
         },
         // {
