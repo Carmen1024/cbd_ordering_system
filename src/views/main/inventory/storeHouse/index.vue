@@ -84,6 +84,7 @@
         item.s_a_city=""
         item.s_a_area=""
         item.areaGroup = [item.s_a_province,item.s_a_city,item.s_a_area]
+        item.c_valid = item.c_valid ? true : false
       })
       tableData.value = res.data
       page.total = res.total
@@ -110,6 +111,7 @@
     })
   }
   const tableHandle = ({ type,row}) => {
+
     if( type =='valid'){
         const params = getData({"eq":["_id"],"set":["c_valid"]},row)
         wareHouseValid(params).then(res=>{

@@ -39,8 +39,9 @@ export const columnArr = [
     prop:'c_update_user',
   },
   {
-    label:"状态",
-    prop:'wh_o_is_closed_date_desc',
+    label:"是否有效",
+    prop:'c_valid',
+    type:'handle'
   },
   {
     label:"操作时间",
