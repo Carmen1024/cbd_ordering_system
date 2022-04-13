@@ -29,25 +29,17 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive } from 'vue'
-import { Page } from '@/components/table/type'
-import { ElMessage } from 'element-plus'
-import LayerNormal from '@/components/layer/normal.vue';
-import type { LayerInterface } from '@/components/layer/index.vue'
-import { dictQuery,dictDelete, dictInsert,dictFetch,dictValid,dictUpdate } from '@/api/system/dictionary'
-import { valTypeData,condition,columnArr,itemArr,searchFormat,updateFormat,rules } from './enum';
-import FormHandle from '@/components/Form/handle.vue';
-import TableNormal from '@/components/table/normal.vue';
-import { getData } from '@/utils/transform/httpConfig';
-export default defineComponent({
-  name: 'orderRules',
-  components: {
-    TableNormal,
-    LayerNormal,
-    FormHandle
-  },
-  setup() {
+<script lang="ts" setup>
+  import { defineComponent, ref, reactive } from 'vue'
+  import { Page } from '@/components/table/type'
+  import { ElMessage } from 'element-plus'
+  import LayerNormal from '@/components/layer/normal.vue'
+  import type { LayerInterface } from '@/components/layer/index.vue'
+  import { dictQuery,dictDelete, dictInsert,dictFetch,dictValid,dictUpdate } from '@/api/system/dictionary'
+  import { valTypeData,condition,columnArr,itemArr,searchFormat,updateFormat,rules } from './enum'
+  import FormHandle from '@/components/Form/handle.vue'
+  import TableNormal from '@/components/table/normal.vue'
+  import { getData } from '@/utils/transform/httpConfig'
     // 存储搜索用的数据
     const query = ref({})
     // 弹窗控制器
@@ -164,56 +156,35 @@ export default defineComponent({
       query.value = {}
     }
     getTableData(true)
-    return {
-      query,
-      tableData,
-      chooseData,
-      loading,
-      page,
-      handleSelectionChange,
-      handleAdd,
-      handleEdit,
-      handleDel,
-      getTableData,
-      layer,
-      condition,
-      columnArr,
-      rules,
-      itemArr,
-      tableHandle,
-      handleClear
-    }
-  },
-  methods:{
     // 新增提交事件
-    async addForm(params: object) {
-      let newP = await this.validateVal(params)
+    async function addForm(params: object) {
+      let newP = await validateVal(params)
       newP.dict_type=1
       dictInsert(newP)
       .then(res => {
-        this.$message({
+        ElMessage({
           type: 'success',
           message: '新增成功'
         })
-        this.getTableData(true)
-        this.layer.show = false
+        getTableData(true)
+        layer.show = false
       })
-    },
+    }
     // 编辑提交事件
-    async updateForm(params: object) {
-      let newP = await this.validateVal(params)
+    async function updateForm(params: object) {
+      let newP = await validateVal(params)
       const data = getData(updateFormat,newP)
       dictUpdate(data)
       .then(res => {
-        this.$message({
+        ElMessage({
           type: 'success',
           message: '编辑成功'
         })
-        this.getTableData(true)
-        this.layer.show = false
+        getTableData(true)
+        layer.show = false
       })
-    },
-    validateVal(params:Object) {
+    }
+    function validateVal(params:Object) {
       return new Promise((resolve,reject)=>{
         
         try{
@@ -250,14 +221,14 @@ export default defineComponent({
             const newParams = {...params,dict_val:newVal}
             resolve(newParams)
           }else{
-            this.$message({
+            ElMessage({
               type: 'error',
               message: '请根据类型填写正确的字典值格式'
             })
             reject()
           }
         }catch(e){
-          this.$message({
+          ElMessage({
             type: 'error',
             message: '请根据类型填写正确的字典值格式'
           })
@@ -267,8 +238,6 @@ export default defineComponent({
 
     }
     
-  }
-})
 </script>
 
 <style lang="scss" scoped>
