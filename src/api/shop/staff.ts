@@ -2,7 +2,7 @@ import request from '@/utils/system/request'
 // 获取数据api
 export function staffQuery(data: object,from="") {
   // 是否存在父-门店
-  const url = from=="store" ? '/g/admin_store/query_staff' : '/g/user/query'
+  const url = from=="store" ? '/g/admin_store/query_staff' : '/g/user/clerk_list'
   return request({
     url,
     method : 'post',
