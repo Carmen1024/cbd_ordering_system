@@ -15,6 +15,7 @@ import FormMain from '@/components/Form/main.vue';
 import { rules,itemArr,updateFormat } from './enum'
 import { storeInsert,storeFetch,storeUpdate,orderRulesQuery } from '@/api/shop/shop'
 import { getData } from '@/utils/transform/httpConfig';
+import { ElMessage } from 'element-plus'
 
 export default defineComponent({
 // do not use same name with ref
@@ -29,7 +30,7 @@ props:{
     }
   }
 },
-setup(props){
+setup(props,cxt){
 
   // const orderRules = ref({})
   const store = useStore()
@@ -78,39 +79,44 @@ setup(props){
     getOrderRulesQuery()
     props.form.row && getStore()
   }
-
-  return{
-      rules,
-      itemArr,
-  }
-  
-},methods:{
   // 新增提交事件
-   addForm(params: object) {
+   function addForm(params: object) {
      params.s_license_pic = params.pictureCard
      delete params.pictureCard
       storeInsert(params)
       .then(res => {
-        this.$message({
+        ElMessage({
           type: 'success',
           message: '新增成功'
         })
+        cxt.emit("getTableData")
       })
-    },
+    }
     // 编辑提交事件
-    updateForm(params: object){
+   function updateForm(params: object){
       console.log(params)
       params.s_license_pic = params.pictureCard
       const data = getData(updateFormat,params)
       console.log(data)
-      storeUpdate(data)
-      .then(res => {
-        this.$message({
+      storeUpdate(data).then(res => {
+        ElMessage({
           type: 'success',
           message: '编辑成功'
         })
+        cxt.emit("getTableData")
       })
-    },
+    }
+
+  return{
+      rules,
+      itemArr,
+      updateForm,
+      addForm
+  }
+  
+},
+methods:{
+  
 }
 })
 </script>

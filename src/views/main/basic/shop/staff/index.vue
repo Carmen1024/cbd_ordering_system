@@ -62,7 +62,7 @@ export default defineComponent({
     // 存储搜索用的数据
     const query = ref({})
     const from = ref("")
-    const handles = ref(['search','add'])
+    const handles = ref(['search'])
     const conditions = ref(condition)
     // 弹窗控制器
     const layer: LayerInterface = reactive({
@@ -107,8 +107,7 @@ export default defineComponent({
       }
       console.log(props.father)
 
-      staffQuery(params,from.value)
-      .then(res => {
+      staffQuery(params,from.value).then(res => {
         console.log(res);
         let data = res.data
         if (Array.isArray(data)) {

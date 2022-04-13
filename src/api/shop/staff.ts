@@ -5,7 +5,7 @@ export function staffQuery(data: object,from="") {
   const url = from=="store" ? '/g/admin_store/query_staff' : '/g/user/query'
   return request({
     url,
-    method: 'post',
+    method : 'post',
     data
   })
 }

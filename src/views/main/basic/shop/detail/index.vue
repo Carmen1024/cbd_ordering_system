@@ -4,7 +4,7 @@
     <div class="detail-container">
       <div>
         <!-- <p>客户基本信息</p> -->
-        <basic-information :form="form" />
+        <basic-information :form="form" @getTableData="getTableData" />
       </div>
       <!-- <p>财务结算信息</p>
       <div class="layout-basic">
@@ -68,7 +68,7 @@ export default defineComponent({
     Drawer,
     // ChangeLog
   },
-  setup(props){
+  setup(props,cxt){
     const activeName = ref('first')    
 
     const handleClick = (tab: string, event: Event) => {
@@ -88,11 +88,15 @@ export default defineComponent({
         
       }
     }
+    function getTableData(){
+        cxt.emit("getTableData")
+    }
 
     return{
       activeName,
       handleClick,
-      form
+      form,
+      getTableData
     }
   },
 })

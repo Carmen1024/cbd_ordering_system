@@ -18,7 +18,7 @@
       @handleDel="handleDel"
       @tableHandle="tableHandle"
     />
-    <Detail :drawer="drawer" v-if="drawer.show" />
+    <Detail :drawer="drawer" v-if="drawer.show" @getTableData="getTableData" />
   </div>
 </template>
 
