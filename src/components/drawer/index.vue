@@ -21,19 +21,17 @@
    </div>
 </template>
 
-<script lang='ts'>
-import { defineComponent,ref } from 'vue'
-import { ElMessageBox } from 'element-plus'
-export interface DrawerInterface {
-  show: boolean;
-  title: string;
-  showButton?: boolean;
-  width?: string;
-  [propName: string]: any;
-}
-export default defineComponent({
-  name: 'name',
-  props:{
+<script lang='ts' setup>
+  import { defineComponent,ref } from 'vue'
+  import { ElMessageBox } from 'element-plus'
+  export interface DrawerInterface {
+    show: boolean;
+    title: string;
+    showButton?: boolean;
+    width?: string;
+    [propName: string]: any;
+  }
+  const props = defineProps({
       drawer:{
         type: Object,
         default: () => {
@@ -44,32 +42,25 @@ export default defineComponent({
             }
         }
       }
-  },
-  setup(props,ctx){
-    const direction = ref('rtl')
-    const handleClose = (done: () => void) => {
-        ElMessageBox.confirm('关闭前请确认已保存')
-            .then(() => {
-            done()
-            })
-            .catch(() => {
-            // catch error
-            })
-    }
-    function confirm() {
-      ctx.emit('confirm')
-    }
-    const close=()=>{
-      props.drawer.show = false
-    }
-    return{
-      direction,
-      handleClose,
-      confirm,
-      close
-    }
-  },
-})
+  })
+  const direction = ref('rtl')
+  const handleClose = (done: () => void) => {
+      ElMessageBox.confirm('关闭前请确认已保存')
+          .then(() => {
+          done()
+          })
+          .catch(() => {
+          // catch error
+          })
+  }
+  const emit = defineEmits(["confirm"])
+  
+  function confirm() {
+    emit('confirm')
+  }
+  const close=()=>{
+    props.drawer.show = false
+  }
 </script>
 <style lang='scss'>
   .el-drawer__header{

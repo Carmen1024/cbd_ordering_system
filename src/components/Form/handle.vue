@@ -1,4 +1,4 @@
-<!--  -->
+<!-- 操作栏 -->
 <template>
     <div class="layout-container-form flex space-between">
       <div class="layout-container-form-handle">
@@ -44,13 +44,12 @@
     </div>
 </template>
 
-<script lang='ts'>
+
+<script lang='ts' setup>
 import { defineComponent,ref } from 'vue'
 import { Plus, Search, Delete, RefreshLeft } from '@element-plus/icons'
 
-export default defineComponent({
-  name: 'name',
-  props:{
+    const props = defineProps({
       handles:{
           type:Array,
           default(){
@@ -69,39 +68,29 @@ export default defineComponent({
               return {}
           }
       }
-  },
-  setup(props,cxt){
+    })
+
+    const emit = defineEmits(["handleAdd","handleClear","getTableData"])
     
     const loadingTable = ref(true)
 
 
     const getTableData=()=>{
       setTimeout(() => {
-        loadingTable.value && cxt.emit("getTableData",true)
+        loadingTable.value && emit("getTableData",true)
       }, 200);
     }
     const handleAdd=()=>{
-      cxt.emit("handleAdd")
+      emit("handleAdd")
     }
     const handleClear=()=>{
       loadingTable.value = false
-      cxt.emit("handleClear")
+      emit("handleClear")
       setTimeout(() => {
         loadingTable.value = true
       }, 1000);
     }
 
-    return{
-      Plus,
-      Search,
-      Delete,
-      getTableData,
-      handleAdd,
-      RefreshLeft,
-      handleClear,
-    }
-  },
-})
 </script>
 <style lang='scss' scoped>
   .layout-container-form-handle{

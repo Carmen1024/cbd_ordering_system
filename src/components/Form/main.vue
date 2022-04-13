@@ -106,30 +106,23 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-import type { Ref } from 'vue'
-import type { ElFormItemContext } from 'element-plus/lib/el-form/src/token'
-import FormNormal from '@/components/Form/normal.vue';
-import UploadList from '@/components/Upload/list.vue';
-import PictureCard from '@/components/Upload/pictureCard.vue';
-import areaModule from '@/components/area/index.vue';
-import UploadImage from '@/components/Upload/image.vue';
+<script lang="ts" setup>
+  import { defineComponent, ref } from 'vue'
+  import type { Ref } from 'vue'
+  import type { ElFormItemContext } from 'element-plus/lib/el-form/src/token'
+  import FormNormal from '@/components/Form/normal.vue';
+  import UploadList from '@/components/Upload/list.vue';
+  import PictureCard from '@/components/Upload/pictureCard.vue';
+  import areaModule from '@/components/area/index.vue';
+  import UploadImage from '@/components/Upload/image.vue';
 
-export interface formInterface {
-  title:string;
-  showButton?:boolean;
-  [propName: string]: any;
-}
-export default defineComponent({
-  components: {
-    FormNormal,
-    UploadList,
-    PictureCard,
-    areaModule,
-    UploadImage
-  },
-  props: {
+  export interface formInterface {
+    title:string;
+    showButton?:boolean;
+    [propName: string]: any;
+  }
+
+  const props = defineProps({
     form: {
       type: Object,
       default: () => {
@@ -150,62 +143,57 @@ export default defineComponent({
         return []
       }
     }
-  },
-  setup(props, ctx) {
+  })
     
-    const ruleForm: Ref<ElFormItemContext|null> = ref(null)
+  const emit = defineEmits(["updateForm","addForm","close"])
+  const ruleForm: Ref<ElFormItemContext|null> = ref(null)
 
-    const model=ref({})
-    const checkboxGroup = ref([])
+  const model=ref({})
+  const checkboxGroup = ref([])
 
-    init()
-    function init() { // 用于判断新增还是编辑功能
-      if (props.form.row) {
-        let row = JSON.parse(JSON.stringify(props.form.row));
-        model.value = row
-      } else {
-        // 默认值
-        props.itemArr.map(item=>{
-          model.value[item.prop] = item.default ? item.default : null
-        })
-      }
-
+  function init() { // 用于判断新增还是编辑功能
+    if (props.form.row) {
+      let row = JSON.parse(JSON.stringify(props.form.row));
+      model.value = row
+    } else {
+      // 默认值
+      props.itemArr.map(item=>{
+        model.value[item.prop] = item.default ? item.default : null
+      })
     }
-   
-    return {
-      model,
-      ruleForm,
-      checkboxGroup
-    }
-  },
-  methods:{
-    submit() {
-      if (this.ruleForm) {
-        this.ruleForm.validate((valid) => {
-          if (valid) {
-            let params = this.model
-            if (this.form.row) {
-              this.$emit("updateForm",params)
-            } else {
-              this.$emit("addForm",params)
-            }
-          } else {
-            return false;
-          }
-        });
-      }
-    },
-    cancel(){
-      this.$emit("close")
-    },
-    changeArea(areaGroup:any){
-      this.model.areaGroup = areaGroup
-    },
-    changePictureCard(pictureCard:any){
-      this.model.pictureCard = pictureCard
-    },
+
   }
-})
+  init()
+
+  const submit=()=> {
+    if (ruleForm) {
+      ruleForm.value.validate((valid) => {
+        if (valid) {
+          let params = model.value
+          if (props.form.row) {
+            emit("updateForm",params)
+          } else {
+            emit("addForm",params)
+          }
+        } else {
+          return false;
+        }
+      });
+    }
+  }
+
+  const cancel=()=>{
+    emit("close")
+  }
+
+  function changeArea(areaGroup:any){
+    model.value.areaGroup = areaGroup
+  }
+
+  function changePictureCard(pictureCard:any){
+    model.value.pictureCard = pictureCard
+  }
+
 </script>
 
 <style lang="scss">

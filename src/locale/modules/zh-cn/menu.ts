@@ -112,6 +112,7 @@ export default {
         countPrice:"计件规则"
       },
       orderRules:"订货规则",
+      group:"分组管理"
     },
     commodity:{
       name:"商品管理",

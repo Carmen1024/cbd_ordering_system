@@ -10,18 +10,13 @@
   </Layer>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+  import { defineComponent, ref } from 'vue'
 
-import Layer from '@/components/layer/index.vue'
-import formMain from '@/components/Form/main.vue';
+  import Layer from '@/components/layer/index.vue'
+  import formMain from '@/components/Form/main.vue';
 
-export default defineComponent({
-  components: {
-    Layer,
-    formMain
-  },
-  props: {
+  const props =defineProps({
     layer: {
       type: Object,
       default: () => {
@@ -44,8 +39,7 @@ export default defineComponent({
         return []
       }
     }
-  },
-  setup(props, ctx) {
+  })
     
     const form=ref({
       showButton:true,
@@ -61,21 +55,14 @@ export default defineComponent({
 
       }
     }
-
+    const emit = defineEmits(["updateForm","addForm"])
     const updateForm = (params: object)=>{
-      ctx.emit("updateForm",params)
+      emit("updateForm",params)
     }
     const addForm = (params: object)=>{
-      ctx.emit("addForm",params)
+      emit("addForm",params)
     }
 
-    return {
-      form,
-      updateForm,
-      addForm
-    }
-  }
-})
 </script>
 
 <style lang="scss" scoped>

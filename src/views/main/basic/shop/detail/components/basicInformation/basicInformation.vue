@@ -8,30 +8,25 @@
   />
 </template>
 
-<script lang="ts">
-import { defineComponent,reactive,ref,computed } from 'vue'
-import { useStore } from 'vuex';
-import FormMain from '@/components/Form/main.vue';
-import { rules,itemArr,updateFormat } from './enum'
-import { storeInsert,storeFetch,storeUpdate,orderRulesQuery } from '@/api/shop/shop'
-import { getData } from '@/utils/transform/httpConfig';
-import { ElMessage } from 'element-plus'
+<script lang="ts" setup>
+  import { defineComponent,reactive,ref,computed } from 'vue'
+  import { useStore } from 'vuex';
+  import FormMain from '@/components/Form/main.vue';
+  import { rules,itemArr,updateFormat } from './enum'
+  import { storeInsert,storeFetch,storeUpdate,orderRulesQuery } from '@/api/shop/shop'
+  import { getData } from '@/utils/transform/httpConfig';
+  import { ElMessage } from 'element-plus'
 
-export default defineComponent({
-// do not use same name with ref
-components:{
-  FormMain
-},
-props:{
-  form:{
-    type: Object,
-    default: () => {
-      return {}
+
+  const props = defineProps({
+    form:{
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
-  }
-},
-setup(props,cxt){
-
+  })
+  const emit = defineEmits(["getTableData"])
   // const orderRules = ref({})
   const store = useStore()
   const getStore=()=>{
@@ -103,22 +98,9 @@ setup(props,cxt){
           type: 'success',
           message: '编辑成功'
         })
-        cxt.emit("getTableData")
+        emit("getTableData")
       })
     }
-
-  return{
-      rules,
-      itemArr,
-      updateForm,
-      addForm
-  }
-  
-},
-methods:{
-  
-}
-})
 </script>
 <style lang="scss" scoped>
   

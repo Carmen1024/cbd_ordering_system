@@ -56,23 +56,19 @@
   </el-form>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-import type { Ref } from 'vue'
-import type { ElFormItemContext } from 'element-plus/lib/el-form/src/token'
-import UploadList from '@/components/Upload/list.vue';
-import PictureCard from '@/components/Upload/pictureCard.vue';
-export interface formInterface {
-  title:string;
-  showButton?:boolean;
-  [propName: string]: any;
-}
-export default defineComponent({
-  components: {
-    UploadList,
-    PictureCard
-  },
-  props: {
+<script lang="ts" setup>
+  import { defineComponent, ref } from 'vue'
+  import type { Ref } from 'vue'
+  import type { ElFormItemContext } from 'element-plus/lib/el-form/src/token'
+  import UploadList from '@/components/Upload/list.vue';
+  import PictureCard from '@/components/Upload/pictureCard.vue';
+  export interface formInterface {
+    title:string;
+    showButton?:boolean;
+    [propName: string]: any;
+  }
+
+  const props = defineProps({
     model: {
       type: Object,
       default: () => {
@@ -91,31 +87,8 @@ export default defineComponent({
         return []
       }
     }
-  },
-  setup(props, ctx) {
+  })
     
-    // const ruleForm: Ref<ElFormItemContext|null> = ref(null)
-    
-    // function submit() {
-    //   console.log(props.model)
-    //   if (ruleForm.value) {
-    //     ruleForm.value.validate((valid) => {
-    //       if(valid) {
-    //         let params = props.model
-    //         ctx.emit("submit",params)
-    //       } else {
-    //         return false;
-    //       }
-    //     });
-    //   }
-    // }
-
-    return {
-      // ruleForm,
-      // submit
-    }
-  }
-})
 </script>
 
 <style lang="scss" scoped>

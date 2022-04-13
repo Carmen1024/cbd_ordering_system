@@ -4,8 +4,7 @@
       :condition="condition" 
       :query="query"
       @getTableData="getTableData"
-      @handleAdd="handleAdd"
-      @handleClear="handleClear"  
+      @handleAdd="handleAdd"  
     />
     <table-normal 
       :columnArr="columnArr" 
@@ -18,33 +17,37 @@
       @handleDel="handleDel"
       @tableHandle="tableHandle"
     />
-    <Detail :drawer="drawer" v-if="drawer.show" @getTableData="getTableData" />
+    <layer-normal 
+      :layer = "layer" 
+      :rules = "rules"
+      :itemArr="itemArr"
+      v-if="layer.show"
+      @addForm="addForm"
+      @updateForm="updateForm"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
   import { defineComponent, ref, reactive } from 'vue'
-  import { useStore } from 'vuex';
-  import TableNormal from '@/components/table/normal.vue'
-  import FormHandle from '@/components/Form/handle.vue'
   import { Page } from '@/components/table/type'
-  import { getData } from '@/utils/transform/httpConfig'
-  import { storeQuery,storeDelete,storeValid } from '@/api/shop/shop'
   import { ElMessage } from 'element-plus'
-  import type { DrawerInterface } from '@/components/drawer/index.vue'
-  import { typeData, statusData,condition,columnArr,searchData } from './enum'
-  import { Plus, Search, Delete } from '@element-plus/icons'
-  import Detail from './../detail/index.vue'
-    
-  const store = useStore()
+  import LayerNormal from '@/components/layer/normal.vue'
+  import type { LayerInterface } from '@/components/layer/index.vue'
+  import { groupQuery,groupDelete, groupInsert,groupFetch,groupValid,groupUpdate } from '@/api/ruleSettings/group'
+  import { condition,columnArr,itemArr,searchData,rules,typeData,updateData } from './enum';
+  import FormHandle from '@/components/Form/handle.vue'
+  import TableNormal from '@/components/table/normal.vue'
+  import { getData } from '@/utils/transform/httpConfig'
+
   // 存储搜索用的数据
-  const query:any = ref({})
+  const query = ref({})
   // 弹窗控制器
-  const drawer: DrawerInterface = reactive({
-    show:false,
-    title:"编辑规则",
-    showButton:false,
-    width:'70%'
+  const layer: LayerInterface = reactive({
+    show: false,
+    title: '新增',
+    showButton: true,
+    width:'30%'
   })
   // 分页参数, 供table使用
   const page: Page = reactive({
@@ -58,6 +61,7 @@
   const handleSelectionChange = (val: []) => {
     chooseData.value = val
   }
+
   // 获取表格数据
   // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
   const getTableData = (init: boolean) => {
@@ -65,26 +69,21 @@
     if (init) {
       page.index = 1
     }
-    const dq = getData(searchData,query.value)
+    const queryData = getData(searchData,query.value)
     let params = {
       start: <number>page.index-1,
       size: page.size,
-      ...dq
+      ...queryData
     }
-    storeQuery(params)
-    .then(res => {
-      let data = res.data
-      if (Array.isArray(data)) {
-        data.forEach(d => {
-          const type = typeData.find(select => select.value === d.s_type)
-          d.s_type_desc = type ? type.label :  d.s_type
-          const status = statusData.find(select => select.value === d.s_status)
-          d.s_status_desc = status ? status.label :  d.s_status
-          d.c_valid = d.c_valid ? true:false
-        })
-      }
+    groupQuery(params).then(res => {
+      console.log(res);
+      res.data.map(item=>{
+        item.c_valid =  item.c_valid ? true : false
+        const type = typeData.find(d=> d.value== item.g_type)
+        item.g_type_desc = type ? type.label : item.g_type
+      })
       tableData.value = res.data
-      page.total = Number(res.total)
+      page.total = res.total
     })
     .catch(error => {
       tableData.value = []
@@ -96,9 +95,9 @@
     })
   }
   // 删除功能
-  const handleDel = (row) => {
-    const params = getData({"eq":["_id"]},row)
-    storeDelete(params)
+  const handleDel = (row: object) => {
+    let params = {"eq": {"_id": row._id}};
+    groupDelete(params)
     .then(res => {
       ElMessage({
         type: 'success',
@@ -110,7 +109,7 @@
   const tableHandle = ({ type,row}) => {
     if( type =='valid'){
         const params = getData({"eq":["_id"],"set":["c_valid"]},row)
-        storeValid(params).then(res=>{
+        groupValid(params).then(res=>{
           ElMessage({
             type: 'success',
             message: '切换成功'
@@ -120,32 +119,43 @@
   }
   // 新增弹窗功能
   const handleAdd = () => {
-    drawer.title = '新增数据'
-    drawer.show = true
-    delete drawer.row
+    layer.title = '新增分组'
+    layer.show = true
+    delete layer.row
   }
   // 编辑弹窗功能
   const handleEdit = (row: object) => {
-    drawer.title = '编辑数据'
-    drawer.row = row
-    drawer.show = true
+    layer.title='编辑分组'
+    layer.show = true
+    console.log(row)
+    layer.row = row
   }
-  const handleClear = ()=>{
-    query.value = {}
-  }
-  
-  const getOrderRulesQuery=()=>{
-    store.dispatch('enum/getOrderRules').then(() => {
-      
+  getTableData(true)
+
+  // 新增提交事件
+  const  addForm = async (params: object)=> {
+    groupInsert(params)
+    .then(res => {
+      ElMessage({
+        type: 'success',
+        message: '新增成功'
+      })
+      getTableData(true)
+      layer.show = false
     })
   }
-      
-  init()
-  async function init(){
-    await getTableData(true)
-    const orderRules = store.state.enum.orderRules
-    console.log(orderRules)
-    getOrderRulesQuery()
+  // 编辑提交事件
+  const updateForm =async (params: object)=> {
+    const data = getData(updateData,params)
+    groupUpdate(data)
+    .then(res => {
+      ElMessage({
+        type: 'success',
+        message: '编辑成功'
+      })
+      getTableData(true)
+      layer.show = false
+    })
   }
 </script>
 

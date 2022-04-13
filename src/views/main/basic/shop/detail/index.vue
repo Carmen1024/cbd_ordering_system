@@ -27,25 +27,22 @@
   </Drawer>
 </template>
 
-<script lang='ts'>
-import { defineComponent,ref,reactive } from 'vue'
-import basicInformation from './components/basicInformation/basicInformation.vue'
-import financialSettlement from './components/financialSettlement/financialSettlement.vue'
-import staff from './../staff/index.vue'
-import Address1 from './../address/index.vue'
+<script lang='ts' setup>
+  import { defineComponent,ref,reactive } from 'vue'
+  import basicInformation from './components/basicInformation/basicInformation.vue'
+  import staff from './../staff/index.vue'
+  import Address1 from './../address/index.vue'
 
-// import orderingInformation from './components/orderingInformation/orderingInformation.vue';
-// import coupon from './components/coupon/index.vue';
-// import storeEquipment from './components/storeEquipment/index.vue';
-// import ChangeLog from './components/changeLog/changeLog.vue';
-import Drawer from '@/components/drawer/index.vue';
-import { formInterface } from '@/components/Form/main.vue';
-export interface storeInterface {
-  [propName: string]: any;
-}
-export default defineComponent({
-  name: 'materialDetail',
-  props:{
+// import orderingInformation from './components/orderingInformation/orderingInformation.vue'
+// import coupon from './components/coupon/index.vue'
+// import storeEquipment from './components/storeEquipment/index.vue'
+// import ChangeLog from './components/changeLog/changeLog.vue'
+  import Drawer from '@/components/drawer/index.vue';
+  import { formInterface } from '@/components/Form/main.vue';
+  export interface storeInterface {
+    [propName: string]: any;
+  }
+  const props = defineProps({
     drawer:{
       type: Object,
       default: () => {
@@ -56,50 +53,31 @@ export default defineComponent({
           }
       }
     }
-  },
-  components:{
-    basicInformation,
-    financialSettlement,
-    staff,
-    Address1,
-    // orderingInformation,
-    // coupon,
-    // storeEquipment,
-    Drawer,
-    // ChangeLog
-  },
-  setup(props,cxt){
-    const activeName = ref('first')    
+  })
+  const emit = defineEmits(["getTableData"])
+  const activeName = ref('first')    
 
-    const handleClick = (tab: string, event: Event) => {
-      console.log(tab, event)
-    }
+  const handleClick = (tab: string, event: Event) => {
+    console.log(tab, event)
+  }
 
-    const form:formInterface = reactive({
-      title:props.drawer.title,
-      showButton:true
-    })
-    init()
-    function init() { // 用于判断新增还是编辑功能
-      if (props.drawer.row) {
-        let row = JSON.parse(JSON.stringify(props.drawer.row));
-        form.row = row
-      } else {
-        
-      }
+  const form:formInterface = reactive({
+    title:props.drawer.title,
+    showButton:true
+  })
+  init()
+  function init() { // 用于判断新增还是编辑功能
+    if (props.drawer.row) {
+      let row = JSON.parse(JSON.stringify(props.drawer.row));
+      form.row = row
+    } else {
+      
     }
-    function getTableData(){
-        cxt.emit("getTableData")
-    }
+  }
+  function getTableData(){
+      emit("getTableData")
+  }
 
-    return{
-      activeName,
-      handleClick,
-      form,
-      getTableData
-    }
-  },
-})
 </script>
 <style lang='scss' scoped>
     .detail-container{
