@@ -37,6 +37,16 @@ const route: Route[] = [
           },
         ]
       },
+      // {
+      //   path: 'staff',
+      //   component: createNameComponent(() => import('@/views/main/basic/staff/index.vue')),
+      //   meta: { title: 'message.menu.basic.staff', icon: 'iconfont icon-staff' },
+      // },
+      {
+        path: 'group',
+        component: createNameComponent(() => import('@/views/main/basic/group/index.vue')),
+        meta: { title: 'message.menu.basic.group', icon: 'iconfont icon-group', cache: false }
+      },
       {
         path: 'customer',
         component: createNameComponent(() => import('@/views/main/basic/customer/index.vue')),

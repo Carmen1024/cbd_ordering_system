@@ -79,7 +79,7 @@
   }
 
 </script>
-<style lang='scss' scoped>
+<style lang='scss'>
     .detail-container{
       // display: flex;
       // flex-direction: column;
@@ -92,7 +92,13 @@
       }
       .layout-full{
           padding:15px;
-          // height: 500px;
+          .el-tab-pane{
+            max-height: 500px;
+            overflow-y: scroll;
+            .layout-container{
+              height: calc(100% - 30px);
+            }
+          }
       }
       p{
         // width: 100%;

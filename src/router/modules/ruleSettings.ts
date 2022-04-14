@@ -36,11 +36,6 @@ const route: Route[] = [
             component: createNameComponent(() => import('@/views/main/ruleSettings/orderWindow/index.vue')),
             meta: { title: 'message.menu.ruleSettings.orderWindow', icon: 'iconfont icon-orderWindow', cache: false }
           },
-          {
-            path: 'group',
-            component: createNameComponent(() => import('@/views/main/ruleSettings/group/index.vue')),
-            meta: { title: 'message.menu.ruleSettings.group', icon: 'iconfont icon-group', cache: false }
-          },
         // ]
       // },
     ]

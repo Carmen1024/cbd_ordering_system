@@ -1,52 +1,72 @@
-export const valTypeData = [
-  { value: 1, label: '字符串类型', type:'String'},
-  { value: 2, label: '整数类型', type:'Number' },
-  { value: 3, label: '布尔类型', type:'Boolean' },
-  { value: 4, label: '数组类型', type:'Array' },
-  { value: 5, label: '对象类型', type:'Object' },
-  { value: 6, label: '对象数组类型', type:'Array<Object>' },
+import { isEmpty,isPhone,isEmail } from '@/utils/system/validate';
+
+export const tableHandles = [
+  { value: "edit", label: '编辑'},
+  { value: "delete", label: '删除'},
+  { value: "editPass", label: '重置密码'},
 ]
 
+export const valTypeData = [
+  { value: 1, label: '字符串类型', type:'采购'},
+  { value: 2, label: '整数类型', type:'仓管' },
+  { value: 3, label: '布尔类型', type:'财务' },
+]
+export const roleData = [
+  { value: 1, label: '角色1'},
+  { value: 2, label: '角色2'},
+  { value: 3, label: '角色3'},
+  { value: 4, label: '角色4'},
+]
+
+//用户编码 姓名 联系电话 所属门店
 export const condition = [
   {
     type:'input',
-    prop:'dict_group',
-    placeholder:'请填写组名'
+    prop:'user_name',
+    placeholder:'请填写用户姓名'
   },
   {
     type:'input',
-    prop:'dict_name',
-    placeholder:'请填写字典中文名'
-  },
-  {
-    type:'input',
-    prop:'dict_key',
-    placeholder:'请填写字典英文名'
-  },
-  {
-    type:'select',
-    prop:'dict_val_type',
-    options:valTypeData,
-    placeholder:'请选择字典类型'
+    placeholder:"输入用户手机号",
+    prop:'user_phone',
   },
 ]
 
 export const columnArr = [
   {
-    label:"组名",
-    prop:'dict_group',
+    label:"用户ID",
+    prop:'_id',
   },
   {
-    label:"字典名称",
-    prop:'dict_name',
+    label:"用户姓名",
+    prop:'user_name',
   },
   {
-    label:"字典英文名",
-    prop:'dict_key',
+    label:"手机号",
+    prop:'user_phone',
   },
   {
-    label:"字符串类型",
-    prop:'dict_val_type_desc',
+    label:"邮箱",
+    prop:'user_email',
+  },
+  {
+    label:"是否有效",
+    prop:'c_valid',
+    type:'handle'
+  },
+]
+export const columnArrStore = [
+  {
+    label:"用户姓名",
+    prop:'user_name',
+  },
+  {
+    label:"手机号",
+    prop:'user_phone',
+  },
+  {
+    label:"邮箱",
+    prop:'user_email',
   },
   {
     label:"是否有效",
@@ -57,53 +77,44 @@ export const columnArr = [
 
 export const itemArr = [
   {
-    label:"组名：",
+    label:"用户姓名：",
     type:'input',
-    prop:'dict_group',
-    placeholder:'请填写组名'
+    prop:'user_name',
+    placeholder:'请填写用户姓名'
   },
   {
-    label:"字典中文名：",
+    label:"手机号：",
     type:'input',
-    prop:'dict_name',
-    placeholder:'请填写字典中文名'
+    prop:'user_phone',
+    placeholder:'请填写手机号'
   },
   {
-    label:"字典英文名：",
+    label:"邮箱：",
     type:'input',
-    prop:'dict_key',
-    placeholder:'请填写字典英文名'
-  },
-  {
-    label:"字典类型：",
-    type:'select',
-    prop:'dict_val_type',
-    options:valTypeData,
-    placeholder:'请选择字典类型'
-  },
-  {
-    label:"字典值：",
-    type:'textarea',
-    prop:'dict_val',
-    width:'100%',
-    row:"6",
-    placeholder:'请按照选择类型输入'
-  },
+    prop:'user_email',
+    placeholder:'请填写邮箱',
+    width:'100%'
+  }
 ]
 
 export const searchFormat = {
-  "eq":["dict_val_type"],
-  "like":["dict_group","dict_key","dict_name"]
+  "eq":["_id","s_id"],
+  "like":["user_name","user_phone"]
 }
 
 export const updateFormat = {
   "eq":["_id"],
-  "set":["dict_group","dict_key","store_status","dict_name","dict_val_type","dict_val"]
+  "set":[
+    "user_phone",
+    "user_name",
+    "user_pass",
+    "user_email"
+  ]
 }
 
+
 export const rules = {
-  dict_val_type: [{ required: true, message: '请选择字典类型', trigger: 'blur' }],
-  dict_key: [{ required: true, message: '请填写字典英文名称', trigger: 'blur' }],
-  dict_name: [{ required: true, message: '请填写字典名称', trigger: 'blur' }],
-  dict_val: [{ required: true, message: '请填写字典值', trigger: 'blur' }],
+  user_name: isEmpty('请填写姓名'),
+  user_phone: isPhone(),
+  user_email: isEmail()
 }

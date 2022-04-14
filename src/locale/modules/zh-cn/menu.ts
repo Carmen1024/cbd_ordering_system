@@ -32,11 +32,13 @@ export default {
       shop:{
         name:"门店管理",
         list:"门店列表",
-        staff:"员工列表",
-        coupon:"优惠券列表",
-        device:"设备列表",
-        role:"角色列表"
+        staff:"员工管理",
+        coupon:"优惠券管理",
+        device:"设备管理",
+        role:"角色管理"
       },
+      group:"分组管理",
+      staff:"员工管理",
       systemDictionary:"系统字典",
       operationLog:"操作日志",
       interfaceTask:"接口任务",

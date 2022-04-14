@@ -36,7 +36,7 @@ import { Page } from '@/components/table/type'
 import { ElMessage } from 'element-plus'
 import LayerNormal from '@/components/layer/normal.vue';
 import type { LayerInterface } from '@/components/layer/index.vue'
-import { userQuery,userDelete, userInsert,userFetch,userValid,userUpdate } from '@/api/shop/user'
+import { userQuery,userDelete, userInsert,userFetch,userValid,userUpdate } from '@/api/user/user'
 import { valTypeData,condition,columnArr,itemArr,searchData,rules } from './enum';
 import FormHandle from '@/components/Form/handle.vue';
 import TableNormal from '@/components/table/normal.vue';

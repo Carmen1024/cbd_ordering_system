@@ -10,7 +10,7 @@
       @handleClear="handleClear"
     />
     <table-normal 
-      :columnArr="columnArr" 
+      :columnArr="columnArrs" 
       :tableData="tableData"
       :page="page"
       :loading="loading"
@@ -39,7 +39,7 @@
   import LayerNormal from '@/components/layer/normal.vue'
   import type { LayerInterface } from '@/components/layer/index.vue'
   import { staffQuery,staffDelete, staffInsert,staffFetch,staffValid,staffUpdate } from '@/api/shop/staff'
-  import { valTypeData,condition,columnArr,itemArr,searchFormat,updateFormat,rules,tableHandles } from './enum'
+  import { valTypeData,condition,columnArr,itemArr,columnArrStore,searchFormat,updateFormat,rules,tableHandles } from './enum'
   import FormHandle from '@/components/Form/handle.vue'
   import TableNormal from '@/components/table/normal.vue'
   import { getData } from '@/utils/transform/httpConfig'
@@ -57,6 +57,7 @@
   const from = ref("")
   const handles = ref(['search'])
   const conditions = ref(condition)
+  const columnArrs = ref(columnArr)
   // 弹窗控制器
   const layer: LayerInterface = reactive({
     show: false,
@@ -79,6 +80,7 @@
     from.value = "store"
     handles.value = ['add']
     conditions.value = []
+    columnArrs.value = columnArrStore
   }
 
   const handleSelectionChange = (val: []) => {
@@ -107,6 +109,8 @@
         data.forEach(d => {
           const staff_val_type = valTypeData.find(item => item.value === d.staff_val_type)
           d.staff_val_type_desc = staff_val_type ?  staff_val_type.label : d.staff_val_type
+          d.c_valid = (d.c_valid || d.valid) ? true : false
+          d._id = d._id ? d._id : d.id
         })
       }
       tableData.value = data

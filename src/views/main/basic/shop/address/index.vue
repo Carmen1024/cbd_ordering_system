@@ -62,7 +62,7 @@
   // 分页参数, 供table使用
   const page: Page = reactive({
     index: 1,
-    size: 10,
+    size: 20,
     total: 0
   })
   const loading = ref(true)

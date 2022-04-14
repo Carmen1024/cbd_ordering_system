@@ -8,6 +8,15 @@ export function userQuery(data: object) {
   })
 }
 
+//获取全部后管账号
+export function manageUserQuery(data: object) {
+  return request({
+    url: '/g/user/manage_list',
+    method: 'post',
+    data
+  })
+}
+
 export function userFetch(data: object) {
     return request({
       url: '/g/user/fetch',
@@ -43,6 +52,15 @@ export function userFetch(data: object) {
   export function userInsert(data: object) {
     return request({
       url: '/g/user/insert',
+      method: 'post',
+      data
+    })
+  }
+
+  ///g/reg/reg_with_admin
+  export function adminUserInsert(data: object) {
+    return request({
+      url: '/g/reg/reg_with_admin',
       method: 'post',
       data
     })

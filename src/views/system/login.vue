@@ -24,46 +24,44 @@
           </el-input>
           <password-mode v-if="!byCode" :form="form" />
           <account-mode :form="form" v-else />
+          <div class="login-handle">
+            <el-button type="text" @click="showPasswordLayer">忘记密码？</el-button>
+          </div>
         </el-form>
         <!-- <div class="fixed-top-right">
           <select-lang />
         </div> -->
       </div>
     </div>
+    <password-layer :layer="layer" v-if="layer.show" />
   </div>
 </template>
 
-<script lang="ts">
-import { systemTitle } from '@/config'
-import { defineComponent, ref, reactive } from 'vue'
-import { useStore } from 'vuex'
-import selectLang from '@/layout/Header/functionList/word.vue'
-import bg from "@/assets/images/bg.png"
-import passwordMode from '@/components/login/password.vue'
-import accountMode from '@/components/login/account.vue';
-export default defineComponent({
-  components: {
-    selectLang,
-    passwordMode,
-    accountMode
-  },
-  setup() {
+<script lang="ts" setup>
+  import { systemTitle } from '@/config'
+  import { defineComponent, ref, reactive } from 'vue'
+  import { useStore } from 'vuex'
+  import selectLang from '@/layout/Header/functionList/word.vue'
+  import bg from "@/assets/images/bg.png"
+  import passwordMode from '@/components/login/password.vue'
+  import accountMode from '@/components/login/account.vue'
+  import passwordLayer from '@/components/login/passwordLayer.vue';
 
-    const byCode = ref(false)
-    const form = reactive({
-      name: '13757170177',
-      password: '062774',
-      verifyCode: '',
-    })
-
-    return {
-      systemTitle,
-      form,
-      bg,
-      byCode
-    }
+  const byCode = ref(false)
+  const form = reactive({
+    name: '13757170177',
+    password: '062774',
+    verifyCode: '',
+  })
+  const layer = reactive({
+    title:'重置密码',
+    show: false,
+    showButtons: true,
+    width:"30%"
+  })
+  const showPasswordLayer = () => {
+    layer.show = true
   }
-})
 </script>
 
 <style lang="scss" scoped>

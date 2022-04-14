@@ -21,11 +21,6 @@ export const roleData = [
 //员工编码 姓名 联系电话 所属门店
 export const condition = [
   {
-    prop:'_id',
-    type:'input',
-    placeholder:"请填写员工ID",
-  },
-  {
     type:'input',
     prop:'user_name',
     placeholder:'请填写员工姓名'
@@ -55,7 +50,30 @@ export const columnArr = [
     prop:'user_email',
   },
   {
-    label:"状态",
+    label:"所属门店",
+    prop:'store_name',
+  },
+  {
+    label:"是否有效",
+    prop:'c_valid',
+    type:'handle'
+  },
+]
+export const columnArrStore = [
+  {
+    label:"员工姓名",
+    prop:'user_name',
+  },
+  {
+    label:"手机号",
+    prop:'user_phone',
+  },
+  {
+    label:"邮箱",
+    prop:'user_email',
+  },
+  {
+    label:"是否有效",
     prop:'c_valid',
     type:'handle'
   },

@@ -64,8 +64,8 @@
 import { defineComponent,ref,reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
-import PasswordLayer from './../components/passwordLayer.vue';
-import EmailLayer from './../components/emailLayer.vue';
+import PasswordLayer from '@/components/login/passwordLayer.vue';
+import EmailLayer from '@/components/login/emailLayer.vue';
 export default defineComponent({
   name: 'account',
   components:{
@@ -78,6 +78,7 @@ export default defineComponent({
     const role = ref(['IT管理员'])
     const roleArr = ['IT管理员', '财务', '出纳']
     const layer = reactive({
+      title:'修改密码',
       show: false,
       showButtons: true,
       width:"30%"
