@@ -1,30 +1,31 @@
 <!-- 商品编辑单项 -->
 <template >
-  <Drawer :drawer="drawer" @confirm="submit">
+  <Drawer :drawer="drawer">
     <div class="detail-container">
-      <p>基本信息</p>
-      <div class="layout-basic">
-        <BasicInformation :basic-info="drawer"  />
+      <!-- <div>
+        <basic-information :form="form" @getTableData="getTableData" />
       </div>
-      <p>详细信息</p>
-      <div class="layout-full">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="效期管理" name="first"><validity-period /></el-tab-pane>
-          <el-tab-pane label="关联商品" name="second"><relation /></el-tab-pane>
-          <el-tab-pane label="补充信息" name="third"><additional-information /></el-tab-pane>
-        </el-tabs>
-      </div>
+      <div v-if="form.row">
+        <p>配置信息</p>
+        <div class="layout-full">
+          <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane label="关联商品" name="first"><relation :father="form" /></el-tab-pane>
+          </el-tabs>
+        </div>
+      </div> -->
     </div>
   </Drawer>
 </template>
 
 <script lang='ts' setup>
-  import { defineComponent,reactive,ref } from 'vue'
-  import BasicInformation from './components/basicInformation.vue'
-  import Relation from './components/relation/index.vue'
-  import ValidityPeriod from './components/validityPeriod.vue'
-  import AdditionalInformation from './components/additionalInformation.vue'
-  import Drawer from '@/components/drawer/index.vue'
+  import { defineComponent,ref,reactive } from 'vue'
+  import basicInformation from './components/basicInformation/basicInformation.vue'
+  import relation from './components/relation/index.vue';
+  import Drawer from '@/components/drawer/index.vue';
+  import { formInterface } from '@/components/Form/main.vue';
+  export interface storeInterface {
+    [propName: string]: any;
+  }
   const props = defineProps({
     drawer:{
       type: Object,
@@ -32,39 +33,37 @@
           return {
               show: false,
               title:'',
-              showButton:true
+              showButton:false
           }
       }
     }
   })
-  const activeName = ref('third')    
-  let form = ref({
-    id:'',
-    name: ''
-  })
+  const emit = defineEmits(["getTableData"])
+  const activeName = ref('first')    
 
+  const handleClick = (tab: string, event: Event) => {
+    console.log(tab, event)
+  }
+
+  const form:formInterface = reactive({
+    title:props.drawer.title,
+    showButton:true
+  })
   init()
   function init() { // 用于判断新增还是编辑功能
     if (props.drawer.row) {
-      form.value = JSON.parse(JSON.stringify(props.drawer.row)) // 数量量少的直接使用这个转
+      let row = JSON.parse(JSON.stringify(props.drawer.row));
+      form.row = row
     } else {
-
+      
     }
   }
-  const handleClick = (tab: string, event: Event) => {
-  console.log(tab, event)
+  function getTableData(){
+      emit("getTableData")
   }
-  // import { useRoute } from 'vue-router'
-  // const route = useRoute();
-  // username = ref(<string>route.query.username)
-  // 打印
-  const submit = ()=>{
-    console.log("confirm");
-    // props.drawer.show = false;
-    // basicInformationRef.onSubmit();
-  }
+
 </script>
-<style lang='scss' scoped>
+<style lang='scss'>
     .detail-container{
       // display: flex;
       // flex-direction: column;

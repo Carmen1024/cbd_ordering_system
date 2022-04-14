@@ -4,7 +4,7 @@
     <form-handle 
       :condition="condition" 
       :query="query"
-      :handles="['add']"
+      :handles="handles"
       @getTableData="getTableData"
       @handleAdd="handleAdd"  
     />
@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { defineComponent, ref, reactive } from 'vue'
+  import { defineComponent, ref, reactive,computed } from 'vue'
   import { Page } from '@/components/table/type'
   import { ElMessage } from 'element-plus'
   import LayerNormal from '@/components/layer/normal.vue'
@@ -71,7 +71,10 @@
   const handleSelectionChange = (val: []) => {
     chooseData.value = val
   }
-  
+  const handles = computed(()=>{
+    const h = tableData.value?.length>0 ? []:['add']
+    return h
+  })
   // 获取表格数据
   // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
   const getTableData = (init: boolean) => {
