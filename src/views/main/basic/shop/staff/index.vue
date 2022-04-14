@@ -158,6 +158,7 @@
   // 新增提交事件
   async function addForm(params: object) {
     if(props.father.row) params.s_id = query.value.s_id
+    params.user_pass = params.user_phone.substring(params.user_phone.length - 6)
     staffInsert(params,from.value)
     .then(res => {
       ElMessage({

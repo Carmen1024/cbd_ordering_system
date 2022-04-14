@@ -23,8 +23,8 @@ export default {
       account:{
         name:"我的账号"
       },
-      user:"用户列表",
-      permission:"权限列表"
+      user:"用户管理",
+      permission:"权限管理"
     },
     basic:{
       name:"门店管理",
@@ -50,14 +50,8 @@ export default {
       material:{
         name:"商品管理",
         classify:"商品分组",
-        list:"商品列表",
+        list:"商品管理",
         detail:"商品详情",
-        bom:{
-          name:"商品BOM管理",
-          list:"BOM列表",
-          version:"BOM版本",
-          relatedProduct:"关联商品",
-        },
         orderFile:"订货档案"
       },
       transactions:{
@@ -120,7 +114,7 @@ export default {
       name:"商品管理",
       classify:"商品分类",
       // group:"商品分类",
-      material:"商品列表",
+      material:"商品管理",
       detail:"商品详情",
       orderFile:"订货档案",
       combo:"套餐商品"
@@ -132,7 +126,7 @@ export default {
       interfaceTask:"接口任务",
       receipt:"单据配置",
       announcement:"公告推送",
-      code:"接口列表",
+      code:"接口管理",
     },
     statistics:{
       name:"数据统计",

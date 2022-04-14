@@ -2,7 +2,7 @@ import request from '@/utils/system/request'
 // 获取数据api
 export function groupQuery(data: object) {
   return request({
-    url: '/g/proced/group/query',
+    url: '/g/admin/group/query',
     method: 'post',
     data
   })
@@ -10,7 +10,7 @@ export function groupQuery(data: object) {
 
 export function groupFetch(data: object) {
     return request({
-      url: '/g/proced/group/fetch',
+      url: '/g/admin/group/fetch',
       method: 'post',
       data
     })
@@ -18,7 +18,7 @@ export function groupFetch(data: object) {
 
 export function groupValid(data: object) {
   return request({
-    url: '/g/proced/group/valid',
+    url: '/g/admin/group/valid',
     method: 'post',
     data
   })
@@ -26,7 +26,7 @@ export function groupValid(data: object) {
 
 export function groupUpdate(data: object) {
   return request({
-    url: '/g/proced/group/update',
+    url: '/g/admin/group/update',
     method: 'post',
     data
   })
@@ -34,7 +34,7 @@ export function groupUpdate(data: object) {
 
 export function groupDelete(data: object) {
   return request({
-    url: '/g/proced/group/del',
+    url: '/g/admin/group/del',
     method: 'post',
     data
   })
@@ -42,7 +42,7 @@ export function groupDelete(data: object) {
 
 export function groupInsert(data: object) {
   return request({
-    url: '/g/proced/group/insert',
+    url: '/g/admin/group/insert',
     method: 'post',
     data
   })

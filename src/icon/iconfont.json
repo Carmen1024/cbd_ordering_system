@@ -1114,7 +1114,7 @@
     {
       "icon_id": "4521283",
       "name": "组织群组",
-      "font_class": "zuzhiqunzu",
+      "font_class": "group",
       "unicode": "ebd8",
       "unicode_decimal": 60376
     },

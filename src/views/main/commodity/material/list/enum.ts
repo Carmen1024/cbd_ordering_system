@@ -1,11 +1,20 @@
 import { isEmpty } from '@/utils/system/validate'
 
+export const statusData = [
+  {value:1,label:"临时"},
+  {value:2,label:"正常"},
+  {value:3,label:"停购"},
+  {value:4,label:"作废"},
+]
+
+export const storageData = [
+  {value:1,label:"普通"},
+  {value:2,label:"常温"},
+  {value:3,label:"冷藏"},
+  {value:4,label:"冷冻"},
+]
+
 export const condition = [
-  {
-    type:'input',
-    prop:'clf_name',
-    placeholder:'商品分组'
-  },
   {
     type:'input',
     prop:'m_code',
@@ -15,6 +24,12 @@ export const condition = [
     type:'input',
     prop:'m_name',
     placeholder:'商品名称'
+  },
+  {
+    type:'select',
+    prop:'m_status',
+    options:statusData,
+    placeholder:'商品状态'
   },
 ]
 
@@ -28,28 +43,33 @@ export const columnArr = [
     prop:'m_name',
   },
   {
-    label:"商品分组",
-    prop:'clf_names',
-  },
-  {
-    label:"订货规则",
-    prop:'m_order_step_type_desc',
-  },
-  {
-    label:"商品类型",
-    prop:'m_type_desc',
-  },
-  {
-    label:"拆单方式",
-    prop:'m_split_type_desc',
-  },
-  {
-    label:"销售类型",
-    prop:'m_sell_type_desc',
+    label:"商品分类",
+    prop:'m_classify',
   },
   {
     label:"商品状态",
     prop:'m_status_desc',
+  },
+  {
+    label:"销售组",
+    prop:'m_group',
+  },
+  {
+    label:"包装规格",
+    prop:'m_package',
+  },
+  {
+    label:"储存方式",
+    prop:'m_storage_type_desc',
+  },
+  {
+    label:"运费计算",
+    prop:'m_is_cac_freight_desc',
+  },
+  {
+    label:"是否有效",
+    prop:'c_valid',
+    type:'handle'
   },
 ]
 
@@ -146,10 +166,6 @@ export const itemArr = [
 ]
 
 export const searchData = {
-  // <el-input v-model="query.clf_name" placeholder="请填写商品分组" @change="getTableData(true)"></el-input>
-// <el-input v-model="query.like.m_code" placeholder="请填写商品编码" @change="getTableData(true)"></el-input>
-// <el-input v-model="query.like.m_name" placeholder="请填写商品名称" @change="getTableData(true)"></el-input>
-
   "eq":["wh_code"],
   "like":["wh_name","wh_addr","c_create_user"]
 }

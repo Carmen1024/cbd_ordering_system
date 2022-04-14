@@ -120,13 +120,13 @@
   }
   // 新增弹窗功能
   const handleAdd = () => {
-    layer.title = '新增员工'
+    layer.title = '新增用户'
     layer.show = true
     delete layer.row
   }
   // 编辑弹窗功能
   const handleEdit = (row: object) => {
-    layer.title='编辑员工'
+    layer.title='编辑用户'
     layer.show = true
     console.log(row)
     layer.row = row

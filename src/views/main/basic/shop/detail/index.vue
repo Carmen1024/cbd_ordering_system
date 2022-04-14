@@ -92,13 +92,6 @@
       }
       .layout-full{
           padding:15px;
-          .el-tab-pane{
-            max-height: 500px;
-            overflow-y: scroll;
-            .layout-container{
-              height: calc(100% - 30px);
-            }
-          }
       }
       p{
         // width: 100%;

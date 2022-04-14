@@ -37,7 +37,7 @@
   import LayerNormal from '@/components/layer/normal.vue'
   import type { LayerInterface } from '@/components/layer/index.vue'
   import { addressQuery,addressDelete, addressInsert,addressFetch,addressValid,addressUpdate } from '@/api/shop/address'
-  import { valTypeData,condition,columnArr,itemArr,searchFormat,updateFormat,rules,defaultData,auditStatusOptions } from './enum'
+  import { condition,columnArr,itemArr,searchFormat,updateFormat,rules,defaultData,auditStatusOptions } from './enum'
   import FormHandle from '@/components/Form/handle.vue'
   import TableNormal from '@/components/table/normal.vue'
   import { getData } from '@/utils/transform/httpConfig'
@@ -62,7 +62,7 @@
   // 分页参数, 供table使用
   const page: Page = reactive({
     index: 1,
-    size: 20,
+    size: 10,
     total: 0
   })
   const loading = ref(true)

@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3306750 */
-  src: url('iconfont.woff2?t=1649237794696') format('woff2'),
-       url('iconfont.woff?t=1649237794696') format('woff'),
-       url('iconfont.ttf?t=1649237794696') format('truetype');
+  src: url('iconfont.woff2?t=1649921555967') format('woff2'),
+       url('iconfont.woff?t=1649921555967') format('woff'),
+       url('iconfont.ttf?t=1649921555967') format('truetype');
 }
 
 .iconfont {
@@ -645,7 +645,7 @@
   content: "\ebce";
 }
 
-.icon-zuzhiqunzu:before {
+.icon-group:before {
   content: "\ebd8";
 }
 

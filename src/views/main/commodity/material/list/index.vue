@@ -32,7 +32,7 @@
   import { materialQuery,materialDelete,materialValid } from '@/api/material/material'
   import { ElMessage } from 'element-plus'
   import type { DrawerInterface } from '@/components/drawer/index.vue'
-  import { options,sData,condition,columnArr,searchData } from './enum'
+  import { options,sData,condition,columnArr,statusData,storageData } from './enum'
   import { Plus, Search, Delete } from '@element-plus/icons'
   import Detail from './../detail/index.vue'
     
@@ -65,34 +65,25 @@
     if (init) {
       page.index = 1
     }
-    const dq = getData(searchData,query.value)
     let params = {
       start: <number>page.index-1,
       size: page.size,
-      ...dq
+      ...query.value
     }
-    materialQuery(params)
-    .then(res => {
+    materialQuery(params).then(res => {
       let data = res.data
       if (Array.isArray(data)) {
         data.forEach(d => {
-          const m_order_step_type = options.m_order_step_type_data.find(item => item.value === d.m_order_step_type)
-          d.m_order_step_type_desc = m_order_step_type ?  m_order_step_type.label : d.m_order_step_type
+          const m_status = statusData.find(item=>item.value == d.m_status)
+          d.m_status_desc = m_status ? m_status.label : d.m_status
 
-          const m_type = options.m_type_data.find(item => item.value === d.m_type)
-          d.m_type_desc = m_type ?  m_type.label : d.m_type
+          const m_storage_type = storageData.find(item=>item.value == d.m_storage_type)
+          d.m_storage_type_desc = m_storage_type ? m_storage_type.label : d.m_storage_type
 
-          const m_split_type = options.m_split_type_data.find(item => item.value === d.m_split_type)
-          d.m_split_type_desc = m_split_type ?  m_split_type.label : d.m_split_type
-
-          const m_sell_type = options.m_sell_type_data.find(item => item.value === d.m_sell_type)
-          d.m_sell_type_desc = m_sell_type ?  m_sell_type.label : d.m_sell_type
-
-          const m_status = options.m_status_data.find(item => item.value === d.m_status)
-          d.m_status_desc = m_status ?  m_status.label : d.m_status
+          d.m_is_cac_freight_desc = d.m_is_cac_freight ? "计算":"不计算"
         })
       }
-      tableData.value = res.data
+      tableData.value = data
       page.total = Number(res.total)
     })
     .catch(error => {
