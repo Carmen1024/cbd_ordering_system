@@ -64,8 +64,8 @@
         </el-checkbox-group>
         <!-- 地区选择器 -->
         <area-module 
-          v-if="item.type=='area'"  
-          :area-group="model[item.prop]"
+          v-if="item.type=='areaGroup'"  
+          :areaGroup="model[item.prop]"
           @change="changeArea"
         />
         <el-date-picker 
@@ -155,6 +155,7 @@
     if (props.form.row) {
       let row = JSON.parse(JSON.stringify(props.form.row));
       model.value = row
+      console.log(model.value.areaGroup)
     } else {
       // 默认值
       props.itemArr.map(item=>{

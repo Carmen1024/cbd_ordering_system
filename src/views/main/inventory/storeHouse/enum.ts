@@ -28,7 +28,7 @@ export const columnArr = [
   },
   {
     label:"仓库地址",
-    prop:'wh_addr',
+    prop:'wh_addr_desc',
   },
   {
     label:"描述",
@@ -72,7 +72,7 @@ export const itemArr = [
   },
   {
     label:"省市区：",//"s_a_province":"","s_a_city":"","s_a_area":"","s_a_postcode"
-    type:'area',
+    type:'areaGroup',
     prop:'areaGroup',
   },
   {
@@ -161,6 +161,9 @@ const dataParams = [
   "c_desc",//对当前记录的描述
   "wh_addr",//仓库的地址
   "wh_contact",//仓库的联系电话
+  "pro_code",//省的行政编号
+  "city_code",//市的行政编号
+  "area_code"//区的行政编号
 ]
 const ruleParams = [
   "wh_o_is_opened_order_time",//仓库是否开放订货时间（必填）

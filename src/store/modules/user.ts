@@ -90,8 +90,7 @@ const actions = {
   // get user info after user logined
   getInfo({ commit }: ActionContext<userState, userState>) {
     return new Promise((resolve, reject) => {
-      getInfoApi()
-      .then(res => {
+      getInfoApi().then(res => {
         commit('infoChange', res.data)
         resolve(res.data)
       })

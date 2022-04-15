@@ -40,6 +40,9 @@
   import FormHandle from '@/components/Form/handle.vue'
   import TableNormal from '@/components/table/normal.vue'
   import { getData } from '@/utils/transform/httpConfig'
+  import { useStore } from 'vuex';
+
+  const store = useStore()
   // 存储搜索用的数据
   const query = ref({})
   // 弹窗控制器
@@ -75,16 +78,15 @@
       size: page.size,
       ...queryData
     }
-    wareHouseQuery(params)
-    .then(res => {
+    wareHouseQuery(params).then(res => {
       console.log(res);
       res.data.map(item => {
         item.wh_o_is_closed_date_desc = item.wh_o_is_closed_date ? '停止订货' : '正常开放'
-        item.s_a_province=""
-        item.s_a_city=""
-        item.s_a_area=""
-        item.areaGroup = [item.s_a_province,item.s_a_city,item.s_a_area]
         item.c_valid = item.c_valid ? true : false
+        const {pro_code='',city_code='',area_code='',wh_addr=''} = item
+        const areaGroup = {pro_code,city_code,area_code}
+
+        item.wh_addr_desc = `${wh_addr}`
       })
       tableData.value = res.data
       page.total = res.total
@@ -139,7 +141,8 @@
       data.wh_o_is_opened_order_time = data.wh_o_is_opened_order_time ? true : false
       data.wh_o_is_closed_date = data.wh_o_is_closed_date ? true : false
       data._id = _id
-      layer.row = res.data
+      data.areaGroup = [data.pro_code,data.city_code,data.area_code]
+      layer.row = data
     })
   }
   const handleClear = ()=>{
@@ -177,8 +180,35 @@
     })
   }
   function resetModel(params:object){
-    const [s_a_province,s_a_city,s_a_area] = params.areaGroup || ["","",""]
-    return {...params,s_a_province,s_a_city,s_a_area}
+    const [pro_code,city_code,area_code] = params.areaGroup || ["","",""]
+    return {...params,pro_code,city_code,area_code}
+  }
+  function getAreaStr(params: any) {
+    let group1,group2,group3
+    let {pro_code='',city_code='',area_code=''} = params
+    group1 = state.areaList.find(item=>{
+      item.code == pro_code
+    })
+    if(!group1){
+      return ''
+    }
+    pro_code = group1.name
+    group2 = group1.children.find(item=>{
+      item.code == city_code
+    })
+    if(!group2){
+      return pro_code
+    }
+    city_code = group2.name
+    group3 = group1.children.find(item=>{
+      item.code == area_code
+    })
+    if(!group3){
+      return pro_code + city_code
+    }
+    area_code = group.name
+
+    return pro_code + city_code + area_code
   }
 </script>
 

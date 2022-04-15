@@ -68,7 +68,7 @@ export const itemArr = [
   },
   {
     label:"省市区：",//"s_a_province":"","s_a_city":"","s_a_area":"","s_a_postcode"
-    type:'area',
+    type:'areaGroup',
     prop:'areaGroup',
   },
   {

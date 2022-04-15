@@ -3,36 +3,34 @@
     <el-cascader
 	  v-model="areaValue"	
       :options="options"
-      :props="props"
+      :props="cascaderProps"
       @change="handleChange"
     />
 </template>
 
-<script lang='ts'>
-import { defineComponent,ref,reactive } from 'vue'
-import { useStore } from 'vuex'
-export default defineComponent({
-  name: 'area',
-  props:{
-    areaGroup:{
-      type: Array,
-      default: () => {
-          return ["","",""]
-      }
-    }
-  },
-  setup(prop,ctx){
+<script lang='ts' setup>
+	import { defineComponent,ref,reactive, computed, watch } from 'vue'
+	import { useStore } from 'vuex'
+	const props = defineProps({
+		areaGroup:{
+			type: Array,
+			default: () => {
+				return ['', '', '']
+			}
+		}
+	})
+	const emit = defineEmits(["change"])
 	
 	const store = useStore()
 	const options = ref([])
-	const props=ref({
-		value:"name",
+	const cascaderProps=ref({
+		value:"code",
 		label:"name"
 	})
-	console.log(prop.areaGroup)
-	const areaValue = ref(prop.areaGroup)
-	const areaList = store.state.area.areaList
-	areaList.length>0 ? (options.value = areaList):init()
+	const areaValue = props.areaGroup
+	options.value = store.state.area.areaList
+	options.value.length==0 && init()
+	// init()
 	function init(){
 		store.dispatch('area/getArea').then(() => {
           options.value = store.state.area.areaList
@@ -41,16 +39,8 @@ export default defineComponent({
 	
 	const handleChange = (value:any) => {
 		console.log(value)
-		ctx.emit("change",value)
+		emit("change",value)
 	}
-	return{
-	  handleChange,
-	  props,
-	  options,
-	  areaValue
-	}
-  },
-})
 </script>
 <style lang='scss' scoped>
 	.el-cascader{
