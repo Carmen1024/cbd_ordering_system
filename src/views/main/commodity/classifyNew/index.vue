@@ -20,7 +20,7 @@
             <span class="custom-tree-node">
               <span>{{ node.label }}</span>
               <span class="tree-handle">
-                <a @click="setNode(node,data,true)"> 增加子分类 </a>
+                <a v-if="data.level<3" @click="setNode(node,data,true)"> 增加子分类 </a>
                 <a @click="setNode(node,data,false)"> 编辑 </a>
                 <el-popconfirm title="是否删除该分类及其子分类" @confirm="remove(node, data)">
                   <template #reference>
@@ -66,7 +66,7 @@ import func from 'vue-temp/vue-editor-bridge'
     children?: Tree[]
   }
   const props = {
-    label: 'clf_name',
+    label: 'name',
     children: 'children',
     isLeaf: 'leaf',
   }
@@ -182,15 +182,26 @@ import func from 'vue-temp/vue-editor-bridge'
   //编辑或提交
   // 重新查询tree
   function initClassify(){
+    layer.show = false
     delete query.clf_su_id;
     const params = getData(searchData,query)
     getClassify(params).then(data=>{
       console.log(data);
-      data = data.map(item => {
+      data.map(item => {
         item.level = 1;
         item.leaf=false;
         item.id = item._id;
-        return item
+        item.level = 1
+        item.name = `${item.clf_code} : ${item.clf_name}`
+        item.children?.map(itemC=>{
+          itemC.level = 2
+          itemC.name = `${itemC.clf_code} : ${itemC.clf_name}`
+          itemC.children?.map(itemCC=>{
+            itemCC.level = 3
+            itemCC.name = `${itemCC.clf_code} : ${itemCC.clf_name}`
+          })
+        })
+        // return item
       });
       dataSource.value = data
       console.log(dataSource.value)

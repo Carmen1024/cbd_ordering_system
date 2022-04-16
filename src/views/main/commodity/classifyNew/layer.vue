@@ -1,9 +1,9 @@
 <template>
   <Layer :layer="layer" @confirm="submit" ref="layerDom">
     <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px" style="margin-right:30px;">
-      <!-- <el-form-item label="分类编号：" prop="id">
-        <el-input v-model="form.id" placeholder="请填写编号" disabled></el-input>
-      </el-form-item> -->
+      <el-form-item label="分类编码：" prop="label">
+        <el-input v-model="form.clf_code" placeholder="请填写分类编码"></el-input>
+      </el-form-item>
       <el-form-item label="分类名称：" prop="label">
         <el-input v-model="form.clf_name" placeholder="请填写分类名称"></el-input>
       </el-form-item>
@@ -38,9 +38,11 @@ import { ElMessage } from 'element-plus'
   const layerDom: Ref<LayerType|null> = ref(null)
   let form = ref({
     "clf_name": "", //分类名称
+    "clf_code": ""
   })
   const rules = {
-    clf_name: [{ required: true, message: '请填写商品分组名称', trigger: 'blur' }],
+    clf_code: [{ required: true, message: '请填写分类编码', trigger: 'blur' }],
+    clf_name: [{ required: true, message: '请填写分类名称', trigger: 'blur' }],
   }
   init()
   function init() { // 用于判断新增还是编辑功能
@@ -83,13 +85,13 @@ import { ElMessage } from 'element-plus'
   }
   // 编辑提交事件
   function updateForm() {
-    const {_id,clf_name} = form.value;
+    const {_id,clf_name,clf_code} = form.value;
     const params = {
       "eq": {
         _id
       },
       "set": {
-        clf_name
+        clf_name,clf_code
       }
     }
     classifyUpdate(params).then(res => {
@@ -98,7 +100,7 @@ import { ElMessage } from 'element-plus'
         message: '编辑成功'
       })
       emit('initClassify')
-      layerDom && layerDom.close()
+      // layerDom && layerDom.close()
     })
   }
 </script>
