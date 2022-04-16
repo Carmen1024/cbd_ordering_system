@@ -25,6 +25,16 @@
           :disabled="item.disabled || false"
           >
         </el-input>
+        <!-- 数字输入框 -->
+        <el-input-number 
+          v-if="item.type=='inputNumber'"
+          v-model="model[item.prop]" 
+          :precision="item.precision || 0" 
+          :step="item.step || 1" 
+          :min="item.min || 0"
+          :max="item.max || Infinity" 
+          :controls-position="item.position"
+        />
         <!-- 文本框 -->
         <el-input
           v-if="item.type=='textarea'"
@@ -62,6 +72,12 @@
             {{ boxOption.label }}
           </el-checkbox-button>
         </el-checkbox-group>
+        <el-cascader
+          v-if="item.type=='cascader'"
+          v-model="model[item.prop]"	
+          :options="item.options"
+          :props="item.cascaderProps || cascaderProps"
+        />
         <!-- 地区选择器 -->
         <area-module 
           v-if="item.type=='areaGroup'"  
@@ -151,6 +167,11 @@
   const model=ref({})
   const checkboxGroup = ref([])
 
+  const cascaderProps = ref({
+		value:"code",
+		label:"name"
+	})
+
   function init() { // 用于判断新增还是编辑功能
     if (props.form.row) {
       let row = JSON.parse(JSON.stringify(props.form.row));
@@ -195,6 +216,7 @@
     model.value.pictureCard = pictureCard
   }
 
+  defineExpose({submit})
 </script>
 
 <style lang="scss">

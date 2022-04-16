@@ -28,12 +28,12 @@ import { ElMessage } from 'element-plus'
         return {
           show: false,
           title: '',
-          showButton: true
+          showButtons: true
         }
       }
     }
   })
-  const emit = defineEmits(["getNodeData"])
+  const emit = defineEmits(["initClassify"])
   const ruleForm: Ref<ElFormItemContext|null> = ref(null)
   const layerDom: Ref<LayerType|null> = ref(null)
   let form = ref({
@@ -69,7 +69,7 @@ import { ElMessage } from 'element-plus'
   }
   // 新增提交事件
   function addForm() {
-    let params = form;
+    let params = form.value;
     params.clf_name_link+=`/${params.clf_name}`;
     if(params.clf_su_id=="") delete params.clf_su_id;
     classifyInsert(params).then(res => {
@@ -77,13 +77,13 @@ import { ElMessage } from 'element-plus'
         type: 'success',
         message: '新增成功'
       })
-      emit('getNodeData', form,true)
+      emit('initClassify')
       layerDom && layerDom.close()
     })
   }
   // 编辑提交事件
   function updateForm() {
-    const {_id,clf_name} = form;
+    const {_id,clf_name} = form.value;
     const params = {
       "eq": {
         _id
@@ -97,7 +97,7 @@ import { ElMessage } from 'element-plus'
         type: 'success',
         message: '编辑成功'
       })
-      emit('getNodeData', form,false)
+      emit('initClassify')
       layerDom && layerDom.close()
     })
   }

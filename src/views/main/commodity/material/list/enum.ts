@@ -1,10 +1,8 @@
 import { isEmpty } from '@/utils/system/validate'
 
 export const statusData = [
-  {value:1,label:"临时"},
+  {value:1,label:"下架"},
   {value:2,label:"正常"},
-  {value:3,label:"停购"},
-  {value:4,label:"作废"},
 ]
 
 export const storageData = [

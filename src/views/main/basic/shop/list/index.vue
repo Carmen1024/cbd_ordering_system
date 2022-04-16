@@ -43,7 +43,7 @@
   const drawer: DrawerInterface = reactive({
     show:false,
     title:"编辑规则",
-    showButton:false,
+    showButton:true,
     width:'70%'
   })
   // 分页参数, 供table使用
@@ -71,8 +71,7 @@
       size: page.size,
       ...dq
     }
-    storeQuery(params)
-    .then(res => {
+    storeQuery(params).then(res => {
       let data = res.data
       if (Array.isArray(data)) {
         data.forEach(d => {

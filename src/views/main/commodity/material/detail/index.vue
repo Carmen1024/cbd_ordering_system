@@ -1,8 +1,11 @@
 <!-- 商品编辑单项 -->
 <template >
-  <Drawer :drawer="drawer">
+  <Drawer :drawer="drawer" @confirm="submit">
     <div class="detail-container">
-      <basic-information :form="form" @getTableData="getTableData" />
+      <basic-information 
+        ref="basicInformationRef"
+        :form="form" 
+        @getTableData="getTableData" />
     </div>
   </Drawer>
 </template>
@@ -37,7 +40,7 @@
 
   const form:formInterface = reactive({
     title:props.drawer.title,
-    showButton:true
+    showButton:false
   })
   init()
   function init() { // 用于判断新增还是编辑功能
@@ -50,6 +53,10 @@
   }
   function getTableData(){
       emit("getTableData")
+  }
+  const basicInformationRef = ref('basicInformationRef')
+  function submit(){
+    basicInformationRef.value.submit()
   }
 
 </script>

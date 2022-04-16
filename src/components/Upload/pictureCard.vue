@@ -2,7 +2,7 @@
 <template>
    <div class="upload">
         <el-upload
-          action="http://113.125.84.255:10007/fileManager/file/upload"
+          action="http://192.168.110.41:10000/fileManager/file/upload"
           list-type="picture-card"
           :on-preview="handlePictureCardPreview"
           :on-remove="handleRemove"

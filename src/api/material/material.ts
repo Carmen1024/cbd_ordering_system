@@ -40,6 +40,14 @@ export function materialValid(data: object) {
   })
 }
 
+export function materialFetch(data: object) {
+  return request({
+    url: '/g/materials/detail',
+    method: 'post',
+    data
+  })
+}
+
 export function materialSupplementQuery(data: object) {
   return request({
     url: '/g/materials_supplement/query',

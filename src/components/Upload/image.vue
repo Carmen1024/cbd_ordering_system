@@ -3,7 +3,7 @@
   <el-upload
     ref="upload"
     class="upload-demo"
-    action="http://113.125.84.255:10007/fileManager/file/upload"
+    action="http://192.168.110.41:10000/fileManager/file/upload"
     :limit="1"
     :on-exceed="handleExceed"
   >

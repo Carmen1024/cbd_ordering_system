@@ -1,5 +1,6 @@
 <template>
   <form-main
+    ref="formMainRef"
     :form = "form" 
     :rules = "rules"
     :itemArr="itemArr"
@@ -76,7 +77,7 @@
   }
   // 新增提交事件
    function addForm(params: object) {
-     params.s_license_pic = params.pictureCard
+     params.s_license_pic = params.pictureCard || ''
      delete params.pictureCard
       storeInsert(params)
       .then(res => {
@@ -90,7 +91,7 @@
     // 编辑提交事件
    function updateForm(params: object){
       console.log(params)
-      params.s_license_pic = params.pictureCard
+      params.s_license_pic = params.pictureCard || ''
       const data = getData(updateFormat,params)
       console.log(data)
       storeUpdate(data).then(res => {
@@ -101,6 +102,12 @@
         emit("getTableData")
       })
     }
+    const formMainRef = ref("formMainRef")
+    const submit=()=>{
+      formMainRef.value.submit()
+    }
+    defineExpose({submit})
+
 </script>
 <style lang="scss" scoped>
   

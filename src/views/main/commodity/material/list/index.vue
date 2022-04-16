@@ -18,7 +18,7 @@
       @handleDel="handleDel"
       @tableHandle="tableHandle"
     />
-    <Detail :drawer="drawer" v-if="drawer.show" />
+    <Detail @getTableData="getTableData" :drawer="drawer" v-if="drawer.show" />
   </div>
 </template>
 
@@ -35,6 +35,9 @@
   import { options,sData,condition,columnArr,statusData,storageData } from './enum'
   import { Plus, Search, Delete } from '@element-plus/icons'
   import Detail from './../detail/index.vue'
+  import { materialFetch } from '@/api/material/material';
+  import { resolve } from 'dns'
+  import { rejects } from 'assert'
     
   const material = useStore()
   // 存储搜索用的数据
@@ -43,7 +46,7 @@
   const drawer: DrawerInterface = reactive({
     show:false,
     title:"编辑规则",
-    showButton:false,
+    showButton:true,
     width:'70%'
   })
   // 分页参数, 供table使用
@@ -62,6 +65,7 @@
   // params <init> Boolean ，默认为false，用于判断是否需要初始化分页
   const getTableData = (init: boolean) => {
     loading.value = true
+    drawer.show = false
     if (init) {
       page.index = 1
     }
@@ -81,6 +85,7 @@
           d.m_storage_type_desc = m_storage_type ? m_storage_type.label : d.m_storage_type
 
           d.m_is_cac_freight_desc = d.m_is_cac_freight ? "计算":"不计算"
+          d.c_valid = d.c_valid ? true:false
         })
       }
       tableData.value = data
@@ -96,14 +101,9 @@
     })
   }
   // 删除功能
-  const handleDel = (data: object[]) => {
-    let params = {
-      ids: data.map((e:any)=> {
-        return e.id
-      }).join(',')
-    }
-    materialDelete(params)
-    .then(res => {
+  const handleDel = (row:object) => {
+    let params = {_id:row._id}
+    materialDelete(params).then(res => {
       ElMessage({
         type: 'success',
         message: '删除成功'
@@ -113,8 +113,8 @@
   }
   const tableHandle = ({ type,row}) => {
     if( type =='valid'){
-        const params = getData({"eq":["_id"],"set":["c_valid"]},row)
-        materialValid(params).then(res=>{
+        const {_id,c_valid} = row
+        materialValid({_id,c_valid}).then(res=>{
           ElMessage({
             type: 'success',
             message: '切换成功'
@@ -129,18 +129,41 @@
     delete drawer.row
   }
   // 编辑弹窗功能
-  const handleEdit = (row: object) => {
+  const handleEdit = async (row: object) => {
     drawer.title = '编辑数据'
-    drawer.row = row
+    drawer.row = await getMaterial(row)
     drawer.show = true
   }
   const handleClear = ()=>{
     query.value = {}
   }
   
-  const getOrderRulesQuery=()=>{
-    material.dispatch('enum/getOrderRules').then(() => {
+  const getClassifyQuery=()=>{
+    material.dispatch('enum/getClassifyOptions').then(() => {
       
+    })
+  }
+
+  function getMaterial(row:object){
+    return new Promise((resolve,reject)=>{
+      const params={"_id":row._id}
+      materialFetch(params).then(res=>{
+        const vo = res.data.materialDetailResultVo
+        const {_id,m_p_money,m_name,m_code,m_package,clf_b_id,m_status,m_classify_id} = vo
+        const {order_unit,m_sell_type,order_unit_count,m_order_window_ctrl,stock_unit_count,
+              m_order_step_type,bom_unit_count,m_split_type,m_order_lower,m_order_upper,
+              m_is_check_stock,bom_unit,m_storage_type,stock_unit,m_is_cac_freight} = vo.m_sell_info
+        const {m_s_desc,m_s_brand,m_s_origin_place,m_s_main_picture,m_s_attachment_file} = vo.materialGroup
+        const m_classify_id_arr = m_classify_id?.split("/") || []
+        const newRow = {
+          _id,m_p_money,m_name,m_code,m_package,clf_b_id,m_status,m_classify_id_arr,
+          order_unit,m_sell_type,order_unit_count,m_order_window_ctrl,stock_unit_count,
+          m_order_step_type,bom_unit_count,m_split_type,m_order_lower,m_order_upper,
+          m_is_check_stock,bom_unit,m_storage_type,stock_unit,m_is_cac_freight,
+          m_s_desc,m_s_brand,m_s_origin_place,m_s_main_picture,m_s_attachment_file
+        }
+        resolve(newRow)
+      })
     })
   }
       
@@ -149,7 +172,7 @@
     await getTableData(true)
     const orderRules = material.state.enum.orderRules
     console.log(orderRules)
-    getOrderRulesQuery()
+    getClassifyQuery()
   }
 </script>
 

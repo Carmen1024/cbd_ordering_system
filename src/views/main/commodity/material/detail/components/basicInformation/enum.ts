@@ -1,4 +1,12 @@
-import { isPhone,isEmpty } from '@/utils/system/validate';
+import { isPhone,isEmpty } from '@/utils/system/validate'
+import { useStore } from 'vuex';
+
+export const storageData = [
+  {value:1,label:"普通"},
+  {value:2,label:"常温"},
+  {value:3,label:"冷藏"},
+  {value:4,label:"冷冻"},
+]
 
 export const materialTypeData = [
   { value: 1, label: '商品' },
@@ -14,226 +22,205 @@ export const materialStatusData = [
   { value: 3, label: '停购' },
   { value: 4, label: '作废' },
 ]
+export const statusData = [
+  {value:1,label:"下架"},
+  {value:2,label:"正常"},
+]
+
+//sell_type
+export const sellTypeData = [
+  {value:1,label:"普通商品"},
+  {value:2,label:"预售商品"},
+]
+
+export const normalData = [
+  {value:1,label:1},
+  {value:2,label:2},
+]
 
 export const itemArr = [
   {
     type:'title',
-    placeholder:'客户基本信息',
+    placeholder:'基本信息',
     width:'100%'
   },
   {
-    label:"门店ID:",
+    label:"商品编号",
     type:'input',
-    disabled:true,
-    prop:'_id',
-    placeholder:'最多12个字符'
+    prop:'m_code',
   },
   {
-    label:"组织编码",
+    label:"商品名称",
     type:'input',
-    prop:'s_code',
-    placeholder:''
+    prop:'m_name',
   },
   {
-    label:"门店名称",
-    type:'input',
+    label:"销售组",
+    type:'select',
     prop:'s_name',
-    placeholder:'请填写门店名称'
   },
-  // {
-  //   label:"门店组织",
-  //   type:'select',
-  //   prop:'dict_name',
-  //   placeholder:'请选择门店组织'
-  // },
   {
-    label:"门店类型",
+    label:"商品分类",
+    type:'cascader',
+    prop:'m_classify_id_arr',
+    cascaderProps:{
+      value:"_id",
+      label:"clf_name"
+    }
+  },
+  {
+    label:"包装规则",
+    type:'input',
+    prop:'m_package',
+  },
+  {
+    label:"状态",
     type:'select',
-    prop:'s_type',
-    // options:typeData,
-    placeholder:''
+    options:statusData,
+    prop:'m_status',
   },
   {
-    label:"联系人",
-    type:'input',
-    prop:'s_charge_name',
-    placeholder:'请填写联系人'
+    label:"销售价格",
+    type:'inputNumber',
+    prop:'m_p_money',
+    precision:2,
   },
-  {
-    label:"联系电话",
-    type:'input',
-    prop:'s_charge_phone_num',
-    placeholder:'请填写联系方式'
-  },
-  {
-    label:"门店地址",
-    type:'input',
-    prop:'s_addr',
-    placeholder:''
-  },
-  {
-    label:"门店状态",
-    type:'select',
-    prop:'s_status',
-    placeholder:'',
-    // options:statusData
-  },
-  // {
-  //   label:"门店组别",
-  //   type:'select',
-  //   prop:'g_id',
-  //   placeholder:''
-  // },
-  {
-    label:"门店标签",
-    type:'input',
-    prop:'s_tags',
-    placeholder:'请填写门店标签，用逗号隔开'
-  },
-  {
-    label:"营业执照",
-    type:'pictureCard',
-    prop:'s_license_pic',
-    placeholder:'',
-    width:'100%'
-  },
-  // {
-  //   label:"附件",
-  //   type:'UploadList',
-  //   prop:'pictureList',
-  //   placeholder:'',
-  //   width:'100%'
-  // },
-  // ---------------------------------------------
+  // --------------------------------------------------------
   {
     type:'title',
-    placeholder:'财务结算信息',
+    placeholder:'销售信息',
     width:'100%'
   },
-  // {
-  //   label:"归属客户：",
-  //   type:'input',
-  //   prop:'company_id',
-  //   placeholder:''
-  // },
-  // {
-  //   label:"客户编码：",
-  //   type:'input',
-  //   prop:'dict_name',
-  //   placeholder:''
-  // },
   {
-    label:"财务主题编码",
-    type:'input',
-    prop:'s_settle_main_no',
-    placeholder:''
+    label:"订购单位",
+    type:'select',
+    prop:'order_unit',
+    options:normalData
   },
   {
-    label:"订货需要审核",
-    type:'switch',
-    prop:'s_settle_is_audit',
+    label:"库存单位",
+    type:'select',
+    prop:'stock_unit',
+    options:normalData
+  },
+  {
+    label:"BOM单位",
+    type:'select',
+    prop:'bom_unit',
+    options:normalData
+  },
+  {
+    label:"销售形式",
+    type:'select',
+    prop:'m_sell_type',
+    options:sellTypeData,
+  },
+  {
+    label:"储存方式",
+    type:'select',
+    prop:'m_storage_type',
+    options:storageData,
+  },
+  {
+    label:"拆单方式",
+    type:'select',
+    prop:'m_split_type',
+    options:normalData,
+  },
+  {
+    label:"运费",
+    type:'select',
+    prop:'m_is_cac_freight',
+    options:normalData
+  },
+  {
+    label:"起订量",
+    type:'inputNumber',
+    prop:'m_order_lower',
+  },
+  {
+    label:"最大订购量",
+    type:'inputNumber',
+    prop:'m_order_upper',
+  },
+  {
+    label:"订货窗口控制",
+    type:'select',
+    prop:'m_order_window_ctrl',
     default:false,
+    options:normalData
   },
   {
-    label:"发票抬头",
-    type:'input',
-    prop:'s_receipt_head',
-    placeholder:''
-  },
-  // {
-  //   label:"信控额度",
-  //   type:'input',
-  //   prop:'dict_name',
-  //   placeholder:''
-  // },
-  {
-    label:"返利额度",
-    type:'input',
-    prop:'s_settle_refund_money',
-    placeholder:''
-  },
-  {
-    label:"纳税人识别号",
-    type:'input',
-    prop:'s_license_no',
-    placeholder:'请填写纳税人识别号'
-  },
-  {
-    label:"付款方式",
+    label:"订货库存校验",
     type:'select',
-    prop:'s_settle_pay_type',
-    placeholder:''
+    prop:'m_is_check_stock',
+    default:false,
+    options:normalData
+  },
+  {
+    label:"起订量倍数订货",
+    type:'select',
+    prop:'dict_name',
+    default:false,
+    options:normalData
   },
   // ---------------------------------------------
   {
     type:'title',
-    placeholder:'订购信息',
+    placeholder:'附加消息',
     width:'100%'
   },
   {
-    label:"价格等级",
-    type:'select',
-    prop:'r_p_id',
-    placeholder:''
+    label:"商品描述",
+    type:'input',
+    prop:'m_s_desc',
   },
   {
-    label:"运费规则",
+    label:"品牌",
     type:'select',
-    prop:'r_f_id',
-    placeholder:''
+    prop:'m_s_brand',
+    options:normalData
   },
   {
-    label:"发货仓库",
+    label:"产地",
     type:'select',
-    prop:'wh_id',
-    placeholder:''
+    prop:'m_s_origin_place',
+    options:normalData
   },
   {
-    label:"调拨规则",
-    type:'select',
-    prop:'r_t_id',
-    placeholder:''
-  },
-  {
-    label:"订货窗口",
-    type:'select',
-    prop:'r_o_p_id',
-    placeholder:''
-  },
-  {
-    label:"订货规则",
-    type:'select',
-    prop:'r_c_o_id',
-    placeholder:''
-  },
-  {
-    label:"发货方式",
-    type:'select',
-    prop:'deliver_type',
+    label:"商品主图",
+    type:'pictureCard',
+    prop:'m_s_main_picture',
     placeholder:'',
-    // options:deliverTypeData
+    width:'100%'
+  },
+  {
+    label:"补充附件",
+    type:'UploadList',
+    prop:'m_s_attachment_file',
+    width:'100%'
   },
 ]
 
 export const rules = {
-  s_name: isEmpty('请填写门店名称'),
-  s_type: isEmpty('请选择门店类型'),
-  s_status: isEmpty('请选择门店状态'),
-  s_tags: isEmpty('请填写门店标签'),
-  s_charge_name:isEmpty('请填写联系人'),
-  s_charge_phone_num:isPhone('请填写联系方式'),
-  s_receipt_head:isEmpty('请填写发票抬头'),
-  s_license_no:isEmpty('请填写纳税人识别号'),
-}
-
-export const updateFormat = {
-  "eq":["_id"],
-  "set":[
-    "s_type","s_code","s_name","s_charge_name","s_charge_phone_num","s_addr",
-    "s_longitude","s_latitude","s_tags","m_b_id",
-    "rg_id","a_id","g_id","s_status","r_p_id",
-    "r_f_id","wh_id","r_t_id","r_o_p_id","r_c_o_id","deliver_type",
-    "company_id","s_recept_type","s_receipt_head","s_settle_refund_money",
-    "s_settle_pay_type","s_settle_is_audit","s_settle_main_no","s_license_no","s_license_pic"
-  ]
+  m_p_money : isEmpty(),
+  m_name : isEmpty(),
+  m_code : isEmpty(),
+  order_unit : isEmpty(),
+  m_sell_type : isEmpty(),
+  order_unit_count : isEmpty(),
+  stock_unit_count : isEmpty(),
+  m_order_step_type : isEmpty(),
+  bom_unit_count : isEmpty(),
+  m_split_type : isEmpty(),
+  m_order_lower : isEmpty(),
+  m_order_upper : isEmpty(),
+  bom_unit : isEmpty(),
+  m_storage_type : isEmpty(),
+  stock_unit : isEmpty(),
+  m_is_cac_freight : isEmpty(),
+  m_status : isEmpty(),
+  clf_b_id : isEmpty(),
+  m_package : isEmpty(),
+  m_is_check_stock : isEmpty(),
 }

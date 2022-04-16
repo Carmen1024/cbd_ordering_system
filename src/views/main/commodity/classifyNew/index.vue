@@ -14,17 +14,15 @@
           node-key="id"
           :expand-on-click-node="false"
           :props="props"
-          lazy 
-          @node-expand="getClassifyChildren"
           :default-expanded-keys="openKeys"
         >
           <template #default="{ node, data }">
             <span class="custom-tree-node">
               <span>{{ node.label }}</span>
               <span class="tree-handle">
-                <a v-if="data.clf_lay<3" @click="setNode(node,data,true)"> 增加子分组 </a>
+                <a @click="setNode(node,data,true)"> 增加子分类 </a>
                 <a @click="setNode(node,data,false)"> 编辑 </a>
-                <el-popconfirm title="是否删除该分组及其子分组" @confirm="remove(node, data)">
+                <el-popconfirm title="是否删除该分类及其子分类" @confirm="remove(node, data)">
                   <template #reference>
                     <a>删除</a>
                   </template>
@@ -35,7 +33,11 @@
         </el-tree>
       </div>
     </div>
-    <Layer :layer="layer" @getNodeData="getNodeData" v-if="layer.show" />
+    <Layer 
+      :layer="layer" 
+      @initClassify="initClassify" 
+      v-if="layer.show"
+    />
   </div>
 </template>
 
@@ -50,15 +52,16 @@
   import FormHandle from '@/components/Form/handle.vue'
   import { condition,searchData } from './enum'
   import { getData } from '@/utils/transform/httpConfig'
+import func from 'vue-temp/vue-editor-bridge'
 
   interface Tree {
     id?: string
     _id: string
     clf_type?: number //1:商品,2:半成品,3:销售成品。
     clf_name_link?: string //层级结构名称，如：/水果/苹果/湖南苹果
-    clf_lay?: number //分组层级：1-一级分组 2-二级分组 3-三级分组
-    clf_name?: string //分组名称
-    clf_su_id?: string //上级分组名称。 一级不必传
+    clf_lay?: number //分类层级：1-一级分类 2-二级分类 3-三级分类
+    clf_name?: string //分类名称
+    clf_su_id?: string //上级分类名称。 一级不必传
     leaf?: boolean //是否还有子节点
     children?: Tree[]
   }
@@ -105,12 +108,12 @@
     width:'30%',
     show: false,
     title: '新增',
-    showButton: true
+    showButtons: true
   })
   let handleIndex = false //正在操作根节点
-  // 增加一级分组
+  // 增加一级分类
   const handleAdd = ()=>{
-    layer.title = '新增分组'
+    layer.title = '新增分类'
     layer.show = true
     layer.row = setNewRow()
     handleIndex = true
@@ -128,19 +131,19 @@
     layer.show = true
     if(type){
       layer.row = setNewRow(data);
-      layer.title = '新增分组'
+      layer.title = '新增分类'
     }else{
       layer.row = data;
-      layer.title = '编辑分组'
+      layer.title = '编辑分类'
     }
   }
   const setNewRow = (data:Tree={_id:""})=>{
       return {
         "clf_type": 1, //1:商品,2:半成品,3:销售成品。
         "clf_name_link": data.clf_name_link || "",//层级结构名称，如：/水果/苹果/湖南苹果
-        "clf_lay": data.clf_lay ? (data.clf_lay + 1): 1, //分组层级：1-一级分组 2-二级分组 3-三级分组
-        "clf_name": "", //分组名称
-        "clf_su_id":data._id, //上级分组名称。 一级不必传
+        "clf_lay": data.clf_lay ? (data.clf_lay + 1): 1, //分类层级：1-一级分类 2-二级分类 3-三级分类
+        "clf_name": "", //分类名称
+        "clf_su_id":data._id, //上级分类名称。 一级不必传
       }
   }
   // 新增一级节点
@@ -173,18 +176,12 @@
         type: 'success',
         message: '删除成功'
       })
-      const parent = node.parent
-      const children: Tree[] = parent.data.children || parent.data
-      const index = children.findIndex((d) => d.id === data.id)
-      children.splice(index, 1)
-      dataSource.value = [...dataSource.value]
+      initClassify()
     })
   }
   //编辑或提交
-  const getNodeData = (form:any,type:boolean) => {
-    type ? (handleIndex ? initClassify() : append(form)) : edit(form);
-  }
-  const initClassify=()=>{
+  // 重新查询tree
+  function initClassify(){
     delete query.clf_su_id;
     const params = getData(searchData,query)
     getClassify(params).then(data=>{

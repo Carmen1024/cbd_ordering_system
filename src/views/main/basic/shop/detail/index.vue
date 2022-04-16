@@ -1,10 +1,13 @@
 <!-- 商品编辑单项 -->
 <template >
-  <Drawer :drawer="drawer">
+  <Drawer :drawer="drawer" @confirm="submit">
     <div class="detail-container">
       <div>
         <!-- <p>客户基本信息</p> -->
-        <basic-information :form="form" @getTableData="getTableData" />
+        <basic-information 
+          ref="basicInformationRef"
+          :form="form" 
+          @getTableData="getTableData" />
       </div>
       <!-- <p>财务结算信息</p>
       <div class="layout-basic">
@@ -39,6 +42,7 @@
 // import ChangeLog from './components/changeLog/changeLog.vue'
   import Drawer from '@/components/drawer/index.vue';
   import { formInterface } from '@/components/Form/main.vue';
+import func from 'vue-temp/vue-editor-bridge';
   export interface storeInterface {
     [propName: string]: any;
   }
@@ -63,7 +67,7 @@
 
   const form:formInterface = reactive({
     title:props.drawer.title,
-    showButton:true
+    showButton:false
   })
   init()
   function init() { // 用于判断新增还是编辑功能
@@ -76,6 +80,10 @@
   }
   function getTableData(){
       emit("getTableData")
+  }
+  const  basicInformationRef = ref("basicInformationRef")
+  function submit(){
+    basicInformationRef.value.submit()
   }
 
 </script>

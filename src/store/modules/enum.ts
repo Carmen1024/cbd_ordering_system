@@ -1,18 +1,24 @@
 import { ActionContext } from 'vuex'
 import { orderRulesQuery } from '@/api/shop/shop'
+import { classifyQuery } from '@/api/material/classify';
 
 
 export interface enumState {
-  orderRules : object
+  orderRules : object,
+  classifyOptions : Array<object>
 }
 const state = (): enumState => ({
-  orderRules:{}
+  orderRules:{},
+  classifyOptions:[]
 })
 
 // mutations
 const mutations = {
-  orderRulesChange(state: enumState, orderRules: Array<any>) {
+  orderRulesChange(state: enumState, orderRules: object) {
     state.orderRules = orderRules
+  },
+  classifyOptionsChange(state: enumState, classifyOptions: Array<object>) {
+    state.classifyOptions = classifyOptions
   }
 }
 
@@ -52,6 +58,17 @@ const actions = {
       })
     })
   },
+  getClassifyOptions({ commit }: ActionContext<enumState, enumState>) {
+    return new Promise((resolve, reject) => {
+      classifyQuery({}).then(res => {
+        commit('classifyOptionsChange', res.data)
+        resolve(res.data)
+      },rej=>{
+        reject("不存在")
+      })
+    })
+  },
+
 }
 
 export default {
